@@ -1,0 +1,85 @@
+<!--
+/**
+* List of assigned trails and badges for the current user.
+* @component: myT_AssignedTrailsAndBadges
+**/
+-->
+<aura:component
+    controller="myt_Assignments"
+    implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId"
+    access="global"
+>
+    <!-- attributes -->
+    <!-- whether to show badges/trailmixes/both -->
+    <aura:attribute name="badgesOrTrailmixes" type="String" />
+
+    <!-- pagination size for the results -->
+    <aura:attribute name="paginationSize" type="Integer" default="5" />
+
+    <!-- number of days until duedate that the assignment is upcoming -->
+    <aura:attribute name="upcomingEventWindow" type="Integer" default="7" />
+
+    <!-- private attributes -->
+    <aura:attribute name="sectionIcon" type="String" access="private" />
+    <!-- title of the section -->
+    <aura:attribute name="sectionTitle" type="String" access="private" />
+    <!-- which page we are currently on -->
+    <aura:attribute name="currentPage" type="integer" default="0" access="private" />
+    <!-- collection of entries -->
+    <aura:attribute name="trailheadEntries" type="Object[]" access="private" />
+    <!-- number of assignments -->
+    <aura:attribute name="badgeAssignmentCount" type="Integer" access="private" />
+    <aura:attribute name="trailmixAssignmentCount" type="Integer" access="private" />
+    <aura:attribute name="totalAssignmentCount" type="Integer" access="private" />
+    
+    <aura:attribute name="hasPrevious" type="Boolean" access="private" />
+    <aura:attribute name="hasNext" type="Boolean" access="private" />
+
+    <!-- handlers -->
+    <aura:handler name="init" value="{!this}" action="{!c.init}" />
+    <!-- events -->
+    
+    <!-- elements -->
+
+    <lightning:card iconName="{!v.sectionIcon}" title="{! v.sectionTitle }">
+
+        <!-- show a message if assignment results show no assignments -->
+        <aura:if isTrue="{!if(v.totalAssignmentCount == 0,true,false)}">
+            <div class="slds-align_absolute-center slds-p-around_small">
+                No Assignments <br />
+                Looks like you've met all your assignments.
+            </div>
+        </aura:if>
+
+        <!-- iterate through all the entries-->
+        <aura:iteration items="{!v.trailheadEntries}" var="assignment" indexVar="i">
+            <c:myT_AssignedEntry 
+                assignmentEntry="{!assignment}"
+                upcomingEventWindow="{!v.upcomingEventWindow}"
+            />
+        </aura:iteration>
+
+        <!-- pagintion buttons -->
+        <aura:if isTrue="{!if(v.hasPrevious || v.hasNext,true,false)}">
+        <div class="slds-clearfix slds-p-around_small">
+            <aura:if isTrue="{!v.hasPrevious}">
+            <div class="slds-float_left">
+                <lightning:button label="Previous" title="Show Previous"
+                    variant="brand"
+                    onclick="{!c.showPrevious}"
+                />
+            </div>
+            </aura:if>
+
+            <aura:if isTrue="{!v.hasNext}">
+            <div class="slds-float_right">
+                <lightning:button label="Next" title="Show Next"
+                    variant="brand"
+                    onclick="{!c.showNext}"
+                />
+            </div>
+            </aura:if>
+        </div>
+        </aura:if>
+    </lightning:card>
+</aura:component>
