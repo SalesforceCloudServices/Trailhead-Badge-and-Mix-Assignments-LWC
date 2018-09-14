@@ -1,0 +1,12 @@
+.THIS {
+}
+.THIS .event-today{
+    color:orange
+}
+
+.THIS .event-7-days{
+    color:red
+}
+.THIS .event-normal{
+    color:inhert
+}

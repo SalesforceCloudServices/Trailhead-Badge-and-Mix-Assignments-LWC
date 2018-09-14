@@ -1,0 +1,42 @@
+<!--
+/**
+* A specific Badge or Trail, etc that is assigned to the current user.
+* @component: myT_AssignedEntry
+**/
+-->
+<aura:component
+    access="global"
+>
+    <!-- attributes -->
+    <aura:attribute name="assignmentEntry" type="Object" />
+    <aura:attribute name="upcomingEventWindow" type="Integer" />
+    <!-- private attributes -->
+    <aura:attribute name="recordId" type="String" access="private"/>
+    <aura:attribute name="entryType" type="String" access="private"/>
+    <aura:attribute name="iconURL" type="String" access="private" />
+    <aura:attribute name="status" type="String" access="private" />
+    <!-- handlers -->
+    <aura:handler name="init" value="{!this}" action="{!c.init}" />
+    <!-- events -->
+    <!-- elements -->
+    <div style="height:65px;">
+        <lightning:layout verticalAlign="center" class="row" >
+            <lightning:layoutItem padding="horizontal-small" >
+                <img src="{!v.iconURL}" style="height:50px; width:50px;"/>                  
+            </lightning:layoutItem>
+            <lightning:layoutItem padding="horizontal-small">
+                <div>
+                    <a href="{!v.assignmentEntry.URL}" target="_blank">{!v.assignmentEntry.Name}</a>
+                    <aura:if isTrue="{!v.assignmentEntry.DueDate}">
+                        <br />Due Date: 
+                        <span class="{!v.status}">
+                            <lightning:formattedDateTime value="{!v.assignmentEntry.DueDate}"
+                                year="numeric" month="short" day="2-digit" weekday="long"
+                            />
+                        </span>
+                    </aura:if>
+                </div>
+            </lightning:layoutItem>
+        </lightning:layout>              
+    </div>
+</aura:component>

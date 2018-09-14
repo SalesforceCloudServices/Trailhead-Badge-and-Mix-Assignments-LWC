@@ -1,0 +1,14 @@
+.THIS {
+}
+
+.THIS .event-upcoming {
+    color: orange;
+}
+
+.THIS .event-due {
+    color: red;
+}
+
+.THIS .event-standard {
+    color: inherit;
+}
