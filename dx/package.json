@@ -1,0 +1,22 @@
+{
+  "name": "trailhead-assignments-list",
+  "version": "0.0.1",
+  "description": "Components to work with the Trailhead Tracker to show the current assignments",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SalesforceCloudServices/Trailhead-Badge-and-Mix-Assignments.git"
+  },
+  "author": "Paul Roth <proth@salesforce.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SalesforceCloudServices/Trailhead-Badge-and-Mix-Assignments/issues"
+  },
+  "homepage": "https://github.com/SalesforceCloudServices/Trailhead-Badge-and-Mix-Assignments#readme",
+  "devDependencies": {
+    "@salesforce/eslint-config-lwc": "^0.3.0",
+    "@salesforce/lwc-jest": "^0.4.12"
+  }
+}
