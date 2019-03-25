@@ -2,7 +2,11 @@
     "compilerOptions": {
         "experimentalDecorators": true,
         "baseUrl": ".",
-        "paths": {}
+        "paths": {
+            "c/tl_trailhead-assignments": [
+                "tl_trailheadAssignments/tl_trailheadAssignments.js"
+            ]
+        }
     },
     "include": [
         "**/*",
