@@ -7,3 +7,4 @@ dx/.sfdx/**
 ant/**
 /dxOld
 /ant
+/dx/.vscode
