@@ -33,7 +33,7 @@ and a Lightning Out tab (found under `VF Trailhead Assignments` under the app la
 
 **1.** Install the latest version of the [Trail Tracker app exchange app - by Trailhead](https://appexchange.salesforce.com/appxListingDetail?listingId=a0N3A00000EFpAtUAL)
 
-	sfdx force:package:install --package 04t36000001DzsaAAC -u testTrailhead -r -w 30
+	sfdx force:package:install --package 04t1Q000001QeImQAK -u testTrailhead -r -w 30
 
 **2.** Then push the code to the scratch org:
 
@@ -58,7 +58,7 @@ For any users that need access to the Lightning out and Lightning pages
 
 **1.** Install the latest version of the [Trail Tracker app exchange app - by Trailhead](https://appexchange.salesforce.com/appxListingDetail?listingId=a0N3A00000EFpAtUAL)
 
-	sfdx force:package:install --package 04t36000001DzsaAAC -u testTrailhead -r -w 30
+	sfdx force:package:install --package 04t1Q000001QeImQAK -u testTrailhead -r -w 30
 
 **2.** Then install this package via the URL
 
