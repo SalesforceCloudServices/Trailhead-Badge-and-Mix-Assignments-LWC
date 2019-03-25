@@ -4,6 +4,9 @@
 
 package.xml
 
+# profiles - manage through permission sets
+**/*.profile*
+
 # LWC configuration files
 **/jsconfig.json
 **/.eslintrc.json
