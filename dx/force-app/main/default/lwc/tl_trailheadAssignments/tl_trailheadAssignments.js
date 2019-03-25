@@ -4,6 +4,7 @@
 import { LightningElement, track, api, wire } from 'lwc';
 
 export default class Tl_trailheadAssignments extends LightningElement {
+  //-- properties (see - meta.xml)
   @api badgesOrTrailmixes;
   @api paginationSize;
   @api upcomingEventWindow;
@@ -13,18 +14,24 @@ export default class Tl_trailheadAssignments extends LightningElement {
   @track sectionIcon;
   //-- the title to use for the section
   @track sectionTitle;
+  //-- current page of results
+  currentPage;
+  //-- # of badges assigned
+  @track badgeAssignmentCount;
+  //-- # of trailmixes assigned
+  @track trailmixAssignmentCount;
 
   connectedCallback(){
     console.log('connected callback started');
 
-    let badgeAssignmentCountStr = '1';
-    let trailmixAssignmentCountStr = '2';
+    this.badgeAssignmentCount = 1
+    this.trailmixAssignmentCount = 2;
 
     //-- can also be set through a getter/setter
     //-- but done in the constructor because it only needs to be evaluated once...
 
     this.sectionIcon = this.determineSectionIcon(this.badgesOrTrailmixes);
-    this.sectionTitle = this.determineSectionTitle(this.badgesOrTrailmixes, badgeAssignmentCountStr, trailmixAssignmentCountStr);
+    this.sectionTitle = this.determineSectionTitle(this.badgesOrTrailmixes, this.badgeAssignmentCount, this.trailmixAssignmentCount);
     console.log('connected callback started');
   }
 
@@ -49,19 +56,19 @@ export default class Tl_trailheadAssignments extends LightningElement {
   /**
    * Determines the title to show for the section
    * @param {string} badgesOrTrailmixes - (Badge|TrailMix|Both)
-   * @param {integer} badgeAssignmentCountStr - # of badges assigned
-   * @param {integer} trailmixAssignmentCountStr - # of trailmixes assigned
+   * @param {integer} badgeAssignmentCount - # of badges assigned
+   * @param {integer} trailmixAssignmentCount - # of trailmixes assigned
    * @visibility private
    * @returns String
    */
-  determineSectionTitle(badgesOrTrailmixes, badgeAssignmentCountStr, trailmixAssignmentCountStr){
+  determineSectionTitle(badgesOrTrailmixes, badgeAssignmentCount, trailmixAssignmentCount){
     let sectionTitle = '';
     if(badgesOrTrailmixes==="Both"){
-      sectionTitle = `Assigned Badges(${badgeAssignmentCountStr}) & Trailmixes(${trailmixAssignmentCountStr})`;
+      sectionTitle = `Assigned Badges(${badgeAssignmentCount}) & Trailmixes(${trailmixAssignmentCount})`;
 		} else if(badgesOrTrailmixes==="TrailMix"){
-      sectionTitle = `Assigned TrailMixes(${trailmixAssignmentCountStr})`;
+      sectionTitle = `Assigned TrailMixes(${trailmixAssignmentCount})`;
 		} else {//-- assume badges
-      sectionTitle = `Assigned Badges(${badgeAssignmentCountStr})`;
+      sectionTitle = `Assigned Badges(${badgeAssignmentCount})`;
     }
     return sectionTitle;
   }
