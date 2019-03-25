@@ -5,3 +5,4 @@ dx/.sfdx
 dx/.sfdx/**
 
 ant/**
+/dxOld
