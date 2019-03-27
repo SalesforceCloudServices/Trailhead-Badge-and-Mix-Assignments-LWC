@@ -126,18 +126,20 @@ global class TH_Assignments {
     public static AssignmentCounts getAssignmentCount(String whichType){
         AssignmentCounts results = new AssignmentCounts();
         results.totalAssignments = 0;
+
+        Id userId = UserInfo.getUserId();
         
         if(whichType==TH_Assignments.TYPE_BADGE || whichType==TH_Assignments.TYPE_BOTH){
             results.numBadgeAssignments = [SELECT count()  
 				FROM trailheadapp__User_Badge__c  	
-				Where trailheadapp__User__c = :UserInfo.getUserId() And trailheadapp__Finished_Date__c = null];
+				Where trailheadapp__User__c = :userId And trailheadapp__Finished_Date__c = null];
 			
             results.totalAssignments += results.numBadgeAssignments;
         }
         if(whichType==TH_Assignments.TYPE_TRAILMIX || whichType==TH_Assignments.TYPE_BOTH){
             results.numTrailmixAssignments = [SELECT count()  
 				FROM trailheadapp__User_Trailmix__c  	
-				Where trailheadapp__User__c = :UserInfo.getUserId() And trailheadapp__Completed_At__c = null];
+				Where trailheadapp__User__c = :userId And trailheadapp__Completed_At__c = null];
 			
             results.totalAssignments += results.numTrailmixAssignments;
         }
@@ -242,10 +244,12 @@ global class TH_Assignments {
         
         pageSize = Integer.valueOf(pageSize);
         rowOffset = Integer.valueOf(rowOffset);
+
+        Id userId = UserInfo.getUserId();
         
         return [SELECT Id, trailheadapp__Badge__c, trailheadapp__Badge__r.trailheadapp__Icon__c,trailheadapp__Badge__r.Name, trailheadapp__URL__c, trailheadapp__Due_Date__c , trailheadapp__Status__c, trailheadapp__Badge_Icon__c
             FROM trailheadapp__User_Badge__c
-            WHERE trailheadapp__User__c = :UserInfo.getUserId() And trailheadapp__Finished_Date__c = null
+            WHERE trailheadapp__User__c = :userId And trailheadapp__Finished_Date__c = null
             ORDER BY trailheadapp__Due_Date__c ASC NULLS LAST
             LIMIT :pageSize
             OFFSET :rowOffset];
@@ -264,10 +268,12 @@ global class TH_Assignments {
         
         pageSize = Integer.valueOf(pageSize);
         rowOffset = Integer.valueOf(rowOffset);
+
+        Id userId = UserInfo.getUserId();
         
         return [SELECT Id, trailheadapp__Due_At__c, trailheadapp__Trailmix__r.trailheadapp__URL__c, trailheadapp__Trailmix__r.Name, trailheadapp__Status__c
             FROM trailheadapp__User_Trailmix__c
-            WHERE trailheadapp__User__c = :UserInfo.getUserId() And trailheadapp__Completed_At__c = null
+            WHERE trailheadapp__User__c = :UserId And trailheadapp__Completed_At__c = null
             ORDER BY trailheadapp__Due_At__c ASC NULLS LAST
             LIMIT :pageSize
             OFFSET :rowOffset];
