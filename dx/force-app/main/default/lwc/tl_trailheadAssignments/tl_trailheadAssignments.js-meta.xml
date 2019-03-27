@@ -35,7 +35,7 @@
                 required="true"
             />
             <!-- whether to show only assignmetns that are overdue -->
-            <property name="onlyShowOverdue" type="Boolean"
+            <property name="showOnlyOverdue" type="Boolean"
                 label="Only Show Assignments that are Overdue"
                 default="false"
             />

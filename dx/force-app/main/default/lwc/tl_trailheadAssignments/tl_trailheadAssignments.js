@@ -13,6 +13,7 @@ export default class Tl_trailheadAssignments extends LightningElement {
   @api badgesOrTrailmixes;
   @api paginationSize;
   @api upcomingEventWindow;
+  @api showOnlyOverdue;
 
   @track error;
 
