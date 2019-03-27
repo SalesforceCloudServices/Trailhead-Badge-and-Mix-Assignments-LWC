@@ -1,6 +1,47 @@
 <template>
     <lightning-card icon-name={sectionIcon} title={sectionTitle}>
         <div>This is the list of assigned badges and trailmixes within a card.</div>
-        <!-- continue here tomorrow. -->
+        <template if:false={hasAnyAssignments}>
+            <div class="slds-align_absolute-center slds-p-around_small">
+                No Assignments <br />
+                Looks like you've met all your assignments.
+            </div>
+        </template>
+        <template if:true={hasAnyAssignments}>
+            There are some assignments.
+
+            <template for:each={paginatedTrailheadEntries} 
+                for:item="assignment"
+            >
+                <div class='assignment' key={assignment.Id}>
+                    {assignment.Name}
+                </div>
+            </template>
+
+            <!-- pagination - can be in separate component -->
+            
+            <template if:true={shouldShowPagination}>
+                <div class='slds-clearfix slds-p-around_small'>
+                    <template if:true={hasPrevious}>
+                        <div class='slds-float_right'>
+                            <lightning-button
+                                label='Previous' title='Show Previous'
+                                variant='brand'
+                                onclick={previous}
+                            ></lightning-button>
+                        </div>
+                    </template>
+                    <template if:true={hasNext}>
+                        <div class='slds-float_right'>
+                            <lightning-button
+                                label='Next' title='Show Next'
+                                variant='brand'
+                                onclick={next}
+                            ></lightning-button>
+                        </div>
+                    </template>
+                </div>
+            </template>
+        </template>
     </lightning-card>
 </template>

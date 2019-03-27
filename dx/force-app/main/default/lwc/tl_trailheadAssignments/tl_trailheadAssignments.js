@@ -76,6 +76,25 @@ export default class Tl_trailheadAssignments extends LightningElement {
     }
   }
 
+  next(){
+    this.paginator.next();
+  }
+  previous(){
+    this.paginator.previous();
+  }
+
+  /** Whether the user has no assignments */
+  get hasAnyAssignments(){
+    return this.badgeAssignmentCount + this.trailmixAssignmentCount > 0;
+  }
+  /** Total number of assignments @deprecated */
+  get totalAssignmentCount(){
+    return this.badgeAssignmentCount + this.trailmixAssignmentCount;
+  }
+  /** whether any pagination buttons should be shown */
+  get shouldShowPagination(){
+    return this.hasPrevious || this.hasNext;
+  }
   /** whether there is a previous page */
   get hasPrevious() {
     return this.paginator.hasPrevious();
