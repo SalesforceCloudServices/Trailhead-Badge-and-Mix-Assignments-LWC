@@ -3,7 +3,9 @@
  **/
 import { LightningElement, track, api, wire } from 'lwc';
 
-import getAssignmentCountApex from '@salesforce/apex/TH_Assignments.getAssignmentCount';
+import Paginator from 'c/tl_paginator';
+
+// import getAssignmentCountApex from '@salesforce/apex/TH_Assignments.getAssignmentCount';
 import getAssignedTrailEntriesApex from '@salesforce/apex/TH_Assignments.getAssignedTrailEntries';
 
 export default class Tl_trailheadAssignments extends LightningElement {
@@ -15,12 +17,15 @@ export default class Tl_trailheadAssignments extends LightningElement {
   @track error;
 
   //-- private attributes
-  //-- the icon to use for the sectio
+
+  //-- NOTE: the sectionIcon and title COULD be getters/setters
+  //-- but they would be continually re-evaluated.
+  //-- saving calculations is preferred here as it only gets set on load.
+
+  //-- the icon to use for the section
   @track sectionIcon;
   //-- the title to use for the section
   @track sectionTitle;
-  //-- current page of results (0) is first, 1 is 2nd, etc.
-  currentPage;
 
   //-- # of badges assigned
   //-- @TODO: remove - not really needed
@@ -29,29 +34,18 @@ export default class Tl_trailheadAssignments extends LightningElement {
   //-- @TODO: remove - not really needed
   @track trailmixAssignmentCount;
 
-  //-- collection of the assignment entries
-  //-- @TODO: either make a getter/setter or manipulate with next/previous page.
-  @track trailheadEntries;
-  //-- paginated list of all trailhead entries.
-  @track paginatedTrailheadEntries;
+  //-- paginator
+  paginator;
 
   /**
-   * Determines the number of trailmixes and badges assigned.
+   * Called when the component is initially created
    */
-  @wire(getAssignmentCountApex, {whichType:'$badgesOrTrailmixes'})
-  captureGetAssignmentCountApex({ error, data }) {
-    if (error) {
-      //-- @TODO: handle error
-      console.error('error occurred customWireHandlerMethodName:getAssignmentCountApex', JSON.stringify(error));
-      this.error = error;
-    } else if (data) {
-      let {numBadgeAssignments, numTrailmixAssignments} = data;
-      this.badgeAssignmentCount = numBadgeAssignments;
-      this.trailmixAssignmentCount = numTrailmixAssignments;
+  connectedCallback(){
+    console.log('connected callback started');
+    this.paginator = new Paginator([], this.paginationSize);
 
-      this.sectionIcon = this.determineSectionIcon(this.badgesOrTrailmixes);
-      this.sectionTitle = this.determineSectionTitle(this.badgesOrTrailmixes, this.badgeAssignmentCount, this.trailmixAssignmentCount);
-    }
+    this.sectionIcon = this.determineSectionIcon(this.badgesOrTrailmixes);
+    this.sectionTitle = this.determineSectionTitle(this.badgesOrTrailmixes,0,0);
   }
 
   /**
@@ -64,53 +58,61 @@ export default class Tl_trailheadAssignments extends LightningElement {
       console.error('error occurred captureGetAssignedTrailEntries:getAssignedTrailEntriesApex', JSON.stringify(error));
       this.error = error;
     } else if (data) {
-      //-- @TODO: handle data
-      //-- continue here when you come back.
+      console.log('data received');
+      let {badgeAssignmentCount, trailmixAssignmentCount} = this.determineAssignmentCounts(data);
 
-      this.resetPagination();
+      this.badgeAssignmentCount = badgeAssignmentCount;
+      this.trailmixAssignmentCount = trailmixAssignmentCount;
+
+      this.paginator.reInitialize(data, this.paginationSize);
+
+      //-- section icon is pre-set, now we only care about the assignments
+      this.sectionTitle = this.determineSectionTitle(
+        this.badgesOrTrailmixes,
+        this.badgeAssignmentCount,
+        this.trailmixAssignmentCount
+      );
     }
   }
 
-  connectedCallback(){
-    console.log('connected callback started');
-
-    /*
-    this.badgeAssignmentCount = 1
-    this.trailmixAssignmentCount = 2;
-
-    //-- can also be set through a getter/setter
-    //-- but done in the constructor because it only needs to be evaluated once...
-
-    this.sectionIcon = this.determineSectionIcon(this.badgesOrTrailmixes);
-    this.sectionTitle = this.determineSectionTitle(this.badgesOrTrailmixes, this.badgeAssignmentCount, this.trailmixAssignmentCount);
-    */
+  /** whether there is a previous page */
+  get hasPrevious() {
+    return this.paginator.hasPrevious();
   }
+  /** whether there is a next page */
+  get hasNext(){
+    return this.paginator.hasNext();
+  }
+  /** the records to show in the list */
+  get paginatedTrailheadEntries(){
+    return this.paginator.paginatedValues;
+  }
+
+  //-- methods
 
   /**
-   * Defines the current page of the results.
+   * Determines the assignment breakdown of a list of assignments
+   * @visibility private
+   * @param {array} assignmentList 
+   * @return {badgeAssignmentCount:integer, trailmixAssignmentCount:integer}
    */
-  resetPagination(){
-    this.currentPage = 0;
-  }
+  determineAssignmentCounts(assignmentList){
+    const results = {
+      badgeAssignmentCount: 0,
+      trailmixAssignmentCount: 0
+    };
 
-  get hasPrevious() {
-    return this.currentPage > 0;
-  }
-  get hasNext(){
-    return this.numAssignments > this.currentPage * this.paginationSize;
-  }
-  get numAssignments(){
-    if (this.trailheadEntries){
-      return this.trailheadEntries.length;
+    if (assignmentList){
+      assignmentList.forEach(assignment => {
+        if (assignment.EntryType === 'TrailMix'){
+          results.trailmixAssignmentCount++;
+        } else if (assignment.EntryType === 'Badge'){
+          results.badgeAssignmentCount++;
+        }
+      });
     }
-    return(0);
-  }
-  get paginatedTrailheadEntries(){
-    if (this.trailheadEntries){
-      let currentIndex = this.currentPage * this.paginationSize;
-      return this.trailheadEntries.slice(currentIndex, currentIndex + this.paginationSize);
-    }
-    return [];
+
+    return results;
   }
 
   /**

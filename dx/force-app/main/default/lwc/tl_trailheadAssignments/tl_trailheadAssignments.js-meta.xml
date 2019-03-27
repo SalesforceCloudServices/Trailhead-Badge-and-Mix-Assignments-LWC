@@ -27,12 +27,17 @@
             />
             <!-- number of days until due date to indicate it is upcoming -->
             <property name="upcomingEventWindow" type="Integer"
-                label="Upcoming Event Window"
-                description="Warning # Days until due date"
+                label="Events Due in X Days Marked as Upcoming"
+                description="If events are due within this many days they are marked as Upcoming"
                 default="7"
                 min="2"
                 max="355"
                 required="true"
+            />
+            <!-- whether to show only assignmetns that are overdue -->
+            <property name="onlyShowOverdue" type="Boolean"
+                label="Only Show Assignments that are Overdue"
+                default="false"
             />
         </targetConfig>
     </targetConfigs>
