@@ -52,7 +52,7 @@ export default class Tl_trailheadAssignments extends LightningElement {
   /**
    * Determines the trail entries
    */
-  @wire(getAssignedTrailEntriesApex, {whichType:'$badgesOrTrailmixes'})
+  @wire(getAssignedTrailEntriesApex, {rowOffset:0, pageSize:-1, whichEntries:'$badgesOrTrailmixes'})
   captureGetAssignedTrailEntries({ error, data }) {
     if (error) {
       //-- @TODO: handle error

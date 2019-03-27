@@ -167,6 +167,13 @@ global class TH_Assignments {
         //-- please see https://salesforce.stackexchange.com/questions/108355/limit-expression-must-be-of-type-integer-error-when-using-apex-variable-in-soq
         pageSize = Integer.valueOf(pageSize);
         rowOffset = Integer.valueOf(rowOffset);
+
+        if (rowOffset < 0){
+            rowOffset = NO_OFFSET;
+        }
+        if (pageSize < 1){
+            pageSize = MAX_RESULTS;
+        }
         
         //-- group and trim if both are included.
         if(whichEntries == TH_Assignments.TYPE_BOTH){
