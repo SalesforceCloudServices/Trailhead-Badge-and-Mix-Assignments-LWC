@@ -122,7 +122,7 @@ global class TH_Assignments {
      *                              numTrailmixAssignments:Integer,
      *                              totalAssignments:Integer})
      **/
-    @AuraEnabled
+    @AuraEnabled(cacheable=true)
     public static AssignmentCounts getAssignmentCount(String whichType){
         AssignmentCounts results = new AssignmentCounts();
         results.totalAssignments = 0;
@@ -157,7 +157,7 @@ global class TH_Assignments {
      *  @param whichType (String [TYPE_BADGE|TYPE_TRAILMIX|TYPE_BOTH]) - the type of assignments to count.
      *  @return TrailheadEntry[] - collection of generalized Badges and TrailMixes
      **/
-    @AuraEnabled
+    @AuraEnabled(cacheable=true)
     public static TrailheadEntry[] getAssignedTrailEntries(integer rowOffset, integer pageSize, string whichEntries) {
         TrailheadEntry[] results = new TrailheadEntry[]{};
     
