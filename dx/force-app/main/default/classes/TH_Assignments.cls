@@ -186,11 +186,13 @@ global class TH_Assignments {
             
             //-- splice to current pagination set.
             //-- making it work inline with limit/offsets
-            TrailheadEntry[] resultSubset = new TrailheadEntry[]{};
-            for(integer i = rowOffset; i < rowOffset + pageSize && i < results.size(); i++){
-                resultSubset.add(results[i]);
+            if (rowOffset >= 0 && pageSize >= 0){
+                TrailheadEntry[] resultSubset = new TrailheadEntry[]{};
+                for(integer i = rowOffset; i < rowOffset + pageSize && i < results.size(); i++){
+                    resultSubset.add(results[i]);
+                }
+                results = resultSubset;
             }
-            results = resultSubset;
         } else if(whichEntries == TH_Assignments.TYPE_TRAILMIX){
             trailheadapp__User_Trailmix__c[] assignedT = getAssignedTrails(rowOffset,  pageSize);
             for(trailheadapp__User_Trailmix__c uT : assignedT ){
