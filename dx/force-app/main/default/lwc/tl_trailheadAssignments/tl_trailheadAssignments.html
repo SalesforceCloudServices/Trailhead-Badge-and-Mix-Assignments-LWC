@@ -1,5 +1,10 @@
 <template>
     <lightning-card icon-name={sectionIcon} title={sectionTitle}>
+        <lightning-button class='action-refresh' slot='actions'
+            icon-name="utility:refresh"
+            variant="neutral" label="Refresh"
+            onclick={refreshAssignments}
+        ></lightning-button>
         <template if:false={hasAnyAssignments}>
             <div class="slds-align_absolute-center slds-p-around_small">
                 No Assignments <br />

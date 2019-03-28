@@ -3,6 +3,8 @@
  **/
 import { LightningElement, track, api, wire } from 'lwc';
 
+import {refreshApex} from '@salesforce/apex';
+
 import Paginator from 'c/tl_paginator';
 
 // import getAssignmentCountApex from '@salesforce/apex/TH_Assignments.getAssignmentCount';
@@ -79,6 +81,11 @@ export default class Tl_trailheadAssignments extends LightningElement {
         this.trailmixAssignmentCount
       );
     }
+  }
+
+  //-- refresh wire
+  refreshAssignments(){
+    refreshApex(this.paginator.collection);
   }
 
   get trailheadLinkLabel(){
