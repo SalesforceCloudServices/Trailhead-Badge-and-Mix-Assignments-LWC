@@ -4,8 +4,8 @@
     <div id="lightning" />
     
     <script>
-        $Lightning.use("c:TH_Assigned_Container", function() {
-          $Lightning.createComponent("c:TH_AssignedTrailsAndBadges",
+        $Lightning.use("c:th_trailheadAssignments_container", function() {
+          $Lightning.createComponent("c:th_trailheadAssignments_wrap",
           {
               badgesOrTrailmixes: "Badge",
               paginationSize: 5,

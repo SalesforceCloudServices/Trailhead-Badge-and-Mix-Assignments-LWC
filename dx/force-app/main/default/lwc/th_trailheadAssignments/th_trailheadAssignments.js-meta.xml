@@ -3,7 +3,7 @@
     <masterLabel>TH Assigned Trails and Badges</masterLabel>
     <description>Component that defines the TrailTracker assigned Trails and Badges for the current user</description>
     <apiVersion>45.0</apiVersion>
-    <isExposed>false</isExposed>
+    <isExposed>true</isExposed>
     <targets>
         <target>lightning__AppPage</target>
         <target>lightning__HomePage</target>
@@ -38,11 +38,13 @@
                 required="true"
             />
             <!-- whether to show only assignmetns that are overdue -->
+            <!--
             <property name="showOnlyOverdue" type="String"
                 label="Only Show Assignments that are Overdue"
                 default="None"
                 datasource="None,Overdue-Only,Overdue+Upcoming"
             />
+            -->
         </targetConfig>
     </targetConfigs>
 </LightningComponentBundle>

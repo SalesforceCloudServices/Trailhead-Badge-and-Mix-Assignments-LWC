@@ -1,7 +1,7 @@
 <!--
 /**
  * aura wrapper component for the lightning web component: @tl_trailheadAssignments
- * @wrapper: tl_trailheadAssignments
+ * @wrapper: th_trailheadAssignments
 **/
 -->
 <aura:component
