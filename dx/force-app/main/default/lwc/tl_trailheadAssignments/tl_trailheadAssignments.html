@@ -12,10 +12,11 @@
             </div>
         </template>
         <template if:true={hasAnyAssignments}>
-            <template for:each={paginatedTrailheadEntries} 
+            <template for:each={assignedTrailEntries} 
                 for:item="assignment"
             >
                 <div class='assignment' key={assignment.Id}>
+                    <div>Assignment</div>
                     <c-th_trailhead-assignment_entry 
                         assignment-entry={assignment}
                         upcoming-event-window={upcomingEventWindow}

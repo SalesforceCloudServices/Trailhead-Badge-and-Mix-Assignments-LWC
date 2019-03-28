@@ -160,7 +160,7 @@ global class TH_Assignments {
      *  @return TrailheadEntry[] - collection of generalized Badges and TrailMixes
      **/
     @AuraEnabled(cacheable=true)
-    public static TrailheadEntry[] getAssignedTrailEntries(integer rowOffset, integer pageSize, string whichEntries) {
+    public static TrailheadEntry[] getAssignedTrailEntries(integer rowOffset, integer pageSize, string whichType) {
         TrailheadEntry[] results = new TrailheadEntry[]{};
     
         //-- @KLUDGE / @TODO: revisit if valueOf is still needed
@@ -176,7 +176,7 @@ global class TH_Assignments {
         }
         
         //-- group and trim if both are included.
-        if(whichEntries == TH_Assignments.TYPE_BOTH){
+        if(whichType == TH_Assignments.TYPE_BOTH){
             
             //-- ignore the offset and pageSize because of sorting.
             trailheadapp__User_Trailmix__c[] assignedT = getAssignedTrails(NO_OFFSET, MAX_RESULTS);
@@ -202,20 +202,20 @@ global class TH_Assignments {
                 }
                 results = resultSubset;
             }
-        } else if(whichEntries == TH_Assignments.TYPE_TRAILMIX){
+        } else if(whichType == TH_Assignments.TYPE_TRAILMIX){
             trailheadapp__User_Trailmix__c[] assignedT = getAssignedTrails(rowOffset,  pageSize);
             for(trailheadapp__User_Trailmix__c uT : assignedT ){
                 TrailheadEntry entry= new TrailheadEntry(uT);
                 results.add(entry);
             }
-        } else if(whichEntries == TH_Assignments.TYPE_BADGE){
+        } else if(whichType == TH_Assignments.TYPE_BADGE){
             trailheadapp__User_Badge__c[] assignedB = getAssignedBadges(rowOffset,  pageSize);
             for(trailheadapp__User_Badge__c uB : assignedB ){           
                 TrailheadEntry entry= new TrailheadEntry(uB);
                 results.add(entry);
             }
         } else {
-            System.assert(false, 'Unknown type of entry:' + whichEntries + '. Expecting one of the following [' +
+            System.assert(false, 'Unknown type of entry:' + whichType + '. Expecting one of the following [' +
                 TH_Assignments.TYPE_BOTH + ',' + TH_Assignments.TYPE_TRAILMIX + ',' + TH_Assignments.TYPE_BADGE +
                 ']'
             );

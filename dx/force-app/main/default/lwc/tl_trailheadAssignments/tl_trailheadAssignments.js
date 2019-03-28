@@ -7,7 +7,7 @@ import {refreshApex} from '@salesforce/apex';
 
 import Paginator from 'c/tl_paginator';
 
-// import getAssignmentCountApex from '@salesforce/apex/TH_Assignments.getAssignmentCount';
+import getAssignmentCountApex from '@salesforce/apex/TH_Assignments.getAssignmentCount';
 import getAssignedTrailEntriesApex from '@salesforce/apex/TH_Assignments.getAssignedTrailEntries';
 
 /** the address to send someone to Trailhead */
@@ -26,6 +26,15 @@ export default class Tl_trailheadAssignments extends LightningElement {
 
   //-- private attributes
 
+  //-- collection of all the assignments
+  @track assignedTrailEntries;
+
+  //-- whether there are any badges assigned
+  @track hasAnyAssignments = false;
+
+  //-- the current page of results we are on
+  @track currentPage = 0;
+
   //-- NOTE: the sectionIcon and title COULD be getters/setters
   //-- but they would be continually re-evaluated.
   //-- saving calculations is preferred here as it only gets set on load.
@@ -35,57 +44,70 @@ export default class Tl_trailheadAssignments extends LightningElement {
   //-- the title to use for the section
   @track sectionTitle;
 
-  //-- # of badges assigned
-  //-- @TODO: remove - not really needed
-  @track badgeAssignmentCount;
-  //-- # of trailmixes assigned
-  //-- @TODO: remove - not really needed
-  @track trailmixAssignmentCount;
-
-  //-- paginator
-  paginator;
-
   /**
    * Called when the component is initially created
    */
   connectedCallback(){
     console.log('connected callback started');
-    this.paginator = new Paginator([], this.paginationSize);
+
+    // this.currentPage = 0;
 
     this.sectionIcon = this.determineSectionIcon(this.badgesOrTrailmixes);
     this.sectionTitle = this.determineSectionTitle(this.badgesOrTrailmixes,0,0);
   }
 
+  /** Determines the number of all trail entries */
+  @wire(getAssignmentCountApex, {whichType:'$badgesOrTrailmixes'})
+  captureAssignmentCount({error, data}){
+    if (error){
+      //-- @TODO: handle error
+      console.error('error occurred captureGetAssignedTrailEntries:getAssignedTrailEntriesApex', JSON.stringify(error));
+      this.error = error;
+    }
+    if (data){
+      console.log('assignment count came in');
+      let {
+        numBadgeAssignments,
+        numTrailmixAssignments
+      } = data;
+
+      this.sectionTitle = this.determineSectionTitle(
+        this.badgesOrTrailmixes,
+        numBadgeAssignments,
+        numTrailmixAssignments
+      );
+
+      // this.totalAssignments = numBadgeAssignments + numTrailmixAssignments;
+      this.hasAnyAssignments = numBadgeAssignments + numTrailmixAssignments > 0;
+    }
+  }
+
   /**
    * Determines the trail entries
    */
-  @wire(getAssignedTrailEntriesApex, {rowOffset:0, pageSize:-1, whichEntries:'$badgesOrTrailmixes'})
-  captureGetAssignedTrailEntries({ error, data }) {
+  @wire(getAssignedTrailEntriesApex, {
+    rowOffset:'$currentPage',
+    pageSize:'$paginationSize',
+    whichType:'$badgesOrTrailmixes'
+  })
+  captureGetAssignedTrailEntries(results) {
+    let { error, data } = results;
     if (error) {
       //-- @TODO: handle error
       console.error('error occurred captureGetAssignedTrailEntries:getAssignedTrailEntriesApex', JSON.stringify(error));
       this.error = error;
     } else if (data) {
       console.log('data received');
-      let {badgeAssignmentCount, trailmixAssignmentCount} = this.determineAssignmentCounts(data);
+      this.assignedTrailEntries = results;
 
-      this.badgeAssignmentCount = badgeAssignmentCount;
-      this.trailmixAssignmentCount = trailmixAssignmentCount;
-
-      this.paginator.reInitialize(data, this.paginationSize);
-
-      //-- section icon is pre-set, now we only care about the assignments
-      this.sectionTitle = this.determineSectionTitle(
-        this.badgesOrTrailmixes,
-        this.badgeAssignmentCount,
-        this.trailmixAssignmentCount
-      );
+      //-- reset to page 0
+      this.currentPage = 0;
     }
   }
 
   //-- refresh wire
   refreshAssignments(){
-    refreshApex(this.paginator.collection);
+    refreshApex(this.assignedTrailEntries);
   }
 
   get trailheadLinkLabel(){
@@ -96,63 +118,31 @@ export default class Tl_trailheadAssignments extends LightningElement {
   }
 
   next(){
-    this.paginator.next();
+    if (this.hasNext()){
+      this.currentPage += 1;
+    }
   }
   previous(){
-    this.paginator.previous();
+    if (this.hasPrevious()){
+      this.currentPage -= 1;
+    }
   }
-
-  /** Whether the user has no assignments */
-  get hasAnyAssignments(){
-    return this.badgeAssignmentCount + this.trailmixAssignmentCount > 0;
-  }
-  /** Total number of assignments @deprecated */
-  get totalAssignmentCount(){
-    return this.badgeAssignmentCount + this.trailmixAssignmentCount;
-  }
+  
   /** whether any pagination buttons should be shown */
   get shouldShowPagination(){
     return this.hasPrevious || this.hasNext;
   }
   /** whether there is a previous page */
   get hasPrevious() {
-    return this.paginator.hasPrevious();
+    return this.currentPage > 0;
   }
   /** whether there is a next page */
   get hasNext(){
-    return this.paginator.hasNext();
-  }
-  /** the records to show in the list */
-  get paginatedTrailheadEntries(){
-    return this.paginator.paginatedValues;
+    let endPage = this.currentPage * this.paginationSize + this.paginationSize;
+    return endPage < this.assignedTrailEntries.length;
   }
 
   //-- methods
-
-  /**
-   * Determines the assignment breakdown of a list of assignments
-   * @visibility private
-   * @param {array} assignmentList 
-   * @return {badgeAssignmentCount:integer, trailmixAssignmentCount:integer}
-   */
-  determineAssignmentCounts(assignmentList){
-    const results = {
-      badgeAssignmentCount: 0,
-      trailmixAssignmentCount: 0
-    };
-
-    if (assignmentList){
-      assignmentList.forEach(assignment => {
-        if (assignment.EntryType === 'TrailMix'){
-          results.trailmixAssignmentCount++;
-        } else if (assignment.EntryType === 'Badge'){
-          results.badgeAssignmentCount++;
-        }
-      });
-    }
-
-    return results;
-  }
 
   /**
    * Determines the icon to show for the section
