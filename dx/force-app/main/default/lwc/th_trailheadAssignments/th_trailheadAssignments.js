@@ -32,7 +32,7 @@ export default class Tl_trailheadAssignments extends LightningElement {
   @track assignedTrailEntries = {};
 
   //-- total number of all assignments (required for pagination)
-  assignmentCount = {};
+  @track assignmentCount = {};
 
   //-- whether there are any badges assigned
   @track totalAssignments = 0;
@@ -89,7 +89,8 @@ export default class Tl_trailheadAssignments extends LightningElement {
 
   /** Determines the number of all trail entries */
   @wire(getAssignmentCountApex, {whichType:'$badgesOrTrailmixes'})
-  captureAssignmentCount({error, data}){
+  captureAssignmentCount(response){
+    let {error, data} = response;
     if (error){
       //-- @TODO: handle error
       console.error('error occurred captureGetAssignedTrailEntries:getAssignedTrailEntriesApex', JSON.stringify(error));
@@ -97,7 +98,7 @@ export default class Tl_trailheadAssignments extends LightningElement {
     }
     if (data){
       console.log('assignment count came in');
-      this.assignmentCount = data;
+      this.assignmentCount = response;
 
       this.sectionTitle = this.determineSectionTitle(
         this.badgesOrTrailmixes,
@@ -106,6 +107,7 @@ export default class Tl_trailheadAssignments extends LightningElement {
       );
 
       //assert data.totalAssignments === data.numBadgeAssignments + data.numTrailmixAssignments
+      this.totalAssignments = data.totalAssignments;
     }
   }
 
@@ -133,7 +135,7 @@ export default class Tl_trailheadAssignments extends LightningElement {
    * Whether there are any assignments
    */
   get hasAnyAssignments(){
-    return this.assignmentCount.totalAssignments > 0;
+    return this.totalAssignments > 0;
   }
   
   /** Provide a link to Trailhead using the custom label */
@@ -158,9 +160,9 @@ export default class Tl_trailheadAssignments extends LightningElement {
   @api
   get hasNext(){
     let hasNext = false;
-    if (this.assignedTrailEntries && this.assignmentCount.totalAssignments){
+    if (this.assignedTrailEntries && this.totalAssignments){
       let endPage = this.rowOffset + this.paginationSize;
-      hasNext = endPage < this.assignmentCount.totalAssignments;
+      hasNext = endPage < this.totalAssignments;
     }
     return hasNext;
   }
