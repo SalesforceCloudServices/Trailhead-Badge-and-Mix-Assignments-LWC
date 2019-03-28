@@ -12,18 +12,20 @@
             </div>
         </template>
         <template if:true={hasAnyAssignments}>
-            <template if:true={assignedTrailEntries.data}>
+            <lightning-layout multiple-rows='true' if:true={assignedTrailEntries.data}>
                 <template for:each={assignedTrailEntries.data} 
                     for:item="assignment"
                 >
-                    <div class='assignment' key={assignment.Id}>
+                    <lightning-layout-item class='assignment' key={assignment.Id}
+                        size='12' medium-device-size='6' large-device-size='3'
+                    >
                         <c-th_trailhead-assignment_entry 
                             assignment-entry={assignment}
                             upcoming-event-window={upcomingEventWindow}
                         ></c-th_trailhead-assignment_entry>
-                    </div>
+                    </lightning-layout-item>
                 </template>
-            </template>
+            </lightning-layout>
 
             <!-- pagination - can be in separate component -->
             
