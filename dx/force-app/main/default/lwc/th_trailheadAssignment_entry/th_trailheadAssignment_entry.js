@@ -70,6 +70,8 @@ export default class Th_trailheadAssignment_entry extends LightningElement {
       console.error('error occurred:', error);
     }
 
+    result += ' slds-p-left_xxx-small'
+
     return result;
   }
 }

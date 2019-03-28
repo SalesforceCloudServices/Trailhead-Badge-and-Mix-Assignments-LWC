@@ -196,11 +196,11 @@ export default class Tl_trailheadAssignments extends LightningElement {
   determineSectionTitle(badgesOrTrailmixes, badgeAssignmentCount, trailmixAssignmentCount){
     let sectionTitle = '';
     if(badgesOrTrailmixes==="Both"){
-      sectionTitle = `Assigned Badges(${badgeAssignmentCount}) & Trailmixes(${trailmixAssignmentCount})`;
+      sectionTitle = `Assigned Badges (${badgeAssignmentCount}) & Trailmixes (${trailmixAssignmentCount})`;
 		} else if(badgesOrTrailmixes==="TrailMix"){
-      sectionTitle = `Assigned TrailMixes(${trailmixAssignmentCount})`;
+      sectionTitle = `Assigned TrailMixes (${trailmixAssignmentCount})`;
 		} else {//-- assume badges
-      sectionTitle = `Assigned Badges(${badgeAssignmentCount})`;
+      sectionTitle = `Assigned Badges (${badgeAssignmentCount})`;
     }
     return sectionTitle;
   }
