@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<AuraDefinitionBundle xmlns="urn:metadata.tooling.soap.sforce.com" fqn="tl_trailheadAssignmentsWrap">
+    <apiVersion>45.0</apiVersion>
+    <description>aura wrapper component for the lightning web component: @tl_trailheadAssignments</description>
+</AuraDefinitionBundle>

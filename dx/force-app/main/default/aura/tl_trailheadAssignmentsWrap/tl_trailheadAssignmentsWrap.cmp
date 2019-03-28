@@ -1,0 +1,27 @@
+<!--
+/**
+ * aura wrapper component for the lightning web component: @tl_trailheadAssignments
+ * @wrapper: tl_trailheadAssignments
+**/
+-->
+<aura:component
+    implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,lightning:availableForFlowScreens"
+    access="global"
+>
+    <!-- attributes -->
+    <aura:attribute name="badgesOrTrailmixes" type="String"
+        description='whether to show badges/trailmixes/both'
+    />
+    <aura:attribute name="paginationSize" type="Integer" default="5"
+        description='pagination size for the results'
+    />
+    <aura:attribute name="upcomingEventWindow" type="Integer" default="7"
+        description='number of days until duedate that the assignment is upcoming'
+    />
+    <!-- elements -->
+    <c:tl_trailheadAssignments
+        badgesOrTrailmixes='{!v.badgesOrTrailmixes}'
+        paginationSize='{!v.paginationSize}'
+        upcomingEventWindow='{!v.upcomingEventWindow}'
+    />
+</aura:component>	
