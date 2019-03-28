@@ -53,10 +53,6 @@ export default class Tl_trailheadAssignments extends LightningElement {
    * Called when the component is initially created
    */
   connectedCallback(){
-    console.log('connected callback started');
-
-    // this.rowOffset = 0;
-
     this.sectionIcon = this.determineSectionIcon(this.badgesOrTrailmixes);
     this.sectionTitle = this.determineSectionTitle(this.badgesOrTrailmixes,0,0);
   }
@@ -97,7 +93,6 @@ export default class Tl_trailheadAssignments extends LightningElement {
       this.error = error;
     }
     if (data){
-      console.log('assignment count came in');
       this.assignmentCount = response;
 
       this.sectionTitle = this.determineSectionTitle(
@@ -126,7 +121,6 @@ export default class Tl_trailheadAssignments extends LightningElement {
       console.error('error occurred captureGetAssignedTrailEntries:getAssignedTrailEntriesApex', JSON.stringify(error));
       this.error = error;
     } else if (data) {
-      console.log('data received');
       this.assignedTrailEntries = results;
     }
   }
