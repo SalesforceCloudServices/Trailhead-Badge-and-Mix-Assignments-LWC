@@ -6,11 +6,11 @@
             "c/th_trailhead-assignment_entry": [
                 "th_trailheadAssignment_entry/th_trailheadAssignment_entry.js"
             ],
+            "c/th_trailhead-assignments": [
+                "th_trailheadAssignments/th_trailheadAssignments.js"
+            ],
             "c/tl_paginator": [
                 "tl_paginator/tl_paginator.js"
-            ],
-            "c/tl_trailhead-assignments": [
-                "tl_trailheadAssignments/tl_trailheadAssignments.js"
             ]
         }
     },

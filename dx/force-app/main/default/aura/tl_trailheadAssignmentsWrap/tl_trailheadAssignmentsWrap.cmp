@@ -19,9 +19,9 @@
         description='number of days until duedate that the assignment is upcoming'
     />
     <!-- elements -->
-    <c:tl_trailheadAssignments
+    <c:th_trailheadAssignments
         badgesOrTrailmixes='{!v.badgesOrTrailmixes}'
         paginationSize='{!v.paginationSize}'
         upcomingEventWindow='{!v.upcomingEventWindow}'
     />
-</aura:component>	
+</aura:component>

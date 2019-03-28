@@ -3,7 +3,7 @@
     <masterLabel>TH Assigned Trails and Badges</masterLabel>
     <description>Component that defines the TrailTracker assigned Trails and Badges for the current user</description>
     <apiVersion>45.0</apiVersion>
-    <isExposed>true</isExposed>
+    <isExposed>false</isExposed>
     <targets>
         <target>lightning__AppPage</target>
         <target>lightning__HomePage</target>
