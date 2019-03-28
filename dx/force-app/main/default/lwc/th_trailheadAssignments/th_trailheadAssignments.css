@@ -15,4 +15,5 @@
          it did not always work even then.)
     **/
     width: 330px;
+    min-height: 70px;
 }
