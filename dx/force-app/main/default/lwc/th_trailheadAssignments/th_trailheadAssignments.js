@@ -5,8 +5,6 @@ import { LightningElement, track, api, wire } from 'lwc';
 
 import {refreshApex} from '@salesforce/apex';
 
-import Paginator from 'c/tl_paginator';
-
 import getAssignmentCountApex from '@salesforce/apex/TH_Assignments.getAssignmentCount';
 import getAssignedTrailEntriesApex from '@salesforce/apex/TH_Assignments.getAssignedTrailEntries';
 

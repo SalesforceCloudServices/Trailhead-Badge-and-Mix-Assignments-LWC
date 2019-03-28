@@ -11,9 +11,6 @@
             ],
             "c/th_trailhead-assignments": [
                 "th_trailheadAssignments/th_trailheadAssignments.js"
-            ],
-            "c/tl_paginator": [
-                "tl_paginator/tl_paginator.js"
             ]
         }
     },
