@@ -3,6 +3,9 @@
         "experimentalDecorators": true,
         "baseUrl": ".",
         "paths": {
+            "c/th_paginator": [
+                "th_paginator/th_paginator.js"
+            ],
             "c/th_trailhead-assignment_entry": [
                 "th_trailheadAssignment_entry/th_trailheadAssignment_entry.js"
             ],

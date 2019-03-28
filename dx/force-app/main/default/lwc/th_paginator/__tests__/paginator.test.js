@@ -1,8 +1,8 @@
-/** JEST Test for tl_paginator/__tests__/tl_paginator **/
+/** JEST Test for th_paginator/__tests__/th_paginator **/
 import { createElement } from 'lwc';
-import Paginator from 'c/tl_paginator';
+import Paginator from 'c/th_paginator';
 
-describe('c-tl_paginator', () => {
+describe('c-th_paginator', () => {
 
   //-- boilerplate DOM reset
   afterEach(() => {
