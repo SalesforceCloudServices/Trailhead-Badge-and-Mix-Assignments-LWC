@@ -26,8 +26,15 @@ export default class Tl_trailheadAssignments extends LightningElement {
 
   //-- private attributes
 
+  //-- note: the collections are required for refreshApex
+  //-- see here for more information
+  //-- https://developer.salesforce.com/docs/component-library/documentation/lwc/apex#data_apex__refresh_cache
+
   //-- collection of all the assignments
   @track assignedTrailEntries = {};
+
+  //-- total number of all assignments (required for pagination)
+  assignmentCount = {};
 
   //-- whether there are any badges assigned
   @track totalAssignments = 0;
@@ -56,6 +63,32 @@ export default class Tl_trailheadAssignments extends LightningElement {
     this.sectionTitle = this.determineSectionTitle(this.badgesOrTrailmixes,0,0);
   }
 
+  /**
+   * Refresh the current counts
+   * <p>Note: this must have access
+   * to the exact response from the wire service to work.</p>
+   */
+  refreshAssignments(){
+    refreshApex(this.assignedTrailEntries);
+    refreshApex(this.assignmentCount);
+  }
+
+  /** Paginate to the next page */
+  next(){
+    if (this.hasNext){
+      this.rowOffset += this.paginationSize;
+    }
+  }
+  /** Paginate to the previous page */
+  previous(){
+    if (this.hasPrevious){
+      this.rowOffset = Math.min(
+        this.rowOffset - this.paginationSize,
+        0
+      );
+    }
+  }
+
   /** Determines the number of all trail entries */
   @wire(getAssignmentCountApex, {whichType:'$badgesOrTrailmixes'})
   captureAssignmentCount({error, data}){
@@ -66,19 +99,15 @@ export default class Tl_trailheadAssignments extends LightningElement {
     }
     if (data){
       console.log('assignment count came in');
-      let {
-        numBadgeAssignments = 0,
-        numTrailmixAssignments = 0
-      } = data;
+      this.assignmentCount = data;
 
       this.sectionTitle = this.determineSectionTitle(
         this.badgesOrTrailmixes,
-        numBadgeAssignments,
-        numTrailmixAssignments
+        data.numBadgeAssignments,
+        data.numTrailmixAssignments
       );
 
-      // this.totalAssignments = numBadgeAssignments + numTrailmixAssignments;
-      this.totalAssignments = numBadgeAssignments + numTrailmixAssignments;
+      //assert data.totalAssignments === data.numBadgeAssignments + data.numTrailmixAssignments
     }
   }
 
@@ -102,35 +131,20 @@ export default class Tl_trailheadAssignments extends LightningElement {
     }
   }
 
-  //-- refresh wire
-  refreshAssignments(){
-    this.
-    refreshApex(this.assignedTrailEntries);
-  }
-
+  /**
+   * Whether there are any assignments
+   */
   get hasAnyAssignments(){
-    return this.totalAssignments > 0;
+    return this.assignmentCount.totalAssignments > 0;
   }
   
+  /** Provide a link to Trailhead using the custom label */
   get trailheadLinkLabel(){
     return TRAILHEAD_LINK_LABEL;
   }
+  /** Provide a link to Trailhead using the custom label */
   get trailheadLinkAddress(){
     return TRAILHEAD_LINK_ADDRESS;
-  }
-
-  next(){
-    if (this.hasNext){
-      this.rowOffset += this.paginationSize;
-    }
-  }
-  previous(){
-    if (this.hasPrevious){
-      this.rowOffset = Math.min(
-        this.rowOffset - this.paginationSize,
-        0
-      );
-    }
   }
   
   /** whether any pagination buttons should be shown */
@@ -146,9 +160,9 @@ export default class Tl_trailheadAssignments extends LightningElement {
   @api
   get hasNext(){
     let hasNext = false;
-    if (this.assignedTrailEntries && this.totalAssignments){
+    if (this.assignedTrailEntries && this.assignmentCount.totalAssignments){
       let endPage = this.rowOffset + this.paginationSize;
-      hasNext = endPage < this.totalAssignments;
+      hasNext = endPage < this.assignmentCount.totalAssignments;
     }
     return hasNext;
   }

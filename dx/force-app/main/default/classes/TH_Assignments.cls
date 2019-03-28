@@ -24,6 +24,12 @@ global class TH_Assignments {
      * <p>Used in pagination</p>
      **/
     global class AssignmentCounts {
+        AssignmentCounts(){
+            this.numBadgeAssignments = 0;
+            this.numTrailmixAssignments = 0;
+            this.totalAssignments = 0;
+        }
+
         @AuraEnabled public Integer numBadgeAssignments;
         @AuraEnabled public Integer numTrailmixAssignments;
         @AuraEnabled public Integer totalAssignments;
@@ -125,7 +131,6 @@ global class TH_Assignments {
     @AuraEnabled(cacheable=true)
     public static AssignmentCounts getAssignmentCount(String whichType){
         AssignmentCounts results = new AssignmentCounts();
-        results.totalAssignments = 0;
 
         Id userId = UserInfo.getUserId();
         
@@ -148,6 +153,8 @@ global class TH_Assignments {
         //results.numBadgeAssignments = 0;
         //results.numTrailmixAssignments = 0;
         //results.totalAssignments = 0;
+
+        System.assertEquals(results.totalAssignments, results.numBadgeAssignments + results.numTrailmixAssignments);
         
         return(results);
     }
