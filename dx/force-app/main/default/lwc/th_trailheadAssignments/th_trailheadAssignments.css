@@ -1,3 +1,8 @@
 .center-text {
     text-align:center;
 }
+
+.assignment {
+    width: 330px;
+    /* float: left; */
+}
