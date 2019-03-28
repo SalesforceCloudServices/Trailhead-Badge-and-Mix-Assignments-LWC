@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata" fqn="tl_trailheadAssignments">
+    <masterLabel>TH Assigned Trails and Badges</masterLabel>
+    <description>Component that defines the TrailTracker assigned Trails and Badges for the current user</description>
     <apiVersion>45.0</apiVersion>
     <isExposed>true</isExposed>
     <targets>
@@ -35,9 +37,10 @@
                 required="true"
             />
             <!-- whether to show only assignmetns that are overdue -->
-            <property name="showOnlyOverdue" type="Boolean"
+            <property name="showOnlyOverdue" type="String"
                 label="Only Show Assignments that are Overdue"
-                default="false"
+                default="None"
+                datasource="None,Overdue-Only,Overdue+Upcoming"
             />
         </targetConfig>
     </targetConfigs>
