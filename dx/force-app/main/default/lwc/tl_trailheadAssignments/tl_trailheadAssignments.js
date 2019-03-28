@@ -27,13 +27,13 @@ export default class Tl_trailheadAssignments extends LightningElement {
   //-- private attributes
 
   //-- collection of all the assignments
-  @track assignedTrailEntries;
+  @track assignedTrailEntries = {};
 
   //-- whether there are any badges assigned
-  @track hasAnyAssignments = false;
+  @track totalAssignments = 0;
 
   //-- the current page of results we are on
-  @track currentPage = 0;
+  @track rowOffset = 0;
 
   //-- NOTE: the sectionIcon and title COULD be getters/setters
   //-- but they would be continually re-evaluated.
@@ -50,7 +50,7 @@ export default class Tl_trailheadAssignments extends LightningElement {
   connectedCallback(){
     console.log('connected callback started');
 
-    // this.currentPage = 0;
+    // this.rowOffset = 0;
 
     this.sectionIcon = this.determineSectionIcon(this.badgesOrTrailmixes);
     this.sectionTitle = this.determineSectionTitle(this.badgesOrTrailmixes,0,0);
@@ -67,8 +67,8 @@ export default class Tl_trailheadAssignments extends LightningElement {
     if (data){
       console.log('assignment count came in');
       let {
-        numBadgeAssignments,
-        numTrailmixAssignments
+        numBadgeAssignments = 0,
+        numTrailmixAssignments = 0
       } = data;
 
       this.sectionTitle = this.determineSectionTitle(
@@ -78,7 +78,7 @@ export default class Tl_trailheadAssignments extends LightningElement {
       );
 
       // this.totalAssignments = numBadgeAssignments + numTrailmixAssignments;
-      this.hasAnyAssignments = numBadgeAssignments + numTrailmixAssignments > 0;
+      this.totalAssignments = numBadgeAssignments + numTrailmixAssignments;
     }
   }
 
@@ -86,7 +86,7 @@ export default class Tl_trailheadAssignments extends LightningElement {
    * Determines the trail entries
    */
   @wire(getAssignedTrailEntriesApex, {
-    rowOffset:'$currentPage',
+    rowOffset:'$rowOffset',
     pageSize:'$paginationSize',
     whichType:'$badgesOrTrailmixes'
   })
@@ -99,17 +99,19 @@ export default class Tl_trailheadAssignments extends LightningElement {
     } else if (data) {
       console.log('data received');
       this.assignedTrailEntries = results;
-
-      //-- reset to page 0
-      this.currentPage = 0;
     }
   }
 
   //-- refresh wire
   refreshAssignments(){
+    this.
     refreshApex(this.assignedTrailEntries);
   }
 
+  get hasAnyAssignments(){
+    return this.totalAssignments > 0;
+  }
+  
   get trailheadLinkLabel(){
     return TRAILHEAD_LINK_LABEL;
   }
@@ -118,13 +120,16 @@ export default class Tl_trailheadAssignments extends LightningElement {
   }
 
   next(){
-    if (this.hasNext()){
-      this.currentPage += 1;
+    if (this.hasNext){
+      this.rowOffset += this.paginationSize;
     }
   }
   previous(){
-    if (this.hasPrevious()){
-      this.currentPage -= 1;
+    if (this.hasPrevious){
+      this.rowOffset = Math.min(
+        this.rowOffset - this.paginationSize,
+        0
+      );
     }
   }
   
@@ -133,13 +138,19 @@ export default class Tl_trailheadAssignments extends LightningElement {
     return this.hasPrevious || this.hasNext;
   }
   /** whether there is a previous page */
+  @api
   get hasPrevious() {
-    return this.currentPage > 0;
+    return this.rowOffset > 0;
   }
   /** whether there is a next page */
+  @api
   get hasNext(){
-    let endPage = this.currentPage * this.paginationSize + this.paginationSize;
-    return endPage < this.assignedTrailEntries.length;
+    let hasNext = false;
+    if (this.assignedTrailEntries && this.totalAssignments){
+      let endPage = this.rowOffset + this.paginationSize;
+      hasNext = endPage < this.totalAssignments;
+    }
+    return hasNext;
   }
 
   //-- methods
