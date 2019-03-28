@@ -1,0 +1,20 @@
+<template>
+    <lightning-layout vertical-align='center' class='row slds-p-bottom_small'>
+        <lightning-layout-item padding='horizontal-small' flexibility='no-shrink'>
+            <img src={iconURL} class='entry-icon' />
+        </lightning-layout-item>
+        <lightning-layout-item padding='horizontal-small'>
+            <div>
+                <a href={assignmentEntry.URL} target='_blank'>{assignmentEntry.Name}</a>
+                <template if:true={hasDueDate}>
+                    <br />Due Date:
+                    <span class={statusClass}>
+                        <lightning-formatted-date-time value={assignmentEntry.DueDate}
+                            year='numeric' month='short' day='2-digit' weekday='long'
+                        ></lightning-formatted-date-time>
+                    </span>
+                </template>
+            </div>
+        </lightning-layout-item>
+    </lightning-layout>
+</template>

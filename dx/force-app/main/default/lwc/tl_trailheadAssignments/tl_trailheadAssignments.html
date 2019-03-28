@@ -1,6 +1,5 @@
 <template>
     <lightning-card icon-name={sectionIcon} title={sectionTitle}>
-        <div>This is the list of assigned badges and trailmixes within a card.</div>
         <template if:false={hasAnyAssignments}>
             <div class="slds-align_absolute-center slds-p-around_small">
                 No Assignments <br />
@@ -8,13 +7,14 @@
             </div>
         </template>
         <template if:true={hasAnyAssignments}>
-            There are some assignments.
-
             <template for:each={paginatedTrailheadEntries} 
                 for:item="assignment"
             >
                 <div class='assignment' key={assignment.Id}>
-                    {assignment.Name}
+                    <c-th_trailhead-assignment_entry 
+                        assignment-entry={assignment}
+                        upcoming-event-window={upcomingEventWindow}
+                    ></c-th_trailhead-assignment_entry>
                 </div>
             </template>
 
@@ -43,5 +43,9 @@
                 </div>
             </template>
         </template>
+
+        <div slot='footer'>
+            <a href={trailheadLinkAddress} target='_blank'>{trailheadLinkLabel}</a>
+        </div>
     </lightning-card>
 </template>

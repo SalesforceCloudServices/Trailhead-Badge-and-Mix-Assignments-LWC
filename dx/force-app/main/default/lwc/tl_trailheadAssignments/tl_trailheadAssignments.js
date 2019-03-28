@@ -8,6 +8,11 @@ import Paginator from 'c/tl_paginator';
 // import getAssignmentCountApex from '@salesforce/apex/TH_Assignments.getAssignmentCount';
 import getAssignedTrailEntriesApex from '@salesforce/apex/TH_Assignments.getAssignedTrailEntries';
 
+/** the address to send someone to Trailhead */
+import TRAILHEAD_LINK_ADDRESS from '@salesforce/label/c.th_trailhead_link_address';
+/** the name to show for the link to Trailhead */
+import TRAILHEAD_LINK_LABEL from '@salesforce/label/c.th_trailhead_link_label';
+
 export default class Tl_trailheadAssignments extends LightningElement {
   //-- properties (see - meta.xml)
   @api badgesOrTrailmixes;
@@ -74,6 +79,13 @@ export default class Tl_trailheadAssignments extends LightningElement {
         this.trailmixAssignmentCount
       );
     }
+  }
+
+  get trailheadLinkLabel(){
+    return TRAILHEAD_LINK_LABEL;
+  }
+  get trailheadLinkAddress(){
+    return TRAILHEAD_LINK_ADDRESS;
   }
 
   next(){
