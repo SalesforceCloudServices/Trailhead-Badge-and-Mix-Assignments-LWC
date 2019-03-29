@@ -8,13 +8,13 @@
             </componentInstanceProperties>
             <componentInstanceProperties>
                 <name>paginationSize</name>
-                <value>10</value>
+                <value>8</value>
             </componentInstanceProperties>
             <componentInstanceProperties>
                 <name>upcomingEventWindow</name>
                 <value>7</value>
             </componentInstanceProperties>
-            <componentName>TH_AssignedTrailsAndBadges</componentName>
+            <componentName>th_trailheadAssignments</componentName>
         </componentInstances>
         <name>main</name>
         <type>Region</type>

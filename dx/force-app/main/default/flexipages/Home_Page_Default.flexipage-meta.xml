@@ -45,19 +45,7 @@
             <componentName>flexipage:richText</componentName>
         </componentInstances>
         <componentInstances>
-            <componentInstanceProperties>
-                <name>badgesOrTrailmixes</name>
-                <value>Both</value>
-            </componentInstanceProperties>
-            <componentInstanceProperties>
-                <name>paginationSize</name>
-                <value>4</value>
-            </componentInstanceProperties>
-            <componentInstanceProperties>
-                <name>upcomingEventWindow</name>
-                <value>14</value>
-            </componentInstanceProperties>
-            <componentName>TH_AssignedTrailsAndBadges</componentName>
+            <componentName>home:assistant</componentName>
         </componentInstances>
         <componentInstances>
             <componentInstanceProperties>
@@ -66,13 +54,13 @@
             </componentInstanceProperties>
             <componentInstanceProperties>
                 <name>paginationSize</name>
-                <value>5</value>
+                <value>4</value>
             </componentInstanceProperties>
             <componentInstanceProperties>
                 <name>upcomingEventWindow</name>
                 <value>7</value>
             </componentInstanceProperties>
-            <componentName>TH_AssignedTrailsAndBadges</componentName>
+            <componentName>th_trailheadAssignments</componentName>
         </componentInstances>
         <componentInstances>
             <componentInstanceProperties>
@@ -87,10 +75,22 @@
                 <name>upcomingEventWindow</name>
                 <value>7</value>
             </componentInstanceProperties>
-            <componentName>TH_AssignedTrailsAndBadges</componentName>
+            <componentName>th_trailheadAssignments</componentName>
         </componentInstances>
         <componentInstances>
-            <componentName>home:assistant</componentName>
+            <componentInstanceProperties>
+                <name>badgesOrTrailmixes</name>
+                <value>Both</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>paginationSize</name>
+                <value>5</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>upcomingEventWindow</name>
+                <value>7</value>
+            </componentInstanceProperties>
+            <componentName>th_trailheadAssignments</componentName>
         </componentInstances>
         <mode>Replace</mode>
         <name>sidebar</name>
