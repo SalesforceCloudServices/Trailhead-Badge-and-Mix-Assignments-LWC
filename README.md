@@ -44,9 +44,9 @@ Additionally, there are other components included but are used behind the scenes
 
 # Install with Salesforce DX
 
-**1.** Install the latest version of the [Trail Tracker app exchange app - by Trailhead](https://appexchange.salesforce.com/appxListingDetail?listingId=04t1Q000000loVPQAY)
+**1.** Install the latest version of the [Trail Tracker app exchange app - by Trailhead](https://appexchange.salesforce.com/appxListingDetail?listingId=a0N3A00000EFpAtUAL)
 
-	sfdx force:package:install --package 04t1Q000000loVPQAY -u testTrailhead -r -w 30
+	sfdx force:package:install --package 04t1Q000000loVPQAY -u testTrailhead -r -w 30 -r
 
 **2.** Then push the code to the scratch org:
 
