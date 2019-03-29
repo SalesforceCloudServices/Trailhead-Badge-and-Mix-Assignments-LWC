@@ -12,28 +12,41 @@ and a Lightning Out tab (found under `VF Trailhead Assignments` under the app la
 
 ## Components
 
-* [TH\_AssignedTrailsAndBadges](sfdc/src/aura/TH_AssignedTrailsAndBadges/TH_AssignedTrailsAndBadges.cmp) - the base / home page components
+* [th\_trailheadAssignments](dx/force-app/main/default/lwc/th_trailheadAssignments) - the Lightning Web Component that shows the list of assignments.
   * supports the following design attributes:
      * Badges or Trailmixes (Badge,TrailMix,Both) - type of entries to show
      * Page Size (Integer) - the number of records to show per page
      * Warning # days until due date (Integer) - Items within this many days are considered "Upcoming"
-  * [Apex Controller - TH\_Assignments](sfdc/src/classes/TH_Assignments.cls)
-  * [design file](sfdc/src/aura/TH_AssignedTrailsAndBadges/TH_AssignedTrailsAndBadges.design)
-  * [controller](sfdc/src/aura/TH_AssignedTrailsAndBadges/TH_AssignedTrailsAndBadgesController.js)
-  * [helper](sfdc/src/aura/TH_AssignedTrailsAndBadges/TH_AssignedTrailsAndBadgesHelper.js)
-* [TH\_AssignedEntry](sfdc/src/aura/TH_AssignedEntry/TH_AssignedEntry.cmp) - (private component that represents a single badge / trailmix
-  * [controller](sfdc/src/aura/TH_AssignedEntry/TH_AssignedEntryController.js)
+  * [HTML - th\_trailheadAssignments](dx/force-app/main/default/lwc/th_trailheadAssignments/th_trailheadAssignments.html)
+  * [JavaScript - th\_trailheadAssignments](dx/force-app/main/default/lwc/th_trailheadAssignments/th_trailheadAssignments.js)
+  * [Metadata - th\_trailheadAssignments](dx/force-app/main/default/lwc/th_trailheadAssignments/th_trailheadAssignments.js-meta.xml)
+  * [StyleSheets - th\_trailheadAssignments](dx/force-app/main/default/lwc/th_trailheadAssignments/th_trailheadAssignments.css)
+
+To allow the component to be used in places where Lightning Web Components are not yet supported (like Lightning-Out), we provide a 'Wrapper component' (written in aura).  It includes the LWC component and can be used in many more areas.
+
+* [th\_trailheadAssignments\_wrap](dx/force-app/main/default/aura/th_trailheadAssignments_wrap) - Wrapper Component
+  * [Component - th\_trailheadAssignments\_wrap](dx/force-app/main/default/aura/th_trailheadAssignments_wrap/th_trailheadAssignments_wrap.cmp)
+
+--
+
+Additionally, there are other components included but are used behind the scenes...
+
+* [th\_trailheadAssignment\_entry](dx/force-app/main/default/lwc/th_trailheadAssignment_entry/) - (private lwc component that represents a single badge / trailmix
+  * [HTML - th\_trailheadAssignment\_entry](dx/force-app/main/default/lwc/th_trailheadAssignment_entry/th_trailheadAssignment_entry.html)
+  * [JavaScript - th\_trailheadAssignment\_entry](dx/force-app/main/default/lwc/th_trailheadAssignment_entry/th_trailheadAssignment_entry.js)
+  * [Metadata - th\_trailheadAssignment\_entry](dx/force-app/main/default/lwc/th_trailheadAssignment_entry/th_trailheadAssignment_entry.js-meta.xml)
+
 
 ## Lightning Out
 
-* [TH\_Assignments](sfdc/src/pages/TH_Assignments.page) - Visualforce Page using Lightning Out
-   * [TH\_Assigned\_Container](sfdc/src/aura/TH_Assigned_Container/TH_Assigned_Container.app) - Application that defines the Lightning Out Dependencies.
+* [TH\_Assignments](dx/force-app/main/default/pages/TH_Assignments.page) - Visualforce Page using Lightning Out
+  * [th\_trailheadAssignments\_container](dx/force-app/main/default/aura/th_trailheadAssignments_container) - Application to allow the component to be used in Lightning Out.
 
 # Install with Salesforce DX
 
-**1.** Install the latest version of the [Trail Tracker app exchange app - by Trailhead](https://appexchange.salesforce.com/appxListingDetail?listingId=a0N3A00000EFpAtUAL)
+**1.** Install the latest version of the [Trail Tracker app exchange app - by Trailhead](https://appexchange.salesforce.com/appxListingDetail?listingId=04t1Q000000loVPQAY)
 
-	sfdx force:package:install --package 04t1Q000001QeImQAK -u testTrailhead -r -w 30
+	sfdx force:package:install --package 04t1Q000000loVPQAY -u testTrailhead -r -w 30
 
 **2.** Then push the code to the scratch org:
 
@@ -84,21 +97,6 @@ https://df18-th-support-pkg-dev-ed.lightning.force.com/installPackage.apexp?p0=0
 
 ## TODOs:
 
-* Support new request: Support Trails (only TrailMixes and Badges currently supported)
-
-* I fixed the pagination issue in apex, but should be tested more. (Deleting the items from the list was failing, so I implemented a splice instead)
-
-* The pagination can either be done on the server (through offset - like it is now), or all items can be returned and the component paginates.
-  * Moving to the browser will make the code simpler to understand.
-  * but generally we recommend reducing data sent like it is now.
-
-* The `Both` (both Badges and TrailMixes is the cause of most of the issues on Apex, as the pagination must be done by hand)
-  * I think I did the best option to solve the issue, but should be further reviewed.
-
-* Use of custom settings
-
-* We really should cleanup the names of the files and the apex code a bit for clarity - (ex: uB / uC, etc). I took first stab at it.
-faster for loading the home screen fast as it won't be touched often.
-
-* migrate the code from the controller of the TH_AssignedEntry to helpers. (I understand it is more in-line, but it is better practice. I'll leave it to your judgement.
+* Support for 'Show Only Overdue' - Note the item commented out in the metadata/design file for the th\_trailheadAssignments lwc component.  The goal is that the user can set a property in App Builder to only show those that are overdue.
+  * (Note: this will require either duplicating the queries or converting all of them to dynamic queries)
 
