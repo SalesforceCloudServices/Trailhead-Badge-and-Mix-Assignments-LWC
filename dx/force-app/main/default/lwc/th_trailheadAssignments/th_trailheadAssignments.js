@@ -105,17 +105,20 @@ export default class Tl_trailheadAssignments extends LightningElement {
    * <p>Note: this must have access
    * to the exact response from the wire service to work.</p>
    */
+  @api
   refreshAssignments(){
     refreshApex(this.assignedTrailEntries);
   }
 
   /** Paginate to the next page */
+  @api
   next(){
     if (this.hasNext){
       this.recordPaginator = this.recordPaginator.nextPaginator();
     }
   }
   /** Paginate to the previous page */
+  @api
   previous(){
     if (this.hasPrevious){
       this.recordPaginator = this.recordPaginator.previousPaginator();
@@ -157,15 +160,18 @@ export default class Tl_trailheadAssignments extends LightningElement {
 
   
   /** Provide a link to Trailhead using the custom label */
+  @api
   get trailheadLinkLabel(){
     return TRAILHEAD_LINK_LABEL;
   }
   /** Provide a link to Trailhead using the custom label */
+  @api
   get trailheadLinkAddress(){
     return TRAILHEAD_LINK_ADDRESS;
   }
   
   /** whether any pagination buttons should be shown */
+  @api
   get shouldShowPagination(){
     return (
       this.hasNext || this.hasPrevious
@@ -180,6 +186,7 @@ export default class Tl_trailheadAssignments extends LightningElement {
    * @visibility private
    * @returns String
    */
+  @api
   determineSectionIcon(badgesOrTrailmixes){
     let sectionIcon = '';
 		if(badgesOrTrailmixes===TYPE_BOTH){
@@ -200,6 +207,7 @@ export default class Tl_trailheadAssignments extends LightningElement {
    * @visibility private
    * @returns String
    */
+  @api
   determineSectionTitle(badgesOrTrailmixes, badgeAssignmentCount, trailmixAssignmentCount){
     let sectionTitle = '';
     if(badgesOrTrailmixes===TYPE_BADGE){
@@ -218,6 +226,7 @@ export default class Tl_trailheadAssignments extends LightningElement {
    * @param {array} assignmentList 
    * @return {badgeAssignmentCount:integer, trailmixAssignmentCount:integer}
    */
+  @api
   determineAssignmentCounts(assignmentList){
     const results = {
       badgeAssignmentCount: 0,
@@ -237,6 +246,7 @@ export default class Tl_trailheadAssignments extends LightningElement {
     return results;
   }
 
+  @api
   filterDueDate(listOfRecords, dueDateFilter){
     let dueDateNum = FILTER_DATE_ALL;
 
