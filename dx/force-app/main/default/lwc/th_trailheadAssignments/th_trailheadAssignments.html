@@ -29,21 +29,21 @@
             
             <template if:true={shouldShowPagination}>
                 <div class='slds-clearfix slds-p-around_small'>
-                    <template if:true={hasPrevious}>
-                        <div class='slds-float_right'>
-                            <lightning-button
-                                label='Previous' title='Show Previous'
-                                variant='brand'
-                                onclick={previous}
-                            ></lightning-button>
-                        </div>
-                    </template>
                     <template if:true={hasNext}>
                         <div class='slds-float_right'>
                             <lightning-button
                                 label='Next' title='Show Next'
                                 variant='brand'
                                 onclick={next}
+                            ></lightning-button>
+                        </div>
+                    </template>
+                    <template if:true={hasPrevious}>
+                        <div class='slds-float_right'>
+                            <lightning-button
+                                label='Previous' title='Show Previous'
+                                variant='brand'
+                                onclick={previous}
                             ></lightning-button>
                         </div>
                     </template>

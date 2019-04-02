@@ -15,12 +15,32 @@ import TRAILHEAD_LINK_ADDRESS from '@salesforce/label/c.th_trailhead_link_addres
 import TRAILHEAD_LINK_LABEL from '@salesforce/label/c.th_trailhead_link_label';
 import Paginator from 'c/th_paginator';
 
+//-- types of assignments to show
+const TYPE_BADGE = 'Badge';
+const TYPE_TRAILMIX = 'TrailMix';
+const TYPE_BOTH = 'Both';
+
+//-- icons to show based on type of items to show
+const ICON_BADGE = 'custom:custom48';
+const ICON_TRAILMIX = 'custom:custom78';
+const ICON_BOTH = 'custom:custom78';
+
+//-- types of filters to support
+const SHOW_ALL = 'All';
+const SHOW_OVERDUE_ONLY = 'Overdue';
+const SHOW_OVERDUE_AND_UPCOMING = 'Overdue+Upcoming';
+
+//-- due dates filters
+const FILTER_DATE_ALL = 355; //-- assumes it is in the next year
+const FILTER_DATE_OVERDUE = 0;
+// const FILTER_DATE_OVERDUE_AND_UPCOMING = 0; -- NA - based on due date of record
+
 export default class Tl_trailheadAssignments extends LightningElement {
   //-- properties (see - meta.xml)
   @api badgesOrTrailmixes;
   @api paginationSize;
   @api upcomingEventWindow;
-  @api showOnlyOverdue;
+  @api dueDateFilter;
 
   @track error;
 
@@ -55,7 +75,7 @@ export default class Tl_trailheadAssignments extends LightningElement {
   @api get hasNext(){
     return this.recordPaginator.hasNext;
   }
-  //-- "current page" of the assignments
+  //-- 'current page' of the assignments
   // @track paginatedTrailEntries = {};
   @api get paginatedTrailEntries(){
     return this.recordPaginator.paginatedValues;
@@ -93,14 +113,12 @@ export default class Tl_trailheadAssignments extends LightningElement {
   next(){
     if (this.hasNext){
       this.recordPaginator = this.recordPaginator.nextPaginator();
-      // this.refreshPagination();
     }
   }
   /** Paginate to the previous page */
   previous(){
     if (this.hasPrevious){
       this.recordPaginator = this.recordPaginator.previousPaginator();
-      // this.refreshPagination();
     }
   }
 
@@ -119,10 +137,13 @@ export default class Tl_trailheadAssignments extends LightningElement {
     } else if (data) {
       this.assignedTrailEntries = results;
 
-      this.hasAnyAssignments = data.length > 0;
+      //let dueDateFilter = 'All';
+      //let dueDateFilter = 'Overdue';
+      let filteredRecords = this.filterDueDate(data, this.dueDateFilter);
 
-      this.recordPaginator.reInitialize(data, this.paginationSize);
-      // this.refreshPagination();
+      this.hasAnyAssignments = filteredRecords.length > 0;
+
+      this.recordPaginator.reInitialize(filteredRecords, this.paginationSize);
 
       let {badgeAssignmentCount, trailmixAssignmentCount} = this.determineAssignmentCounts(data);
       //-- section icon is pre-set, now we only care about the assignments
@@ -154,18 +175,6 @@ export default class Tl_trailheadAssignments extends LightningElement {
   //-- methods
 
   /**
-   * Updates the pagination values.
-   * @postcondition - paginatedTrailAssignments are set
-   * @postcondition - hasNext is updated
-   * @postcondition - hasPrevious is updated
-   */
-  refreshPagination(){
-    // this.paginatedTrailEntries = this.recordPaginator.paginatedValues;
-    // this.hasPrevious = this.recordPaginator.hasPrevious();
-    // this.hasNext = this.recordPaginator.hasNext();
-  }
-
-  /**
    * Determines the icon to show for the section
    * @param {string} badgesOrTrailmixes - (Badge|TrailMix|Both)
    * @visibility private
@@ -173,12 +182,12 @@ export default class Tl_trailheadAssignments extends LightningElement {
    */
   determineSectionIcon(badgesOrTrailmixes){
     let sectionIcon = '';
-		if(badgesOrTrailmixes==="Both"){
-			sectionIcon = "custom:custom78";
-		} else if(badgesOrTrailmixes==="TrailMix"){
-			sectionIcon = "custom:custom78";
-		} else { //-- assume badges
-			sectionIcon = "custom:custom48";
+		if(badgesOrTrailmixes===TYPE_BOTH){
+			sectionIcon = ICON_BOTH;
+		} else if(badgesOrTrailmixes===TYPE_TRAILMIX){
+			sectionIcon = ICON_TRAILMIX;
+		} else { //-- assume TYPE_BADGE
+			sectionIcon = ICON_BADGE;
     }
     return sectionIcon;
   }
@@ -193,11 +202,11 @@ export default class Tl_trailheadAssignments extends LightningElement {
    */
   determineSectionTitle(badgesOrTrailmixes, badgeAssignmentCount, trailmixAssignmentCount){
     let sectionTitle = '';
-    if(badgesOrTrailmixes==="Both"){
+    if(badgesOrTrailmixes===TYPE_BADGE){
       sectionTitle = `Assigned Badges (${badgeAssignmentCount}) & Trailmixes (${trailmixAssignmentCount})`;
-		} else if(badgesOrTrailmixes==="TrailMix"){
+		} else if(badgesOrTrailmixes===TYPE_TRAILMIX){
       sectionTitle = `Assigned TrailMixes (${trailmixAssignmentCount})`;
-		} else {//-- assume badges
+		} else {//-- assume TYPE_BADGE
       sectionTitle = `Assigned Badges (${badgeAssignmentCount})`;
     }
     return sectionTitle;
@@ -217,14 +226,29 @@ export default class Tl_trailheadAssignments extends LightningElement {
 
     if (assignmentList){
       assignmentList.forEach(assignment => {
-        if (assignment.EntryType === 'TrailMix'){
+        if (assignment.EntryType === TYPE_TRAILMIX){
           results.trailmixAssignmentCount++;
-        } else if (assignment.EntryType === 'Badge'){
+        } else if (assignment.EntryType === TYPE_BADGE){
           results.badgeAssignmentCount++;
         }
       });
     }
 
     return results;
+  }
+
+  filterDueDate(listOfRecords, dueDateFilter){
+    let dueDateNum = FILTER_DATE_ALL;
+
+    if (dueDateFilter === SHOW_ALL){
+      // dueDateNum = FILTER_DATE_ALL;
+    } else if (dueDateFilter === SHOW_OVERDUE_ONLY){
+      dueDateNum = FILTER_DATE_OVERDUE;
+    } else if (dueDateFilter === SHOW_OVERDUE_AND_UPCOMING){
+      dueDateNum = this.upcomingEventWindow;
+    }
+    return listOfRecords.filter(record => {
+      return record.NumDaysUntilDue < dueDateNum;
+    });
   }
 }

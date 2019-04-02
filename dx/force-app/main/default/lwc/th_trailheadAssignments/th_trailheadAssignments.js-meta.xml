@@ -38,13 +38,11 @@
                 required="true"
             />
             <!-- whether to show only assignmetns that are overdue -->
-            <!--
-            <property name="showOnlyOverdue" type="String"
+            <property name="dueDateFilter" type="String"
                 label="Only Show Assignments that are Overdue"
                 default="All"
-                datasource="All,Overdue-Only,Overdue+Upcoming"
+                datasource="All,Overdue,Overdue+Upcoming"
             />
-            -->
         </targetConfig>
     </targetConfigs>
 </LightningComponentBundle>

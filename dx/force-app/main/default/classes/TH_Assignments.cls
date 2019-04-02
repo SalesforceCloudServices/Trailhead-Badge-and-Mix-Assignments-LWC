@@ -8,9 +8,9 @@ global class TH_Assignments {
     public static final String TYPE_BOTH = 'Both';
 
     //-- what type of items to show
-    public static final String SHOW_ALL = 'All';
-    public static final String SHOW_OVERDUE_ONLY = 'Overdue-Only';
-    public static final String SHOW_OVERDUE_AND_UPCOMING = 'Overdue+Upcoming';
+    // public static final String SHOW_ALL = 'All';
+    // public static final String SHOW_OVERDUE_ONLY = 'Overdue';
+    // public static final String SHOW_OVERDUE_AND_UPCOMING = 'Overdue+Upcoming';
     
     //-- IGNORED OFFSET/PAGE SIZES for combined collated results.
     public static final Integer NO_OFFSET = 0;
