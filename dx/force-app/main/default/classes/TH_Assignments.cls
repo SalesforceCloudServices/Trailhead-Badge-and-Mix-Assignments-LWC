@@ -6,6 +6,11 @@ global class TH_Assignments {
     public static final string TYPE_BADGE = 'Badge';
     public static final string TYPE_TRAILMIX = 'TrailMix';
     public static final String TYPE_BOTH = 'Both';
+
+    //-- what type of items to show
+    public static final String SHOW_ALL = 'All';
+    public static final String SHOW_OVERDUE_ONLY = 'Overdue-Only';
+    public static final String SHOW_OVERDUE_AND_UPCOMING = 'Overdue+Upcoming';
     
     //-- IGNORED OFFSET/PAGE SIZES for combined collated results.
     public static final Integer NO_OFFSET = 0;
@@ -131,6 +136,7 @@ global class TH_Assignments {
     @AuraEnabled(cacheable=true)
     public static AssignmentCounts getAssignmentCount(String whichType){
         AssignmentCounts results = new AssignmentCounts();
+        TrailheadEntry[] allEntries = new TrailheadEntry[]{};
 
         Id userId = UserInfo.getUserId();
         
@@ -217,6 +223,60 @@ global class TH_Assignments {
             }
         } else if(whichType == TH_Assignments.TYPE_BADGE){
             trailheadapp__User_Badge__c[] assignedB = getAssignedBadges(rowOffset,  pageSize);
+            for(trailheadapp__User_Badge__c uB : assignedB ){           
+                TrailheadEntry entry= new TrailheadEntry(uB);
+                results.add(entry);
+            }
+        } else {
+            System.assert(false, 'Unknown type of entry:' + whichType + '. Expecting one of the following [' +
+                TH_Assignments.TYPE_BOTH + ',' + TH_Assignments.TYPE_TRAILMIX + ',' + TH_Assignments.TYPE_BADGE +
+                ']'
+            );
+        }
+        
+        //-- test no results
+        //results.clear();
+        
+        return results;
+    }
+
+
+    
+    /**
+     *  Determines the collated collection of Badges and TrailMixes associated to the user.
+     *  @param whichType (String [TYPE_BADGE|TYPE_TRAILMIX|TYPE_BOTH]) - the type of assignments to count.
+     *  @return TrailheadEntry[] - collection of generalized Badges and TrailMixes
+     **/
+    @AuraEnabled(cacheable=true)
+    public static TrailheadEntry[] getAllAssignedTrailEntries(string whichType) {
+        TrailheadEntry[] results = new TrailheadEntry[]{};
+        
+        //-- group and trim if both are included.
+        if(whichType == TH_Assignments.TYPE_BOTH){
+            
+            //-- ignore the offset and pageSize because of sorting.
+            trailheadapp__User_Trailmix__c[] assignedT = getAssignedTrails(NO_OFFSET, MAX_RESULTS);
+            for(trailheadapp__User_Trailmix__c uT : assignedT ){
+                TrailheadEntry entry= new TrailheadEntry(uT);
+                results.add(entry);
+            }
+            
+            trailheadapp__User_Badge__c[] assignedB = getAssignedBadges(NO_OFFSET,  MAX_RESULTS);
+            for(trailheadapp__User_Badge__c uB : assignedB ){           
+                TrailheadEntry entry= new TrailheadEntry(uB);
+                results.add(entry);
+            }
+            
+            results.sort();
+            
+        } else if(whichType == TH_Assignments.TYPE_TRAILMIX){
+            trailheadapp__User_Trailmix__c[] assignedT = getAssignedTrails(NO_OFFSET, MAX_RESULTS);
+            for(trailheadapp__User_Trailmix__c uT : assignedT ){
+                TrailheadEntry entry= new TrailheadEntry(uT);
+                results.add(entry);
+            }
+        } else if(whichType == TH_Assignments.TYPE_BADGE){
+            trailheadapp__User_Badge__c[] assignedB = getAssignedBadges(NO_OFFSET, MAX_RESULTS);
             for(trailheadapp__User_Badge__c uB : assignedB ){           
                 TrailheadEntry entry= new TrailheadEntry(uB);
                 results.add(entry);

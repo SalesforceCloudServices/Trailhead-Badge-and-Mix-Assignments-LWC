@@ -12,8 +12,8 @@
             </div>
         </template>
         <template if:true={hasAnyAssignments}>
-            <div if:true={assignedTrailEntries.data} class='slds-clearfix'>
-                <template for:each={assignedTrailEntries.data} 
+            <div if:true={paginatedTrailEntries} class='slds-clearfix'>
+                <template for:each={paginatedTrailEntries} 
                     for:item="assignment"
                 >
                     <div key={assignment.Id} class='assignment slds-float_left'>
