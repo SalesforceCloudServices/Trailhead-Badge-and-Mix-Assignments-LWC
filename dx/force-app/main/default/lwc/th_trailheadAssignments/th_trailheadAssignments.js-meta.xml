@@ -41,8 +41,8 @@
             <!--
             <property name="showOnlyOverdue" type="String"
                 label="Only Show Assignments that are Overdue"
-                default="None"
-                datasource="None,Overdue-Only,Overdue+Upcoming"
+                default="All"
+                datasource="All,Overdue-Only,Overdue+Upcoming"
             />
             -->
         </targetConfig>

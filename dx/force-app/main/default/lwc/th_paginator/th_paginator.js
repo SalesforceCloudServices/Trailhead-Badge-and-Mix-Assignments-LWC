@@ -2,6 +2,14 @@
  * A basic component that paginates an array.
  */
 export default class Paginator {
+
+  /** collection of all the items to paginate within */
+  _collection = [];
+  /** current page we are on of the results */
+  _pageNumber = 0;
+  /** # records per page */
+  _recordsPerPage = 1;
+
   /**
    * Initializes the paginator
    * @param {array} collection - an array to iterate over
@@ -11,6 +19,16 @@ export default class Paginator {
     this._pageNumber = 0;
 
     this.reInitialize(collection, pageSize);
+  }
+
+  /**
+   * Clones the paginator
+   * @return Paginator
+   */
+  clone(){
+    const result = new Paginator(this._collection, this._recordsPerPage);
+    result._pageNumber = this._pageNumber;
+    return result;
   }
 
   /**
@@ -87,7 +105,7 @@ export default class Paginator {
    * Determines if there is a next page
    * @returns {boolean}
    */
-  hasPrevious(){
+  get hasPrevious(){
     return this._pageNumber > 0;
   }
 
@@ -95,24 +113,58 @@ export default class Paginator {
    * Determines if there is a next page
    * @returns {boolean}
    */
-  hasNext(){
+  get hasNext(){
     return this._offsetIndex + this._recordsPerPage < this._collection.length;
   }
 
   /**
    * Moves to the previous page
+   * <p>Use previousPaginator instead of previous() for LW Components</p>
    * @returns (array) - records of the page
    */
   previous(){
-    if (!this.hasPrevious()){
+    if (!this.hasPrevious){
       return false;
     }
     this._pageNumber = this._pageNumber-1;
     return true;
   }
 
+  /**
+   * Creates a new paginator at the previous page
+   * <p>Use previousPaginator instead of previous() for LW Components</p>
+   * @returns Paginator (with the previous page)
+   */
+  previousPaginator(){
+    if (!this.hasPrevious){
+      return false;
+    }
+    const result = this.clone();
+    result._pageNumber = this._pageNumber-1;
+    return result;
+  }
+
+  /**
+   * Creates a new paginator at the previous 
+   * <p>Use nextPaginator instead of next() for LW Components</p>
+   * @returns Paginator representing the previous page.
+   */
+  nextPaginator(){
+    if (!this.hasNext){
+      return false;
+    }
+    const result = this.clone();
+    result._pageNumber = this._pageNumber+1;
+    return result;
+  }
+
+  /**
+   * Moves to the next page
+   * <p>Use nextPaginator instead of next() for LW Components</p>
+   * @returns (array) - records of the page
+   */
   next(){
-    if (!this.hasNext()){
+    if (!this.hasNext){
       return false;
     }
     this._pageNumber = this._pageNumber+1;

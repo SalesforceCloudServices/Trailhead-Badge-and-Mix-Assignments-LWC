@@ -33,11 +33,8 @@ export default class Tl_trailheadAssignments extends LightningElement {
   //-- collection of all the assignments (used for apexRefresh)
   @track assignedTrailEntries = {};
 
-  //-- "current page" of the assignments
-  @track paginatedTrailEntries = {};
-
   //-- paginator that determines which pages, etc.
-  recordPaginator;
+  @track recordPaginator;
 
   //-- @TODO: investigate way to directly link to paginator instead
   //-- note that changes are only tracked at the paginator level
@@ -47,12 +44,22 @@ export default class Tl_trailheadAssignments extends LightningElement {
   /** Whether there are any assignments */
   @track hasAnyAssignments;
   // get hasAnyAssignments(){}
+
   /** whether there is a previous page */
-  @track hasPrevious;
-  //@api get hasPrevious() {}
+  // @track hasPrevious;
+  @api get hasPrevious() {
+    return this.recordPaginator.hasPrevious;
+  }
   /** whether there is a next page */
-  @track hasNext;
-  // @api get hasNext(){}
+  // @track hasNext;
+  @api get hasNext(){
+    return this.recordPaginator.hasNext;
+  }
+  //-- "current page" of the assignments
+  // @track paginatedTrailEntries = {};
+  @api get paginatedTrailEntries(){
+    return this.recordPaginator.paginatedValues;
+  }
 
   //-- NOTE: the sectionIcon and title COULD be getters/setters
   //-- but they would be continually re-evaluated.
@@ -85,15 +92,15 @@ export default class Tl_trailheadAssignments extends LightningElement {
   /** Paginate to the next page */
   next(){
     if (this.hasNext){
-      this.recordPaginator.next();
-      this.refreshPagination();
+      this.recordPaginator = this.recordPaginator.nextPaginator();
+      // this.refreshPagination();
     }
   }
   /** Paginate to the previous page */
   previous(){
     if (this.hasPrevious){
-      this.recordPaginator.previous();
-      this.refreshPagination();
+      this.recordPaginator = this.recordPaginator.previousPaginator();
+      // this.refreshPagination();
     }
   }
 
@@ -115,7 +122,15 @@ export default class Tl_trailheadAssignments extends LightningElement {
       this.hasAnyAssignments = data.length > 0;
 
       this.recordPaginator.reInitialize(data, this.paginationSize);
-      this.refreshPagination();
+      // this.refreshPagination();
+
+      let {badgeAssignmentCount, trailmixAssignmentCount} = this.determineAssignmentCounts(data);
+      //-- section icon is pre-set, now we only care about the assignments
+      this.sectionTitle = this.determineSectionTitle(
+        this.badgesOrTrailmixes,
+        badgeAssignmentCount,
+        trailmixAssignmentCount
+      );
     }
   }
 
@@ -145,9 +160,9 @@ export default class Tl_trailheadAssignments extends LightningElement {
    * @postcondition - hasPrevious is updated
    */
   refreshPagination(){
-    this.paginatedTrailEntries = this.recordPaginator.paginatedValues;
-    this.hasPrevious = this.recordPaginator.hasPrevious();
-    this.hasNext = this.recordPaginator.hasNext();
+    // this.paginatedTrailEntries = this.recordPaginator.paginatedValues;
+    // this.hasPrevious = this.recordPaginator.hasPrevious();
+    // this.hasNext = this.recordPaginator.hasNext();
   }
 
   /**
