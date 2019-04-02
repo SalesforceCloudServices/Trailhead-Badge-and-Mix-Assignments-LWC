@@ -6,10 +6,10 @@
             "c/th_paginator": [
                 "th_paginator/th_paginator.js"
             ],
-            "c/th_trailhead-assignment_entry": [
+            "c/th_trailheadAssignment_entry": [
                 "th_trailheadAssignment_entry/th_trailheadAssignment_entry.js"
             ],
-            "c/th_trailhead-assignments": [
+            "c/th_trailheadAssignments": [
                 "th_trailheadAssignments/th_trailheadAssignments.js"
             ]
         }
@@ -17,5 +17,10 @@
     "include": [
         "**/*",
         "../../../../.sfdx/typings/lwc/**/*.d.ts"
-    ]
+    ],
+    "typeAcquisition": {
+        "include": [
+            "jest"
+        ]
+    }
 }
