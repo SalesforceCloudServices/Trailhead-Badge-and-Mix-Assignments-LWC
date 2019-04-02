@@ -20,7 +20,7 @@ const STATUS_DUE = 'event-due';
 const STATUS_UPCOMING = 'event-upcoming';
 
 /** milliseconds per day */
-const MILLI_PER_DAY = 24 * 60 * 60 * 1000;
+// const MILLI_PER_DAY = 24 * 60 * 60 * 1000;
 
 export default class Th_trailheadAssignment_entry extends LightningElement {
 
@@ -38,6 +38,7 @@ export default class Th_trailheadAssignment_entry extends LightningElement {
   }
 
   /** url for the icon to show */
+  @api
   get iconURL(){
     let result = this.assignmentEntry.Icon;
     if (!result || this.assignmentEntry.EntryType === ENTRY_TYPE_TRAILMIX){
@@ -47,11 +48,13 @@ export default class Th_trailheadAssignment_entry extends LightningElement {
   }
 
   /** whether there is a due date assigned */
+  @api
   get hasDueDate(){
     //-- move truthy evaluation here for clarity
     return this.assignmentEntry.DueDate ? true : false;
   }
 
+  @api
   get statusClass(){
     let result = STATUS_STANDARD;
 
