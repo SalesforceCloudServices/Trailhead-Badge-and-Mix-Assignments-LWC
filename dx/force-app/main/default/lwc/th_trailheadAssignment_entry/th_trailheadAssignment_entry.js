@@ -55,19 +55,11 @@ export default class Th_trailheadAssignment_entry extends LightningElement {
   get statusClass(){
     let result = STATUS_STANDARD;
 
-    try {
-      let upcomingEventTime = this.upcomingEventWindow * MILLI_PER_DAY;
-      let nowTime = new Date().getTime();
-      const dueDateTime = new Date(this.assignmentEntry.DueDate).getTime();
-
-      if (dueDateTime - nowTime < MILLI_PER_DAY){
-        result = STATUS_DUE;
-      } else if (dueDateTime - nowTime < upcomingEventTime){
-        result = STATUS_UPCOMING;
-      }
-    } catch(error){
-      //-- swallow for nw
-      console.error('error occurred:', error);
+    let daysUntilDue = this.assignmentEntry.NumDaysUntilDue;
+    if (daysUntilDue < 0){
+      result = STATUS_DUE;
+    } else if (daysUntilDue < this.upcomingEventWindow){
+      result = STATUS_UPCOMING;
     }
 
     result += ' slds-p-left_xxx-small'

@@ -52,6 +52,8 @@ global class TH_Assignments {
         @AuraEnabled public String Status;
         /** Due Date for the assignment **/
         @AuraEnabled public DateTime DueDate;
+        /** # Days until Due **/
+        @AuraEnabled public Integer NumDaysUntilDue;
         /** URL of the Badge or Trailmix **/
         @AuraEnabled public String URL;
         /** Icon of the Badge or Trailmix **/
@@ -98,6 +100,23 @@ global class TH_Assignments {
             this.Icon = uB.trailheadapp__Badge__r.trailheadapp__Icon__c;
             this.EntryType = TH_Assignments.TYPE_BADGE;
         }
+
+        /**
+         * Calculate the number of days until the assignment is due
+         * @return Integer
+         **/
+        private Integer calculateDaysUntilDue(Date targetDate){
+            Integer results = 0;
+            if (targetDate == null){
+                targetDate = Date.today();
+            }
+            if (this.DueDate != null){
+                results = targetDate.daysBetween(this.DueDate.date());
+            }
+            this.NumDaysUntilDue = results;
+            return results;
+        }
+        
         
         /**
          * Comparison method to allow collated sorting
@@ -120,126 +139,6 @@ global class TH_Assignments {
     //-- #  #   #   #   #   #   #   #   #   #   #   #   #   #   #   #   #
     //-- Aura Enabled methods
     //-- #  #   #   #   #   #   #   #   #   #   #   #   #   #   #   #   #
-    
-    
-    
-    
-    
-    /**
-     *  Determines the number of badges, trails and total assignments for the current user.
-     *  <p>This has been separated out from retrieving the records to minimize network traffic</p>
-     *  @param whichType (String [TYPE_BADGE|TYPE_TRAILMIX|TYPE_BOTH]) - the type of assignments to count.
-     *  @return AssignmentCounts ({numBadgeAssignments:Integer,
-     *                              numTrailmixAssignments:Integer,
-     *                              totalAssignments:Integer})
-     **/
-    @AuraEnabled(cacheable=true)
-    public static AssignmentCounts getAssignmentCount(String whichType){
-        AssignmentCounts results = new AssignmentCounts();
-        TrailheadEntry[] allEntries = new TrailheadEntry[]{};
-
-        Id userId = UserInfo.getUserId();
-        
-        if(whichType==TH_Assignments.TYPE_BADGE || whichType==TH_Assignments.TYPE_BOTH){
-            results.numBadgeAssignments = [SELECT count()  
-				FROM trailheadapp__User_Badge__c  	
-				Where trailheadapp__User__c = :userId And trailheadapp__Finished_Date__c = null];
-			
-            results.totalAssignments += results.numBadgeAssignments;
-        }
-        if(whichType==TH_Assignments.TYPE_TRAILMIX || whichType==TH_Assignments.TYPE_BOTH){
-            results.numTrailmixAssignments = [SELECT count()  
-				FROM trailheadapp__User_Trailmix__c  	
-				Where trailheadapp__User__c = :userId And trailheadapp__Completed_At__c = null];
-			
-            results.totalAssignments += results.numTrailmixAssignments;
-        }
-        
-        //-- test no results
-        //results.numBadgeAssignments = 0;
-        //results.numTrailmixAssignments = 0;
-        //results.totalAssignments = 0;
-
-        System.assertEquals(results.totalAssignments, results.numBadgeAssignments + results.numTrailmixAssignments);
-        
-        return(results);
-    }
-    
-    /**
-     *  Determines the collated collection of Badges and TrailMixes associated to the user.
-	 *  @param rowOffset (Integer) - the number of badges to skip for the current user (pagination)
-	 *  @param pageSize (Integer) - the number of records to return
-     *  @param whichType (String [TYPE_BADGE|TYPE_TRAILMIX|TYPE_BOTH]) - the type of assignments to count.
-     *  @return TrailheadEntry[] - collection of generalized Badges and TrailMixes
-     **/
-    @AuraEnabled(cacheable=true)
-    public static TrailheadEntry[] getAssignedTrailEntries(integer rowOffset, integer pageSize, string whichType) {
-        TrailheadEntry[] results = new TrailheadEntry[]{};
-    
-        //-- @KLUDGE / @TODO: revisit if valueOf is still needed
-        //-- please see https://salesforce.stackexchange.com/questions/108355/limit-expression-must-be-of-type-integer-error-when-using-apex-variable-in-soq
-        pageSize = Integer.valueOf(pageSize);
-        rowOffset = Integer.valueOf(rowOffset);
-
-        if (rowOffset < 0){
-            rowOffset = NO_OFFSET;
-        }
-        if (pageSize < 1){
-            pageSize = MAX_RESULTS;
-        }
-        
-        //-- group and trim if both are included.
-        if(whichType == TH_Assignments.TYPE_BOTH){
-            
-            //-- ignore the offset and pageSize because of sorting.
-            trailheadapp__User_Trailmix__c[] assignedT = getAssignedTrails(NO_OFFSET, MAX_RESULTS);
-            for(trailheadapp__User_Trailmix__c uT : assignedT ){
-                TrailheadEntry entry= new TrailheadEntry(uT);
-                results.add(entry);
-            }
-            
-            trailheadapp__User_Badge__c[] assignedB = getAssignedBadges(NO_OFFSET,  MAX_RESULTS);
-            for(trailheadapp__User_Badge__c uB : assignedB ){           
-                TrailheadEntry entry= new TrailheadEntry(uB);
-                results.add(entry);
-            }
-            
-            results.sort();
-            
-            //-- splice to current pagination set.
-            //-- making it work inline with limit/offsets
-            if (rowOffset >= 0 && pageSize >= 0){
-                TrailheadEntry[] resultSubset = new TrailheadEntry[]{};
-                for(integer i = rowOffset; i < rowOffset + pageSize && i < results.size(); i++){
-                    resultSubset.add(results[i]);
-                }
-                results = resultSubset;
-            }
-        } else if(whichType == TH_Assignments.TYPE_TRAILMIX){
-            trailheadapp__User_Trailmix__c[] assignedT = getAssignedTrails(rowOffset,  pageSize);
-            for(trailheadapp__User_Trailmix__c uT : assignedT ){
-                TrailheadEntry entry= new TrailheadEntry(uT);
-                results.add(entry);
-            }
-        } else if(whichType == TH_Assignments.TYPE_BADGE){
-            trailheadapp__User_Badge__c[] assignedB = getAssignedBadges(rowOffset,  pageSize);
-            for(trailheadapp__User_Badge__c uB : assignedB ){           
-                TrailheadEntry entry= new TrailheadEntry(uB);
-                results.add(entry);
-            }
-        } else {
-            System.assert(false, 'Unknown type of entry:' + whichType + '. Expecting one of the following [' +
-                TH_Assignments.TYPE_BOTH + ',' + TH_Assignments.TYPE_TRAILMIX + ',' + TH_Assignments.TYPE_BADGE +
-                ']'
-            );
-        }
-        
-        //-- test no results
-        //results.clear();
-        
-        return results;
-    }
-
 
     
     /**
@@ -286,6 +185,12 @@ global class TH_Assignments {
                 TH_Assignments.TYPE_BOTH + ',' + TH_Assignments.TYPE_TRAILMIX + ',' + TH_Assignments.TYPE_BADGE +
                 ']'
             );
+        }
+
+        //-- assign due dates
+        Date today = Date.today();
+        for (TrailheadEntry entryToInitialize : results){
+            entryToInitialize.calculateDaysUntilDue(today);
         }
         
         //-- test no results
