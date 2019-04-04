@@ -7,6 +7,10 @@
                 <value>Both</value>
             </componentInstanceProperties>
             <componentInstanceProperties>
+                <name>dueDateFilter</name>
+                <value>All</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
                 <name>paginationSize</name>
                 <value>8</value>
             </componentInstanceProperties>
