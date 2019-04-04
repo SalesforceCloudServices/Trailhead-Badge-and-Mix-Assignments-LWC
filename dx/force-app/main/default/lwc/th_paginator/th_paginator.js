@@ -137,7 +137,7 @@ export default class Paginator {
    */
   previousPaginator(){
     if (!this.hasPrevious){
-      return this;
+      return false;
     }
     const result = this.clone();
     result._pageNumber = this._pageNumber-1;
@@ -151,7 +151,7 @@ export default class Paginator {
    */
   nextPaginator(){
     if (!this.hasNext){
-      return this;
+      return false;
     }
     const result = this.clone();
     result._pageNumber = this._pageNumber+1;
