@@ -22,10 +22,25 @@ and a Lightning Out tab (found under `VF Trailhead Assignments` under the app la
   * [Metadata - th\_trailheadAssignments](dx/force-app/main/default/lwc/th_trailheadAssignments/th_trailheadAssignments.js-meta.xml)
   * [StyleSheets - th\_trailheadAssignments](dx/force-app/main/default/lwc/th_trailheadAssignments/th_trailheadAssignments.css)
 
+### Aura Component
+
 To allow the component to be used in places where Lightning Web Components are not yet supported (like Lightning-Out), we provide a 'Wrapper component' (written in aura).  It includes the LWC component and can be used in many more areas.
 
 * [th\_trailheadAssignments\_wrap](dx/force-app/main/default/aura/th_trailheadAssignments_wrap) - Wrapper Component
   * [Component - th\_trailheadAssignments\_wrap](dx/force-app/main/default/aura/th_trailheadAssignments_wrap/th_trailheadAssignments_wrap.cmp)
+
+### Quick note on app builder
+
+Note: You will currently see two components available in the App Builder:
+
+* TH Assigned Trails and Badges (LWC)
+* WRAP: TH Assigned Trails and Badges (Aura)
+
+Aura Components are supported in many areas not supported by Lightning Web Components (yet).
+
+If it is desired to see only a single component, it is recommended that we show only the Aura Component (and simply disable the LWC from the App Builder).
+
+This can be easily done by simply setting the &lt;isExposed&gt; attribute to false in the [th_trailheadAssignments.js-meta.xml](dx/force-app/main/default/lwc/th_trailheadAssignments/th_trailheadAssignments.js-meta.xml)
 
 --
 
