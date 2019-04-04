@@ -57,6 +57,32 @@ Additionally, there are other components included but are used behind the scenes
 * [TH\_Assignments](dx/force-app/main/default/pages/TH_Assignments.page) - Visualforce Page using Lightning Out
   * [th\_trailheadAssignments\_container](dx/force-app/main/default/aura/th_trailheadAssignments_container) - Application to allow the component to be used in Lightning Out.
 
+## Custom Labels
+
+To allow the component to be easier to extend, we have created three Custom Labels to allow customization without touching code.
+
+<table>
+	<tr>
+		<th>Name</th>
+		<th>Description</th>
+		<th>Default Value</th>
+	</tr>
+	<tr>
+		<td>th_trailhead_link_address</td>
+		<td>Address to send users to when clicking the button at the bottom of the Trailhead Assignments component</td>
+		<td>https://trailhead.salesforce.com/</td>
+	</tr>
+	<tr>
+		<td>th_trailhead_link_label</td>
+		<td>Label for the 'Trailhead' button at the bottom of the Trailhead Assignments component</td>
+		<td>Traihead</td>
+	</tr>
+	<tr>
+		<td>th_trailhead_trail_icon</td>
+		<td>Icon to show when trailhead trails are assigned (as they have no icon)</td>
+		<td>...</td>
+	</tr></table>
+
 # Install with Salesforce DX
 
 **1.** Install the latest version of the [Trail Tracker app exchange app - by Trailhead](https://appexchange.salesforce.com/appxListingDetail?listingId=a0N3A00000EFpAtUAL)
