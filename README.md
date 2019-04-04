@@ -156,7 +156,7 @@ To allow Visual Studio Code to accept any node debug session, simply include the
 
 **1.** Install the latest version of the [Trail Tracker app exchange app - by Trailhead](https://appexchange.salesforce.com/appxListingDetail?listingId=a0N3A00000EFpAtUAL)
 
-	sfdx force:package:install --package 04t1Q000000loVPQAY -u testTrailhead -r -w 30 -r
+	sfdx force:package:install --package 04t1Q000000loVPQAY -r -w 30 -r
 
 **2.** Then push the code to the scratch org:
 
@@ -166,11 +166,11 @@ To allow Visual Studio Code to accept any node debug session, simply include the
 
 For any users that need access to the Lightning out and Lightning pages
 
-	sfdx force:user:permset:assign -u testTrailhead -n TH_TrailheadBadgeAndMixParticipant
+	sfdx force:user:permset:assign -n TH_TrailheadBadgeAndMixParticipant
 
 **4.** open the org
 
-	sfdx force:org:open -u testTrailhead
+	sfdx force:org:open
 	
 **5.** Find the current Trailhead Badges and TrailMixes assigned to you, via the 'Trailhead Assignments' tab in the App Launcher.
 
@@ -181,7 +181,7 @@ For any users that need access to the Lightning out and Lightning pages
 
 **1.** Install the latest version of the [Trail Tracker app exchange app - by Trailhead](https://appexchange.salesforce.com/appxListingDetail?listingId=a0N3A00000EFpAtUAL)
 
-	sfdx force:package:install --package 04t1Q000001QeImQAK -u testTrailhead -r -w 30
+	sfdx force:package:install --package 04t1Q000001QeImQAK -r -w 30
 
 **2.** Then install this package via the URL
 
