@@ -1,4 +1,4 @@
-<design:component>
+<design:component label="WRAP: TH Assigned Trails and Badges">
     <!-- whether to include badges or trailmixes within the results -->
     <design:attribute name="badgesOrTrailmixes" label="Badges or Trailmixes"
         description="Should we include Badges or Trailmixes or Both"

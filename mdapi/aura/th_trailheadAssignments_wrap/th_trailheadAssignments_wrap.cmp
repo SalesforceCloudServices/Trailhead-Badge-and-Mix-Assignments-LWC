@@ -1,0 +1,38 @@
+<!--
+/**
+ * aura wrapper component for the lightning web component: @tl_trailheadAssignments
+ * @wrapper: th_trailheadAssignments
+**/
+-->
+<aura:component
+    implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,lightning:availableForFlowScreens"
+    access="global"
+>
+    <!-- attributes -->
+    <aura:attribute name="badgesOrTrailmixes" type="String"
+        description='whether to show badges/trailmixes/both'
+    />
+    <aura:attribute name="paginationSize" type="Integer" default="5"
+        description='pagination size for the results'
+    />
+    <aura:attribute name="upcomingEventWindow" type="Integer" default="7"
+        description='number of days until duedate that the assignment is upcoming'
+    />
+    
+    <!--
+        @TODO: investigate why this did not always work
+        (would remain blank in many devices)
+        @see https://developer.salesforce.com/docs/component-library/bundle/lightning:flexipageRegionInfo/documentation
+    <aura:attribute name="regionWidth" type="String"
+        description="width of the container per the flexipageRegionInfo component"
+    />
+    <lightning:flexipageRegionInfo width="{!v.width}" />
+    -->
+
+    <!-- elements -->
+    <c:th_trailheadAssignments
+        badgesOrTrailmixes='{!v.badgesOrTrailmixes}'
+        paginationSize='{!v.paginationSize}'
+        upcomingEventWindow='{!v.upcomingEventWindow}'
+    />
+</aura:component>

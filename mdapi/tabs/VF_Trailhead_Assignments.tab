@@ -3,6 +3,6 @@
     <description>Visualforce Out page listing your Trailhead Assignments (Badges / Trailmixes / and so on...)</description>
     <label>VF Trailhead Assignments</label>
     <mobileReady>false</mobileReady>
-    <motif>Custom57: Building Block</motif>
-    <page>myT_Assignments</page>
+    <motif>Custom25: Alarm clock</motif>
+    <page>TH_Assignments</page>
 </CustomTab>

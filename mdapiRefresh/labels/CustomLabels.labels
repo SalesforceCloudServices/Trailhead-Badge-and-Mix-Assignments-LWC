@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
+    <labels>
+        <fullName>th_trailhead_link_address</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Trailhead Assignment List Trailhead Link Address</shortDescription>
+        <value>https://trailhead.salesforce.com/</value>
+    </labels>
+    <labels>
+        <fullName>th_trailhead_link_label</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Trailhead Assignment List Trailhead Link Label</shortDescription>
+        <value>Trailhead</value>
+    </labels>
+    <labels>
+        <fullName>th_trailhead_trail_icon</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Trailhead Assignment List Trail Icon</shortDescription>
+        <value>https://trailhead-web.s3.amazonaws.com/uploads/users/5396019/photos/thumb_030804d3576dab0cdc2a558055816208e421312a9d1495117d57928ef380d7f2.png?updatedAt=20180906113753</value>
+    </labels>
+</CustomLabels>
