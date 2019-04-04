@@ -30,10 +30,8 @@ public class TH_AssignmentsTest {
          Insert(uBadge);
          
          //Lets Test!
-         TH_Assignments.AssignmentCounts assignCounts = TH_Assignments.getAssignmentCount('Both');
-         TH_Assignments.TrailheadEntry[] entries = TH_Assignments.getAssignedTrailEntries(0, 5, 'Both');
-         entries = TH_Assignments.getAssignedTrailEntries(0, 5, 'Badge');
-         entries = TH_Assignments.getAssignedTrailEntries(0, 5, 'TrailMix');
-
+         TH_Assignments.TrailheadEntry[] entries = TH_Assignments.getAllAssignedTrailEntries(TH_Assignments.TYPE_BOTH);
+         entries = TH_Assignments.getAllAssignedTrailEntries(TH_Assignments.TYPE_BADGE);
+         entries = TH_Assignments.getAllAssignedTrailEntries(TH_Assignments.TYPE_TRAILMIX);
      }
 }
