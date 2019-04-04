@@ -53,6 +53,10 @@
                 <value>Badge</value>
             </componentInstanceProperties>
             <componentInstanceProperties>
+                <name>dueDateFilter</name>
+                <value>All</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
                 <name>paginationSize</name>
                 <value>4</value>
             </componentInstanceProperties>
@@ -68,6 +72,10 @@
                 <value>TrailMix</value>
             </componentInstanceProperties>
             <componentInstanceProperties>
+                <name>dueDateFilter</name>
+                <value>All</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
                 <name>paginationSize</name>
                 <value>5</value>
             </componentInstanceProperties>
@@ -81,6 +89,10 @@
             <componentInstanceProperties>
                 <name>badgesOrTrailmixes</name>
                 <value>Both</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>dueDateFilter</name>
+                <value>All</value>
             </componentInstanceProperties>
             <componentInstanceProperties>
                 <name>paginationSize</name>

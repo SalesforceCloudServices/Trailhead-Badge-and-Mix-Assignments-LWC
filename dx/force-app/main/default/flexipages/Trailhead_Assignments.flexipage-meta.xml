@@ -4,7 +4,7 @@
         <componentInstances>
             <componentInstanceProperties>
                 <name>badgesOrTrailmixes</name>
-                <value>Both</value>
+                <value>Badge</value>
             </componentInstanceProperties>
             <componentInstanceProperties>
                 <name>dueDateFilter</name>
@@ -12,7 +12,7 @@
             </componentInstanceProperties>
             <componentInstanceProperties>
                 <name>paginationSize</name>
-                <value>8</value>
+                <value>4</value>
             </componentInstanceProperties>
             <componentInstanceProperties>
                 <name>upcomingEventWindow</name>

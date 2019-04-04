@@ -39,7 +39,7 @@
             />
             <!-- whether to show only assignmetns that are overdue -->
             <property name="dueDateFilter" type="String"
-                label="Only Show Assignments that are Overdue"
+                label="What assignments to show?"
                 default="All"
                 datasource="All,Overdue,Overdue+Upcoming"
             />

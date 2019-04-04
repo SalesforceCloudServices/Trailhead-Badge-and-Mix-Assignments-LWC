@@ -9,7 +9,8 @@
           {
               badgesOrTrailmixes: "Badge",
               paginationSize: 5,
-              upcomingEventWindow: 7
+              upcomingEventWindow: 7,
+              dueDateFilter: 'All'
           },
           "lightning",
           function(cmp) {
