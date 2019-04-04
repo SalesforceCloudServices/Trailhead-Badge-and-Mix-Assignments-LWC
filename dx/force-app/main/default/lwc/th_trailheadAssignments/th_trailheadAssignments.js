@@ -148,7 +148,7 @@ export default class Tl_trailheadAssignments extends LightningElement {
 
       this.recordPaginator.reInitialize(filteredRecords, this.paginationSize);
 
-      let {badgeAssignmentCount, trailmixAssignmentCount} = this.determineAssignmentCounts(data);
+      let {badgeAssignmentCount, trailmixAssignmentCount} = this.determineAssignmentCounts(filteredRecords);
       //-- section icon is pre-set, now we only care about the assignments
       this.sectionTitle = this.determineSectionTitle(
         this.badgesOrTrailmixes,
