@@ -82,6 +82,75 @@ To allow the component to be easier to extend, we have created three Custom Labe
 		<td>Icon to show when trailhead trails are assigned (as they have no icon)</td>
 		<td>...</td>
 	</tr></table>
+	
+# Running Jest Tests
+
+As Lightning Web Components are standards based, a great amount effort has been made to support running unit test on components.
+
+For more on writing unit tests, please see the [Test Lightning Web Components section of the Lightning Web Components Dev(eloper) guide](https://developer.salesforce.com/docs/component-library/documentation/lwc/lwc.testing)
+
+## installing the lwc testing packages
+
+* Navigate within the 'dx' folder
+* run `npm install` to install the necessary scripts
+
+## Running the tests
+
+We Provide three different ways of testing:
+
+(again, these are performed within the `dx` folder)
+
+<table>
+	<tr>
+		<th>Command</th>
+		<th>Description</th>
+	</tr>
+	<tr>
+		<td>npm run test</td>
+		<td>Runs jest to run all the suites and tests within the project. Best for single execution.</td>
+	</tr>
+	<tr>
+		<td>npm run test:watch</td>
+		<td>Runs jest over all the suites and tests, and watches to re-run if any files change. Best for Development.</td>
+	</tr>
+	<tr>
+		<td>npm run test:debug</td>
+		<td>Starts jest over all the suites and tests, but opens an inspector breakpoint for debugging.</td>
+	</tr>
+</table>
+
+## Debugging the tests
+
+The [lwc-jest docs have a great section on how to debug the tests directly within Visual Studio Code](https://github.com/salesforce/lwc-jest#debug-mode)
+
+Alternatively, any run of `npm run test:debug` simply opens up the node-inspector that any application can run from. Such as Chrome, but also Visual Studio Code.
+
+To allow Visual Studio Code to accept any node debug session, simply include the following setting in your launch.json file (at the base of the project)
+
+	{
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "name": "Debug Jest Tests",
+        "type": "node",
+        "request": "launch",
+        "runtimeArgs": [
+          "--inspect-brk",
+          "${workspaceRoot}/node_modules/.bin/jest",
+          "--runInBand"
+        ],
+        "console": "integratedTerminal",
+        "internalConsoleOptions": "neverOpen",
+        "port": 9229
+      },
+      {
+        "name": "Attach to Process",
+        "type": "node",
+        "request": "attach",
+        "port": 9229
+      }
+    ]
+  }
 
 # Install with Salesforce DX
 
