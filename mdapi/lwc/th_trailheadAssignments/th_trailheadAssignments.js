@@ -148,7 +148,7 @@ export default class Tl_trailheadAssignments extends LightningElement {
 
       this.recordPaginator.reInitialize(filteredRecords, this.paginationSize);
 
-      let {badgeAssignmentCount, trailmixAssignmentCount} = this.determineAssignmentCounts(data);
+      let {badgeAssignmentCount, trailmixAssignmentCount} = this.determineAssignmentCounts(filteredRecords);
       //-- section icon is pre-set, now we only care about the assignments
       this.sectionTitle = this.determineSectionTitle(
         this.badgesOrTrailmixes,
@@ -210,12 +210,12 @@ export default class Tl_trailheadAssignments extends LightningElement {
   @api
   determineSectionTitle(badgesOrTrailmixes, badgeAssignmentCount, trailmixAssignmentCount){
     let sectionTitle = '';
-    if(badgesOrTrailmixes===TYPE_BADGE){
-      sectionTitle = `Assigned Badges (${badgeAssignmentCount}) & Trailmixes (${trailmixAssignmentCount})`;
-		} else if(badgesOrTrailmixes===TYPE_TRAILMIX){
-      sectionTitle = `Assigned TrailMixes (${trailmixAssignmentCount})`;
-		} else {//-- assume TYPE_BADGE
+    if(badgesOrTrailmixes===TYPE_TRAILMIX){
+      sectionTitle = `Assigned Trailmixes (${trailmixAssignmentCount})`;
+		} else if(badgesOrTrailmixes===TYPE_BADGE){
       sectionTitle = `Assigned Badges (${badgeAssignmentCount})`;
+		} else {//-- assume TYPE_BADGE
+      sectionTitle = `Assigned Badges (${badgeAssignmentCount}) & Trailmixes (${trailmixAssignmentCount})`;
     }
     return sectionTitle;
   }
@@ -246,6 +246,11 @@ export default class Tl_trailheadAssignments extends LightningElement {
     return results;
   }
 
+  /**
+   * Filters the list of assignments based on the filter selected.
+   * @param {array} listOfRecords - collection of assignments
+   * @param {String} dueDateFilter - type of filter to apply
+   */
   @api
   filterDueDate(listOfRecords, dueDateFilter){
     let dueDateNum = FILTER_DATE_ALL;

@@ -18,6 +18,9 @@
     <aura:attribute name="upcomingEventWindow" type="Integer" default="7"
         description='number of days until duedate that the assignment is upcoming'
     />
+    <aura:attribute name="dueDateFilter" type="String" default="All" access="global"
+        description="What assignments to show?"
+    />
     
     <!--
         @TODO: investigate why this did not always work
@@ -34,5 +37,6 @@
         badgesOrTrailmixes='{!v.badgesOrTrailmixes}'
         paginationSize='{!v.paginationSize}'
         upcomingEventWindow='{!v.upcomingEventWindow}'
+        dueDateFilter='{!v.dueDateFilter}'
     />
 </aura:component>
