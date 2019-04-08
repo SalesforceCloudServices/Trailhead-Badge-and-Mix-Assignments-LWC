@@ -16,9 +16,9 @@ import TRAILHEAD_LINK_LABEL from '@salesforce/label/c.th_trailhead_link_label';
 import Paginator from 'c/th_paginator';
 
 //-- types of assignments to show
-const TYPE_BADGE = 'Badge';
-const TYPE_TRAILMIX = 'TrailMix';
-const TYPE_BOTH = 'Both';
+import TYPE_BADGE from '@salesforce/label/c.th_TrailheadTypeBadge';
+import TYPE_TRAILMIX from '@salesforce/label/c.th_TrailheadTypeTrailmix';
+import TYPE_BOTH from '@salesforce/label/c.th_TrailheadTypeBoth';
 
 //-- icons to show based on type of items to show
 const ICON_BADGE = 'custom:custom48';

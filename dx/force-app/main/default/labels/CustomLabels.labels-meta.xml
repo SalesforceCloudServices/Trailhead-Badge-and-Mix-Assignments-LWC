@@ -1,6 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
     <labels>
+        <fullName>th_TrailheadTypeBadge</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Trailhead Assignment Type Badge</shortDescription>
+        <value>Badge</value>
+    </labels>
+    <labels>
+        <fullName>th_TrailheadTypeBoth</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Trailhead Assignment Type Both</shortDescription>
+        <value>Both</value>
+    </labels>
+    <labels>
+        <fullName>th_TrailheadTypeTrailmix</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Trailhead Assignment Type Trailmix</shortDescription>
+        <value>TrailMix</value>
+    </labels>
+    <labels>
         <fullName>th_trailhead_link_address</fullName>
         <language>en_US</language>
         <protected>false</protected>
