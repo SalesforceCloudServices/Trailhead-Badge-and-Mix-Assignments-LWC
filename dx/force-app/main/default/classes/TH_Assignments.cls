@@ -1,15 +1,5 @@
 global class TH_Assignments {
     
-    //-- @TODO: use custom setting instead for this.
-
-    // @deprecated - use custom label: Label.th_trailhead_trail_icon
-    // public static final string TRAIL_ICON = 'https://trailhead-web.s3.amazonaws.com/uploads/users/5396019/photos/thumb_030804d3576dab0cdc2a558055816208e421312a9d1495117d57928ef380d7f2.png?updatedAt=20180906113753';
-    // @deprecated - use custom label: Label.th_TrailheadTypeBadge
-    // public static final string TYPE_BADGE = 'Badge';
-    // @deprecated - use custom label: Label.th_TrailheadTypeTrailmix
-    // public static final string TYPE_TRAILMIX = 'TrailMix';
-    // @deprecated - use custom label: Label.th_TrailheadTypeBoth
-    // public static final String TYPE_BOTH = 'Both';
     
     //-- IGNORED OFFSET/PAGE SIZES for combined collated results.
     public static final Integer NO_OFFSET = 0;
