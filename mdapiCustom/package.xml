@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+  <types>
+    <name>CustomMetadata</name>
+    <members>*</members>
+  </types>
+  <types>
+    <name>CustomObject</name>
+    <members>TH_Context_Badge</members>
+  </types>
+  <version>45.0</version>
+</Package>

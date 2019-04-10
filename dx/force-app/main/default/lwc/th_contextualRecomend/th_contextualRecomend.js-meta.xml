@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata" fqn="th_trailheadRecommends">
+    <masterLabel>TH Recommended Trails and Badges</masterLabel>
+    <description>Component that defines the TrailTracker recommended Trails and Badges for the current user and record based on Custom Metadata Types</description>
+    <apiVersion>45.0</apiVersion>
+    <isExposed>true</isExposed>
+    <targets>
+        <target>lightning__RecordPage</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__RecordPage">
+            <!-- pagination size for the results --><property name="paginationSize" type="Integer" label="Page Size" description="Page size for the results" default="5" min="2" max="10" required="true"/>
+            <!-- number of days until due date to indicate it is upcoming --><property name="upcomingEventWindow" type="Integer" label="Events Due in X Days Marked as Upcoming" description="If events are due within this many days they are marked as Upcoming" default="7" min="2" max="355" required="true"/>
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

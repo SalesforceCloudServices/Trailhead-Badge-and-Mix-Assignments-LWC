@@ -11,6 +11,9 @@
             ],
             "c/th_trailheadAssignments": [
                 "th_trailheadAssignments/th_trailheadAssignments.js"
+            ],
+            "c/th_contextualRecomend": [
+                "th_contextualRecomend/th_contextualRecomend.js"
             ]
         }
     },
