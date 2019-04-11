@@ -30,8 +30,8 @@ public class TH_AssignmentsTest {
          Insert(uBadge);
          
          //Lets Test!
-         TH_Assignments.TrailheadEntry[] entries = TH_Assignments.getAllAssignedTrailEntries(TH_Assignments.TYPE_BOTH);
-         entries = TH_Assignments.getAllAssignedTrailEntries(TH_Assignments.TYPE_BADGE);
-         entries = TH_Assignments.getAllAssignedTrailEntries(TH_Assignments.TYPE_TRAILMIX);
+         TH_Assignments.TrailheadEntry[] entries = TH_Assignments.getAllAssignedTrailEntries(Label.th_TrailheadTypeBoth);
+         entries = TH_Assignments.getAllAssignedTrailEntries(Label.th_TrailheadTypeBadge);
+         entries = TH_Assignments.getAllAssignedTrailEntries(Label.th_TrailheadTypeTrailmix);
      }
 }

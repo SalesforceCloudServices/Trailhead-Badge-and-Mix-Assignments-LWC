@@ -3,7 +3,7 @@
     <apiVersion>43.0</apiVersion>
     <packageVersions>
         <majorNumber>1</majorNumber>
-        <minorNumber>37</minorNumber>
+        <minorNumber>86</minorNumber>
         <namespace>trailheadapp</namespace>
     </packageVersions>
     <status>Active</status>
