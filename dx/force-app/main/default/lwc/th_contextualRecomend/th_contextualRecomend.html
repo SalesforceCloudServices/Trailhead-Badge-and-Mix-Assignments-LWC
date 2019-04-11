@@ -1,4 +1,5 @@
-<template>
+<template > 
+    <template if:true={hasAnyRecommends}>
     <lightning-card icon-name=custom:custom78 title="Recommended Badges & Trails">
         <lightning-button-icon class='action-refresh' slot='actions'
             icon-name="utility:refresh"
@@ -7,13 +8,10 @@
         ></lightning-button-icon>
         <template if:false={hasAnyRecommends}>
             <div class="slds-align_absolute-center slds-p-around_small">
-                No Recommendations for RecordId: {RecordId}
+                No Recommendations for RecordId: {recordId} 
             </div>
         </template>
         <template if:true={hasAnyRecommends}>
-                <div class="slds-align_absolute-center slds-p-around_small">
-                        Recommendations for RecordId: {RecordId}
-                    </div>
             <div if:true={paginatedTrailEntries} class='slds-clearfix'>
                 <template for:each={paginatedTrailEntries} 
                     for:item="recommed"
@@ -57,4 +55,5 @@
             <a href={trailheadLinkAddress} target='_blank'>{trailheadLinkLabel}</a>
         </div>
     </lightning-card>
+</template>
 </template>

@@ -28,6 +28,7 @@ const ICON_BOTH = 'custom:custom78';
 export default class Tl_trailheadAssignments extends LightningElement {
   //-- properties (see - meta.xml)
   @api recordId;
+  @api objectApiName;
   @api paginationSize;
   @api upcomingEventWindow;
 
@@ -125,7 +126,7 @@ export default class Tl_trailheadAssignments extends LightningElement {
       this.error = error;
     } else if (data) {
       this.recommendTrailEntries = results;
-
+      this.hasAnyRecommends = data.length > 0;
       this.recordPaginator.reInitialize(data, this.paginationSize);    
     }
   }
