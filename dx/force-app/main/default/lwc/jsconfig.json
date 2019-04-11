@@ -3,6 +3,9 @@
         "experimentalDecorators": true,
         "baseUrl": ".",
         "paths": {
+            "c/th_contextualRecomend": [
+                "th_contextualRecomend/th_contextualRecomend.js"
+            ],
             "c/th_paginator": [
                 "th_paginator/th_paginator.js"
             ],
@@ -11,9 +14,6 @@
             ],
             "c/th_trailheadAssignments": [
                 "th_trailheadAssignments/th_trailheadAssignments.js"
-            ],
-            "c/th_contextualRecomend": [
-                "th_contextualRecomend/th_contextualRecomend.js"
             ]
         }
     },

@@ -32,6 +32,9 @@ export default class Tl_trailheadAssignments extends LightningElement {
   @api paginationSize;
   @api upcomingEventWindow;
 
+  //-- last known modified date of the record
+  recordLastModifiedDate;
+
   @track error;
 
   //-- private attributes
@@ -88,6 +91,49 @@ export default class Tl_trailheadAssignments extends LightningElement {
   }
 
   /**
+   * Called when the Lightning data service loads the record (or detects a change)
+   */
+  handleLdsLoad(event){
+    try {
+      const recordLastModified = event.detail.records[this.recordId].lastModifiedDate;
+
+      //-- set to the last modified date if not previously known
+      if (!this.recordLastModifiedDate){
+        this.recordLastModifiedDate = recordLastModified;
+      }
+
+      if(this.isLastModifiedDifferent(this.recordLastModifiedDate, recordLastModified)){
+        console.log('record change detected');
+        this.recordLastModifiedDate = recordLastModified;
+        this.refreshRecommends();
+      }
+    } catch(err){
+      //-- ignore for now
+    }
+  }
+
+  /**
+   * Determines if the last modified date has changed from the one last known
+   * @param {string} lastKnownModifiedDate - last known modified date of a record
+   * @param {string} lastModifiedDate - current last modified date
+   * @returns {boolean} - whether the modified dates are known and are different (true) if null or both the same (false)
+   */
+  isLastModifiedDifferent(lastKnownModifiedDate, lastModifiedDate){
+    if (!lastKnownModifiedDate || !lastModifiedDate){
+      return false;
+    }
+    
+    return (lastKnownModifiedDate !== lastModifiedDate);
+  }
+
+  /**
+   * Called if the Lightning Data Service has an error in pulling in the record
+   */
+  handleLdsError(event){
+    console.error(`Lightning data service encountered an error when loading record:${this.recordId}`);
+  }
+
+  /**
    * Refresh the current counts
    * <p>Note: this must have access
    * to the exact response from the wire service to work.</p>
@@ -127,7 +173,7 @@ export default class Tl_trailheadAssignments extends LightningElement {
     } else if (data) {
       this.recommendTrailEntries = results;
       this.hasAnyRecommends = data.length > 0;
-      this.recordPaginator.reInitialize(data, this.paginationSize);    
+      this.recordPaginator = new Paginator(data, this.paginationSize); 
     }
   }
  

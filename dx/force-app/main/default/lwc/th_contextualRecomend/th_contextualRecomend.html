@@ -1,5 +1,11 @@
 <template > 
     <template if:true={hasAnyRecommends}>
+    <!-- Lightning Data Service connection to monitor for changes on the object -->
+    <lightning-record-form class='lds-connection'
+        record-id={recordId} object-api-name={objectApiName}
+        onload={handleLdsLoad} onerror={handleLdsError}
+    ></lightning-record-form>
+    <!-- card -->
     <lightning-card icon-name=custom:custom78 title="Recommended Badges & Trails">
         <lightning-button-icon class='action-refresh' slot='actions'
             icon-name="utility:refresh"
@@ -55,5 +61,5 @@
             <a href={trailheadLinkAddress} target='_blank'>{trailheadLinkLabel}</a>
         </div>
     </lightning-card>
-</template>
+    </template>
 </template>
