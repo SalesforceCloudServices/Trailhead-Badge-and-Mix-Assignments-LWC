@@ -1,16 +1,5 @@
 global class TH_Assignments {
     
-    //-- @TODO: use custom setting instead for this.
-    public static final string TRAIL_ICON = 'https://trailhead-web.s3.amazonaws.com/uploads/users/5396019/photos/thumb_030804d3576dab0cdc2a558055816208e421312a9d1495117d57928ef380d7f2.png?updatedAt=20180906113753';
-    
-    public static final string TYPE_BADGE = 'Badge';
-    public static final string TYPE_TRAILMIX = 'TrailMix';
-    public static final String TYPE_BOTH = 'Both';
-
-    //-- what type of items to show
-    // public static final String SHOW_ALL = 'All';
-    // public static final String SHOW_OVERDUE_ONLY = 'Overdue';
-    // public static final String SHOW_OVERDUE_AND_UPCOMING = 'Overdue+Upcoming';
     
     //-- IGNORED OFFSET/PAGE SIZES for combined collated results.
     public static final Integer NO_OFFSET = 0;
@@ -84,8 +73,8 @@ global class TH_Assignments {
             this.Status = uT.trailheadapp__Status__c;
             this.DueDate = uT.trailheadapp__Due_At__c;
             this.URL = uT.trailheadapp__Trailmix__r.trailheadapp__URL__c;
-            this.Icon = TH_Assignments.TRAIL_ICON;
-            this.EntryType = TH_Assignments.TYPE_TRAILMIX;
+            this.Icon = Label.th_trailhead_trail_icon;
+            this.EntryType = Label.th_TrailheadTypeTrailmix;
         }
         
         /**
@@ -98,7 +87,7 @@ global class TH_Assignments {
             this.DueDate = uB.trailheadapp__Due_Date__c;
             this.URL = uB.trailheadapp__URL__c;
             this.Icon = uB.trailheadapp__Badge__r.trailheadapp__Icon__c;
-            this.EntryType = TH_Assignments.TYPE_BADGE;
+            this.EntryType = Label.th_TrailheadTypeBadge;
         }
 
         /**
@@ -151,7 +140,7 @@ global class TH_Assignments {
         TrailheadEntry[] results = new TrailheadEntry[]{};
         
         //-- group and trim if both are included.
-        if(whichType == TH_Assignments.TYPE_BOTH){
+        if(whichType == Label.th_TrailheadTypeBoth){
             
             //-- ignore the offset and pageSize because of sorting.
             trailheadapp__User_Trailmix__c[] assignedT = getAssignedTrails(NO_OFFSET, MAX_RESULTS);
@@ -168,13 +157,13 @@ global class TH_Assignments {
             
             results.sort();
             
-        } else if(whichType == TH_Assignments.TYPE_TRAILMIX){
+        } else if(whichType == Label.th_TrailheadTypeTrailmix){
             trailheadapp__User_Trailmix__c[] assignedT = getAssignedTrails(NO_OFFSET, MAX_RESULTS);
             for(trailheadapp__User_Trailmix__c uT : assignedT ){
                 TrailheadEntry entry= new TrailheadEntry(uT);
                 results.add(entry);
             }
-        } else if(whichType == TH_Assignments.TYPE_BADGE){
+        } else if(whichType == Label.th_TrailheadTypeBadge){
             trailheadapp__User_Badge__c[] assignedB = getAssignedBadges(NO_OFFSET, MAX_RESULTS);
             for(trailheadapp__User_Badge__c uB : assignedB ){           
                 TrailheadEntry entry= new TrailheadEntry(uB);
@@ -182,7 +171,7 @@ global class TH_Assignments {
             }
         } else {
             System.assert(false, 'Unknown type of entry:' + whichType + '. Expecting one of the following [' +
-                TH_Assignments.TYPE_BOTH + ',' + TH_Assignments.TYPE_TRAILMIX + ',' + TH_Assignments.TYPE_BADGE +
+                Label.th_TrailheadTypeBoth + ',' + Label.th_TrailheadTypeTrailmix + ',' + Label.th_TrailheadTypeBadge +
                 ']'
             );
         }
