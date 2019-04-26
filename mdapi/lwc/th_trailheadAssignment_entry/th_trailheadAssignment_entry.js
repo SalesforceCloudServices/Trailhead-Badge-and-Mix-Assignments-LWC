@@ -10,7 +10,7 @@ import { LightningElement, track, api } from 'lwc';
 import TRAILHEAD_TRAIL_ICON from '@salesforce/label/c.th_trailhead_trail_icon';
 
 /** The TrailMix entry type */
-const ENTRY_TYPE_TRAILMIX = 'TrailMix';
+import ENTRY_TYPE_TRAILMIX from '@salesforce/label/c.th_TrailheadTypeTrailmix';
 
 /** The standard event status */
 const STATUS_STANDARD = 'event-standard';

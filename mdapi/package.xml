@@ -9,11 +9,23 @@
     <name>ApexClass</name>
     <members>TH_Assignments</members>
     <members>TH_AssignmentsTest</members>
+    <members>TH_Contextual_Badge_Recommend</members>
+  </types>
+  <types>
+    <name>CustomMetadata</name>
+    <members>TH_Context_Badge.First_Test</members>
   </types>
   <types>
     <name>FlexiPage</name>
     <members>Home_Page_Default</members>
+    <members>Opportunity_Record_Page</members>
     <members>Trailhead_Assignments</members>
+  </types>
+  <types>
+    <name>Flow</name>
+    <members>Assign_Lead_Trailmix</members>
+    <members>Assigned_Trailmix_Chatter_Post</members>
+    <members>TH_Login_Flow</members>
   </types>
   <types>
     <name>CustomLabels</name>
@@ -25,9 +37,31 @@
   </types>
   <types>
     <name>LightningComponentBundle</name>
+    <members>th_contextualRecomend</members>
     <members>th_paginator</members>
     <members>th_trailheadAssignment_entry</members>
     <members>th_trailheadAssignments</members>
+  </types>
+  <types>
+    <name>CustomObject</name>
+    <members>TH_Context_Badge_Recommend__c</members>
+    <members>TH_Context_Badge__mdt</members>
+  </types>
+  <types>
+    <name>CustomField</name>
+    <members>TH_Context_Badge_Recommend__c.Badge_Id__c</members>
+    <members>TH_Context_Badge_Recommend__c.Field_API_Name__c</members>
+    <members>TH_Context_Badge_Recommend__c.Field_Value__c</members>
+    <members>TH_Context_Badge_Recommend__c.Object_API_Name__c</members>
+    <members>TH_Context_Badge__mdt.Badge_Id__c</members>
+    <members>TH_Context_Badge__mdt.Field_API_Name__c</members>
+    <members>TH_Context_Badge__mdt.Field_Value__c</members>
+    <members>TH_Context_Badge__mdt.Object_API_Name__c</members>
+  </types>
+  <types>
+    <name>ListView</name>
+    <members>TH_Context_Badge_Recommend__c.All</members>
+    <members>TH_Context_Badge__mdt.All_Context_Recs</members>
   </types>
   <types>
     <name>ApexPage</name>
