@@ -1,0 +1,66 @@
+<template > 
+    <!-- Lightning Data Service connection to monitor for changes on the object -->
+    <lightning-record-form class='lds-connection'
+        record-id={recordId} object-api-name={objectApiName}
+        onload={handleLdsLoad} onerror={handleLdsError}
+    ></lightning-record-form>
+    <!-- card -->
+    <template if:true={hasAnyRecommends}>
+ 
+    <lightning-card icon-name=custom:custom78 title="Recommended Badges & Trails">
+        <lightning-button-icon class='action-refresh' slot='actions'
+            icon-name="utility:refresh"
+            variant="neutral" alternative-text="Refresh"
+            onclick={refreshRecommends}
+        ></lightning-button-icon>
+        <template if:false={hasAnyRecommends}>
+            <div class="slds-align_absolute-center slds-p-around_small">
+                No Recommendations for RecordId: {recordId} 
+            </div>
+        </template>
+        <template if:true={hasAnyRecommends}>
+            <div if:true={paginatedTrailEntries} class='slds-clearfix'>
+                <template for:each={paginatedTrailEntries} 
+                    for:item="recommed"
+                >
+                    <div key={recommed.Id} class='assignment slds-float_left'>
+                        <c-th_trailhead-assignment_entry 
+                            assignment-entry={recommed}
+                            upcoming-event-window={upcomingEventWindow}
+                        ></c-th_trailhead-assignment_entry>
+                    </div>
+                </template>
+            </div>
+
+            <!-- pagination - can be in separate component -->
+            
+            <template if:true={shouldShowPagination}>
+                <div class='slds-clearfix slds-p-around_small'>
+                    <template if:true={hasNext}>
+                        <div class='slds-float_right'>
+                            <lightning-button
+                                label='Next' title='Show Next'
+                                variant='brand'
+                                onclick={next}
+                            ></lightning-button>
+                        </div>
+                    </template>
+                    <template if:true={hasPrevious}>
+                        <div class='slds-float_right'>
+                            <lightning-button
+                                label='Previous' title='Show Previous'
+                                variant='brand'
+                                onclick={previous}
+                            ></lightning-button>
+                        </div>
+                    </template>
+                </div>
+            </template>
+        </template>
+
+        <div slot='footer' class='center-text'>
+            <a href={trailheadLinkAddress} target='_blank'>{trailheadLinkLabel}</a>
+        </div>
+    </lightning-card>
+    </template>
+</template>

@@ -37,7 +37,7 @@
   </types>
   <types>
     <name>LightningComponentBundle</name>
-    <members>th_contextualRecomend</members>
+    <members>th_contextualRecommend</members>
     <members>th_paginator</members>
     <members>th_trailheadAssignment_entry</members>
     <members>th_trailheadAssignments</members>
