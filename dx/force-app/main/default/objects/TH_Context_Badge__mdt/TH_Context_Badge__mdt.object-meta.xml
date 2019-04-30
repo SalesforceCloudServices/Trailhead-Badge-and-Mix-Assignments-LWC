@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
-    <label>TH_Context_Badge</label>
-    <pluralLabel>TH_Context_Badges</pluralLabel>
-    <visibility>Public</visibility>
-</CustomObject>
