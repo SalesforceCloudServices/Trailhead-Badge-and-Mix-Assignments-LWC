@@ -1,4 +1,0 @@
-#name of this environment
-#(Note: the value defined in resources/environment.settings
-# will be preferred as it is assumed in synch with the src directory)
-force.environment=devOrg
