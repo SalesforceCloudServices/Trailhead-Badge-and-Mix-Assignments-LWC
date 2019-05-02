@@ -2,7 +2,7 @@ global class TH_Recommendations {
     //-- #  #   #   #   #   #   #   #   #   #   #   #   #   #   #   #   #
     //-- Class to get trailhead recommendations based for the current user
     //-- #  #   #   #   #   #   #   #   #   #   #   #   #   #   #   #   #
-    @AuraEnabled(cacheable=true)
+    @AuraEnabled(cacheable=false)
     public static TH_Assignments.TrailheadEntry[] getRecommendedEntries(Id recordId) {
         system.debug('** recordId **');
         system.debug(recordId);
