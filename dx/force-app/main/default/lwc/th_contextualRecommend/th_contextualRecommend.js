@@ -38,9 +38,6 @@ export default class Tl_trailheadAssignments extends LightningElement {
   //-- see here for more information
   //-- https://developer.salesforce.com/docs/component-library/documentation/lwc/apex#data_apex__refresh_cache
 
-  //-- collection of all the assignments (used for apexRefresh)
-  @track recommendTrailEntries = {};
-
   //-- paginator that determines which pages, etc.
   @track recordPaginator;
 
@@ -82,6 +79,9 @@ export default class Tl_trailheadAssignments extends LightningElement {
    * Called when the component is initially created
    */
   connectedCallback(){
+    //-- get current recommendations
+    this.refreshRecommends();
+
     this.recordPaginator = new Paginator(null, this.paginationSize);
   }
 
@@ -135,7 +135,7 @@ export default class Tl_trailheadAssignments extends LightningElement {
    */
   @api
   refreshRecommends(){
-    refreshApex(this.recommendTrailEntries);
+    this.captureGetRecommendTrailEntries(this.recordId);
   }
 
   /** Paginate to the next page */
@@ -155,21 +155,19 @@ export default class Tl_trailheadAssignments extends LightningElement {
 
   /**
    * Determines the trail entries
+   * @param {Id} recordId - the id of the record to find recommendations for (or null to get all recommendations)
    */
-  @wire(getAllRecommendTrailEntriesApex, {
-    recordId:'$recordId'
-  })
-  captureGetRecommendTrailEntries(results) {
-    let { error, data } = results;
-    if (error) {
-      //-- @TODO: handle error
-      console.error('error occurred captureGetRecommendTrailEntries:getRecommendTrailEntriesApex', JSON.stringify(error));
-      this.error = error;
-    } else if (data) {
-      this.recommendTrailEntries = results;
-      this.hasAnyRecommends = data.length > 0;
-      this.recordPaginator = new Paginator(data, this.paginationSize); 
-    }
+  captureGetRecommendTrailEntries(recordId){
+    getAllRecommendTrailEntriesApex({recordId:recordId})
+      .then(data => {
+        this.hasAnyRecommends = data.length > 0;
+        this.recordPaginator = new Paginator(data, this.paginationSize); 
+      })
+      .catch(error => {
+        //-- @TODO: handle error
+        console.error('error occurred captureGetRecommendTrailEntries:getRecommendTrailEntriesApex', JSON.stringify(error));
+        this.error = error;
+      });
   }
  
   
