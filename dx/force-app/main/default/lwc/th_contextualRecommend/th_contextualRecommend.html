@@ -1,9 +1,11 @@
 <template > 
     <!-- Lightning Data Service connection to monitor for changes on the object -->
+    <template if:true={recordId}>
     <lightning-record-form class='lds-connection'
         record-id={recordId} object-api-name={objectApiName}
         onload={handleLdsLoad} onerror={handleLdsError}
     ></lightning-record-form>
+    </template>
     <!-- card -->
     <template if:true={hasAnyRecommends}>
  
@@ -13,11 +15,6 @@
             variant="neutral" alternative-text="Refresh"
             onclick={refreshRecommends}
         ></lightning-button-icon>
-        <template if:false={hasAnyRecommends}>
-            <div class="slds-align_absolute-center slds-p-around_small">
-                No Recommendations for RecordId: {recordId} 
-            </div>
-        </template>
         <template if:true={hasAnyRecommends}>
             <div if:true={paginatedTrailEntries} class='slds-clearfix'>
                 <template for:each={paginatedTrailEntries} 

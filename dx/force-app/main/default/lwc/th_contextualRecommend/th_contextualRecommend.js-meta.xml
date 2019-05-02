@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata" fqn="th_trailheadRecommends">
     <masterLabel>TH Recommended Trails and Badges</masterLabel>
-    <description>Component that defines the TrailTracker recommended Trails and Badges for the current user and record based on Custom Metadata Types</description>
+    <description>Component that defines the Trail Tracker recommended Trails and Badges for the current user</description>
     <apiVersion>45.0</apiVersion>
     <isExposed>true</isExposed>
     <targets>
         <target>lightning__RecordPage</target>
+        <target>lightning__AppPage</target>
+        <target>lightning__HomePage</target>
     </targets>
     <targetConfigs>
         <targetConfig targets="lightning__RecordPage">       

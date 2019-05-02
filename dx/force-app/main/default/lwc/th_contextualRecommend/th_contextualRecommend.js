@@ -7,7 +7,7 @@ import {refreshApex} from '@salesforce/apex';
 
 
 // import getRecommendedEntries from '@salesforce/apex/TH_Contextual_Badge_Recommend.getRecommendedEntries';
-import getAllRecommendTrailEntriesApex from '@salesforce/apex/TH_Contextual_Badge_Recommend.getRecommendedEntries';
+import getAllRecommendTrailEntriesApex from '@salesforce/apex/TH_Recommendations.getRecommendedEntries';
 import Paginator from 'c/th_paginator';
 
 /** the address to send someone to Trailhead or myTrailhead */
@@ -16,10 +16,6 @@ import TRAILHEAD_LINK_ADDRESS from '@salesforce/label/c.th_trailhead_link_addres
 import TRAILHEAD_LINK_LABEL from '@salesforce/label/c.th_trailhead_link_label';
 
 //-- types of assignments to show
-import TYPE_BADGE from '@salesforce/label/c.th_TrailheadTypeBadge';
-import TYPE_TRAILMIX from '@salesforce/label/c.th_TrailheadTypeTrailmix';
-import TYPE_BOTH from '@salesforce/label/c.th_TrailheadTypeBoth';
-
 //-- icons to show based on type of items to show
 const ICON_BADGE = 'custom:custom48';
 const ICON_TRAILMIX = 'custom:custom78';
