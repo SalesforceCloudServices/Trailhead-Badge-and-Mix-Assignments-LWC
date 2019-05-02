@@ -10,7 +10,7 @@
         <target>lightning__HomePage</target>
     </targets>
     <targetConfigs>
-        <targetConfig targets="lightning__RecordPage">       
+        <targetConfig targets="lightning__RecordPage,lightning__AppPage,lightning__HomePage">       
             <!-- pagination size for the results -->
             <property name="paginationSize" type="Integer"
                 label="Page Size"
