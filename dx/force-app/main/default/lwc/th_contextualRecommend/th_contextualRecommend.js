@@ -15,7 +15,6 @@ import TRAILHEAD_LINK_ADDRESS from '@salesforce/label/c.th_trailhead_link_addres
 /** the name to show for the link to Trailhead or myTrailhea */
 import TRAILHEAD_LINK_LABEL from '@salesforce/label/c.th_trailhead_link_label';
 
-//-- types of assignments to show
 //-- icons to show based on type of items to show
 const ICON_BADGE = 'custom:custom48';
 const ICON_TRAILMIX = 'custom:custom78';
