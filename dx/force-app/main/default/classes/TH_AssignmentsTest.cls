@@ -29,30 +29,16 @@ public class TH_AssignmentsTest {
          uBadge.trailheadapp__Status__c	  = 'Assigned';
          uBadge.trailheadapp__Due_Date__c   = DateTime.now().AddDays(1);
          Insert(uBadge);
+         TH_Recommendation__c thr = new TH_Recommendation__c();
+         thr.Badge__c = badge.id;
+         thr.Trailmix__c = mix.id;
+         Insert(thr);
          
          //Lets Test!
          TH_Assignments.TrailheadEntry[] entries = TH_Assignments.getAllAssignedTrailEntries(Label.th_TrailheadTypeBoth);
          entries = TH_Assignments.getAllAssignedTrailEntries(Label.th_TrailheadTypeBadge);
          entries = TH_Assignments.getAllAssignedTrailEntries(Label.th_TrailheadTypeTrailmix);
+         entries = TH_Recommendations.getRecommendedEntries(null);
 
-        TH_Context_Badge_Recommend__c[] contextBadges = new List<TH_Context_Badge_Recommend__c>();
-        
-        contextBadges.add(new TH_Context_Badge_Recommend__c(
-         Name='test',
-         Badge_Id__c = String.valueOf(badge.Id),
-         Field_API_Name__c ='name',
-         Field_Value__c ='Test Badge',
-         Object_API_Name__c ='trailheadapp__Badge__c'));
-         
-        contextBadges.add(new TH_Context_Badge_Recommend__c(
-         Name='test2',
-         Badge_Id__c = String.valueOf(mix.Id),
-         Field_API_Name__c ='name',
-         Field_Value__c ='Test Badge',
-         Object_API_Name__c ='trailheadapp__Badge__c'));
-
-        insert(contextBadges);
-
-        entries = TH_Contextual_Badge_Recommend.getRecommendedEntries(badge.Id);
      }
 }

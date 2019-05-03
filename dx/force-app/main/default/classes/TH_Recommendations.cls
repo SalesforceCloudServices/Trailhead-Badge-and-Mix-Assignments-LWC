@@ -23,7 +23,7 @@ global class TH_Recommendations {
         Set<Id> Trailmixes = new Set<Id>();
         for(TH_Recommendation__c thr : recomdendations){
             if(thr.Badge__c <> null) Badges.add(thr.Badge__c);
-            if(thr.Trailmix__c <> null) Badges.add(thr.Trailmix__c);
+            if(thr.Trailmix__c <> null) Trailmixes.add(thr.Trailmix__c);
         }
         system.debug('** Badges & Trailmixes **');
         system.debug(Badges);
