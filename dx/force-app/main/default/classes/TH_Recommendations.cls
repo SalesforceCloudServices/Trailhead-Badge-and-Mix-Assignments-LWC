@@ -12,7 +12,8 @@ global class TH_Recommendations {
 
         if(recordId <> null){
             String sObjName = recordId.getSObjectType().getDescribe().getName();
-            recomdendations = [Select Id, Badge__c, Trailmix__c, OwnerId From TH_Recommendation__c Where OwnerId=:userId And Object_API_Name__c =:sObjName];
+            recomdendations = [Select Id, Badge__c, Trailmix__c, OwnerId From TH_Recommendation__c Where OwnerId=:userId And 
+                    ((Object_API_Name__c =:sObjName And Record_Id__c ='') Or (Record_Id__c =:recordId))];
         } else {
             recomdendations = [Select Id, Badge__c, Trailmix__c, OwnerId From TH_Recommendation__c Where OwnerId=:userId];
         }
