@@ -2,7 +2,8 @@
 This repo provides a number of Trail Tracker customizations allowing developers and admins to extend Trailhead and myTrailhead.
 
 If you want to install this repo as a package us the following link: https://login.salesforce.com/packaging/installPackage.apexp?p0=04t2E000002dAih
-Be sure to already have installed the latest version of the [Trail Tracker app exchange app - by Trailhead](https://appexchange.salesforce.com/appxListingDetail?listingId=a0N3A00000EFpAtUAL) first.
+
+Be sure to already have installed the latest version of the [Trail Tracker app](https://appexchange.salesforce.com/appxListingDetail?listingId=a0N3A00000EFpAtUAL) first.
 
 What is included:
 * Multiple Lightning Web Components, include one to show Assignements and one to show Recomendations
