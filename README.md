@@ -1,16 +1,17 @@
 # Overview
+This repo provides a number of Trail Tracker customizations allowing developers and admins to extend Trailhead and myTrailhead.
 
-Provide a list of the current trailhead badges and trailmixes assigned to the current user.
+If you want to install this repo as a package us the following link: 
 
-Done as a Home Page Component (found under the Home_Page_Default app builder page)
+What is included:
+* Multiple Lightning Web Components, include one to show Assignements and one to show Recomendations
+* Multiple Processes, including new assignements and notification processes
+* Login flow with the Assignements Lightning Web Component
+* A custom object to persesit recomendations
+* An aura wrapper for the Assignemt Lightning Web Component so it can be used with Ligthning Out, Visualforce Pages and Flow
 
-![Screenshot of Home Page Component](docs/images/2_HomePageComponent.gif)
 
-and a Lightning Out tab (found under `VF Trailhead Assignments` under the app launcher, or [at this link](https://marzbrews-dev-ed.lightning.force.com/lightning/n/VF_Trailhead_Assignments))
-
-![Screenshot of Lightning out](docs/images/1_LightningOutScreenshot.png)
-
-## Components
+## Assignment Component
 
 * [th\_trailheadAssignments](dx/force-app/main/default/lwc/th_trailheadAssignments) - the Lightning Web Component that shows the list of assignments.
   * supports the following design attributes:
@@ -22,9 +23,21 @@ and a Lightning Out tab (found under `VF Trailhead Assignments` under the app la
   * [Metadata - th\_trailheadAssignments](dx/force-app/main/default/lwc/th_trailheadAssignments/th_trailheadAssignments.js-meta.xml)
   * [StyleSheets - th\_trailheadAssignments](dx/force-app/main/default/lwc/th_trailheadAssignments/th_trailheadAssignments.css)
 
+## Recomendation Component
+
+
+
+
+## Other components included but are used behind the scenes...
+
+* [th\_trailheadAssignment\_entry](dx/force-app/main/default/lwc/th_trailheadAssignment_entry/) - (private lwc component that represents a single badge / trailmix
+  * [HTML - th\_trailheadAssignment\_entry](dx/force-app/main/default/lwc/th_trailheadAssignment_entry/th_trailheadAssignment_entry.html)
+  * [JavaScript - th\_trailheadAssignment\_entry](dx/force-app/main/default/lwc/th_trailheadAssignment_entry/th_trailheadAssignment_entry.js)
+  * [Metadata - th\_trailheadAssignment\_entry](dx/force-app/main/default/lwc/th_trailheadAssignment_entry/th_trailheadAssignment_entry.js-meta.xml)
+
 ### Aura Component
 
-To allow the component to be used in places where Lightning Web Components are not yet supported (like Lightning-Out), we provide a 'Wrapper component' (written in aura).  It includes the LWC component and can be used in many more areas.
+To allow the Assignment component to be used in places where Lightning Web Components are not yet supported (like Lightning-Out), we provide a 'Wrapper component' (written in aura).  It includes the LWC component and can be used in many more areas.
 
 * [th\_trailheadAssignments\_wrap](dx/force-app/main/default/aura/th_trailheadAssignments_wrap) - Wrapper Component
   * [Component - th\_trailheadAssignments\_wrap](dx/force-app/main/default/aura/th_trailheadAssignments_wrap/th_trailheadAssignments_wrap.cmp)
@@ -41,17 +54,6 @@ Aura Components are supported in many areas not supported by Lightning Web Compo
 If it is desired to see only a single component, it is recommended that we show only the Aura Component (and simply disable the LWC from the App Builder).
 
 This can be easily done by simply setting the &lt;isExposed&gt; attribute to false in the [th_trailheadAssignments.js-meta.xml](dx/force-app/main/default/lwc/th_trailheadAssignments/th_trailheadAssignments.js-meta.xml)
-
---
-
-Additionally, there are other components included but are used behind the scenes...
-
-* [th\_trailheadAssignment\_entry](dx/force-app/main/default/lwc/th_trailheadAssignment_entry/) - (private lwc component that represents a single badge / trailmix
-  * [HTML - th\_trailheadAssignment\_entry](dx/force-app/main/default/lwc/th_trailheadAssignment_entry/th_trailheadAssignment_entry.html)
-  * [JavaScript - th\_trailheadAssignment\_entry](dx/force-app/main/default/lwc/th_trailheadAssignment_entry/th_trailheadAssignment_entry.js)
-  * [Metadata - th\_trailheadAssignment\_entry](dx/force-app/main/default/lwc/th_trailheadAssignment_entry/th_trailheadAssignment_entry.js-meta.xml)
-
-
 ## Lightning Out
 
 * [TH\_Assignments](dx/force-app/main/default/pages/TH_Assignments.page) - Visualforce Page using Lightning Out
@@ -83,75 +85,9 @@ To allow the component to be easier to extend, we have created three Custom Labe
 		<td>...</td>
 	</tr></table>
 	
-# Running Jest Tests
 
-As Lightning Web Components are standards based, a great amount effort has been made to support running unit test on components.
 
-For more on writing unit tests, please see the [Test Lightning Web Components section of the Lightning Web Components Dev(eloper) guide](https://developer.salesforce.com/docs/component-library/documentation/lwc/lwc.testing)
-
-## installing the lwc testing packages
-
-* Navigate within the 'dx' folder
-* run `npm install` to install the necessary scripts
-
-## Running the tests
-
-We Provide three different ways of testing:
-
-(again, these are performed within the `dx` folder)
-
-<table>
-	<tr>
-		<th>Command</th>
-		<th>Description</th>
-	</tr>
-	<tr>
-		<td>npm run test</td>
-		<td>Runs jest to run all the suites and tests within the project. Best for single execution.</td>
-	</tr>
-	<tr>
-		<td>npm run test:watch</td>
-		<td>Runs jest over all the suites and tests, and watches to re-run if any files change. Best for Development.</td>
-	</tr>
-	<tr>
-		<td>npm run test:debug</td>
-		<td>Starts jest over all the suites and tests, but opens an inspector breakpoint for debugging.</td>
-	</tr>
-</table>
-
-## Debugging the tests
-
-The [lwc-jest docs have a great section on how to debug the tests directly within Visual Studio Code](https://github.com/salesforce/lwc-jest#debug-mode)
-
-Alternatively, any run of `npm run test:debug` simply opens up the node-inspector that any application can run from. Such as Chrome, but also Visual Studio Code.
-
-To allow Visual Studio Code to accept any node debug session, simply include the following setting in your launch.json file (at the base of the project)
-
-	{
-    "version": "0.2.0",
-    "configurations": [
-      {
-        "name": "Debug Jest Tests",
-        "type": "node",
-        "request": "launch",
-        "runtimeArgs": [
-          "--inspect-brk",
-          "${workspaceRoot}/node_modules/.bin/jest",
-          "--runInBand"
-        ],
-        "console": "integratedTerminal",
-        "internalConsoleOptions": "neverOpen",
-        "port": 9229
-      },
-      {
-        "name": "Attach to Process",
-        "type": "node",
-        "request": "attach",
-        "port": 9229
-      }
-    ]
-  }
-
+#TBD#
 # Install with Salesforce DX
 
 **1.** Install the latest version of the [Trail Tracker app exchange app - by Trailhead](https://appexchange.salesforce.com/appxListingDetail?listingId=a0N3A00000EFpAtUAL)
