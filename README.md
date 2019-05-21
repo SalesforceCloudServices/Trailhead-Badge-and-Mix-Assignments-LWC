@@ -45,7 +45,7 @@ As a prerequisite be sure to have installed the latest version of the [Trail Tra
 ## Component Breakdown
 Both the assignment and recommendation component leverage the private components
 
-
+![Screenshot of Home Page Component](docs/images/LWC_Breakdown.png)
 
 ### Aura Component
 
