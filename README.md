@@ -81,7 +81,7 @@ To allow the component to be easier to extend, we have created three Custom Labe
     </tr>
     <tr>
         <td>th_trailhead_trail_icon</td>
-        <td>Icon to show when trailhead trails are assigned (as they have no icon)</td>
+        <td>Icon to show when Trailmixes are assigned (as they have no icon)</td>
         <td>...</td>
     </tr></table>
     
