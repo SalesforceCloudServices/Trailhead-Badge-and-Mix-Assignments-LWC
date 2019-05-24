@@ -8,7 +8,7 @@ If you installed previous versions of these packages or lightning compoments, co
 As a prerequisite be sure to have installed the latest version of the [Trail Tracker app](https://appexchange.salesforce.com/appxListingDetail?listingId=a0N3A00000EFpAtUAL) first.
 
 # What is included
-* Lightning Web Components to show Assignments and Recommendations for Badges and Trailmixes
+* <b>Lightning Web Components</b> to show Assignments and Recommendations for Badges and Trailmixes
 * Processes for creating new assignments and recommendations (needs to be manually updated with Trailmix Ids)
 * Login Flow with the Assignments Lightning Web Component (needs to be manually assigned to a Profile)
 * A custom object to persist Recommendations
@@ -82,7 +82,7 @@ To allow the component to be easier to extend, we have created three Custom Labe
     <tr>
         <td>th_trailhead_trail_icon</td>
         <td>Icon to show when Trailmixes are assigned (as they have no icon)</td>
-        <td>...</td>
+        <td>https://trailhead-web.s3.amazonaws.com/uploads/users/5396019/photos/thumb_030804d3576dab0cdc2a558055816208e421312a9d1495117d57928ef380d7f2.png?updatedAt=20180906113753</td>
     </tr></table>
     
 
