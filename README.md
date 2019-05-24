@@ -82,7 +82,7 @@ To allow the component to be easier to extend, we have created three Custom Labe
     <tr>
         <td>th_trailhead_trail_icon</td>
         <td>Icon to show when Trailmixes are assigned (as they have no icon)</td>
-        <td width="50px">https://trailhead-web.s3.amazonaws.com/uploads/users/5396019/photos/thumb_030804d3576dab0cdc2a558055816208e421312a9d1495117d57928ef380d7f2.png?updatedAt=20180906113753</td>
+        <td><a href="https://trailhead-web.s3.amazonaws.com/uploads/users/5396019/photos/thumb_030804d3576dab0cdc2a558055816208e421312a9d1495117d57928ef380d7f2.png?updatedAt=20180906113753">https://trailhead-web.s3.amazonaws.com/...</a></td>
     </tr></table>
     
 
