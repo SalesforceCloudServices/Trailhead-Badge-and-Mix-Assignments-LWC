@@ -71,12 +71,12 @@ To allow the component to be easier to extend, we have created three Custom Labe
     </tr>
     <tr>
         <td>th_trailhead_link_address</td>
-        <td>Address to send users to when clicking the button at the bottom of the Trailhead Assignments component</td>
+        <td>Address to send users to when clicking the link at the bottom of the Trailhead Assignments / Recomendations component</td>
         <td>https://trailhead.salesforce.com/</td>
     </tr>
     <tr>
         <td>th_trailhead_link_label</td>
-        <td>Label for the 'Trailhead' button at the bottom of the Trailhead Assignments component</td>
+        <td>Label for the 'Trailhead' link at the bottom of the Trailhead Assignments component</td>
         <td>Traihead</td>
     </tr>
     <tr>
