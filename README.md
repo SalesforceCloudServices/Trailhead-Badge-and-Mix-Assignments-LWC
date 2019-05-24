@@ -9,11 +9,11 @@ As a prerequisite be sure to have installed the latest version of the [Trail Tra
 
 # What is included
 * <b>Lightning Web Components</b> to show Assignments and Recommendations for Badges and Trailmixes
-* Processes for creating new assignments and recommendations (needs to be manually updated with Trailmix Ids)
-* Login Flow with the Assignments Lightning Web Component (needs to be manually assigned to a Profile)
-* A custom object to persist Recommendations
-* An aura wrapper for the Assignment Lightning Web Component so it can be used with Lightning Out, Visualforce Pages and Flow
-* Apex classes to retrieve Trailhead Assignments / Recommendations and test classes
+* <b>Processes</b> for creating new assignments and recommendations (needs to be manually updated with Trailmix Ids)
+* <b>Login Flow</b> with the Assignments Lightning Web Component (needs to be manually assigned to a Profile)
+* <b>Custom object</b> to persist Recommendations
+* <b>Aura wrapper</b> for the Assignment Lightning Web Component so it can be used with Lightning Out, Visualforce Pages and Flow
+* <b>Apex classes</b> to retrieve Trailhead Assignments / Recommendations and test classes
 
 ## Assignment Component
 
@@ -82,7 +82,7 @@ To allow the component to be easier to extend, we have created three Custom Labe
     <tr>
         <td>th_trailhead_trail_icon</td>
         <td>Icon to show when Trailmixes are assigned (as they have no icon)</td>
-        <td>https://trailhead-web.s3.amazonaws.com/uploads/users/5396019/photos/thumb_030804d3576dab0cdc2a558055816208e421312a9d1495117d57928ef380d7f2.png?updatedAt=20180906113753</td>
+        <td width="50">https://trailhead-web.s3.amazonaws.com/uploads/users/5396019/photos/thumb_030804d3576dab0cdc2a558055816208e421312a9d1495117d57928ef380d7f2.png?updatedAt=20180906113753</td>
     </tr></table>
     
 
