@@ -10,7 +10,7 @@
         <target>lightning__RecordPage</target>
     </targets>
     <targetConfigs>
-        <targetConfig targets="lightning__AppPage, lightning__HomePage">
+        <targetConfig targets="lightning__AppPage, lightning__HomePage, lightning__RecordPage">
             <!-- whether to include badges or trailmixes within the results -->
             <property name="badgesOrTrailmixes" type="String"
                 label="Badges or Trailmixes"
