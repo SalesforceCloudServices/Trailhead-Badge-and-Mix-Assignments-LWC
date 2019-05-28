@@ -1,7 +1,7 @@
 # Overview
 This repository provides a number of Trail Tracker customizations allowing developers and admins to extend Trailhead and myTrailhead.
 
-If you want to install this repository as a package in an org use the following URL: https://login.salesforce.com/packaging/installPackage.apexp?p0=04t2E000002dAih
+If you want to install this repository as a package in an org use the following URL: https://login.salesforce.com/packaging/installPackage.apexp?p0=04t2E000003jw7j
 
 If you installed previous versions of these packages or lightning compoments, completely remove the from your org by uninstalling the package AND deleting it from Setup > Installed Packages.
 
@@ -9,8 +9,8 @@ As a prerequisite be sure to have installed the latest version of the [Trail Tra
 
 # What is included
 * <b>Lightning Web Components</b> to show Assignments and Recommendations for Badges and Trailmixes
-* <b>Processes</b> for creating new assignments and recommendations (needs to be cloned, updated with a valid Trailmix or Badge Id, and activated)
-* <b>Login Flow</b> with the Assignments Lightning Web Component (needs to be assigned to a Profile)
+* <b>Processes</b> for creating new assignments and recommendations 
+* <b>Login Flow</b> with the Assignments Lightning Web Component 
 * <b>Custom object</b> to persist Recommendations
 * <b>Aura wrapper</b> for the Assignment Lightning Web Component so it can be used with Lightning Out, Visualforce Pages and Flow
 * <b>Apex classes</b> to retrieve Trailhead Assignments / Recommendations and test classes
@@ -47,7 +47,16 @@ Both the assignment and recommendation component leverage the private components
 
 ![Screenshot of Home Page Component](docs/images/LWC_Breakdown.png)
 
-### Aura Component
+## Processes & Flows
+The following Process and flows are included:
+* Assigned Trailmix Chatter Post: Example of a chatter notification when a Trailmix is assigned
+* Assign Lead Trailmix: Example of assigning a Trailmix when a Lead is updated
+* Opportunity Badge Recommendation: Example of creating a recommendation when an opporutnity is updated
+* TH Login Flow: Login flow that checks for uncompleted assignements and if any are found displays the Assignements LWC.  This needs to be manually assigned to a Profile.
+
+All process are deployed as inactive.  Clone the latest version, update with a valid Badge or Trailmix Id and Activate.
+
+### Aura Wrap Component
 
 To allow the Assignment component to be used in places where Lightning Web Components are not yet supported (like Lightning-Out and flow), we provide a 'Wrapper component' (written in aura).  It includes the LWC component and can be used in many more areas.
 
