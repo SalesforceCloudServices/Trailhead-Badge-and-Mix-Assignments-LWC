@@ -3,7 +3,7 @@ This repository provides a number of Trail Tracker customizations allowing devel
 
 If you want to install this repository as a package in an org use the following URL: https://login.salesforce.com/packaging/installPackage.apexp?p0=04t2E000003jw7j
 
-If you installed previous versions of these packages or lightning compoments, completely remove the from your org by uninstalling the package AND deleting it from Setup > Installed Packages.
+If you installed previous versions of this package or lightning compoments, completely remove the from your org by uninstalling the package AND deleting it from Setup > Installed Packages.
 
 As a prerequisite be sure to have installed the latest version of the [Trail Tracker app](https://appexchange.salesforce.com/appxListingDetail?listingId=a0N3A00000EFpAtUAL) first.
 
