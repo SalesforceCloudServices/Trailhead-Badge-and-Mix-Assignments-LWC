@@ -11,9 +11,11 @@ As a prerequisite be sure to have installed the latest version of the [Trail Tra
 * <b>Lightning Web Components</b> to show Assignments and Recommendations for Badges and Trailmixes
 * <b>Processes</b> for creating new assignments and recommendations 
 * <b>Login Flow</b> with the Assignments Lightning Web Component 
-* <b>Custom object</b> to persist Recommendations
-* <b>Aura wrapper</b> for the Assignment Lightning Web Component so it can be used with Lightning Out, Visualforce Pages and Flow
-* <b>Apex classes</b> to retrieve Trailhead Assignments / Recommendations and test classes
+* <b>Custom Object</b> to persist Recommendations
+* <b>Aura Wrapper</b> for the Assignment Lightning Web Component so it can be used with Lightning Out, Visualforce Pages and Flow
+* <b>Apex Classes</b> to retrieve Trailhead Assignments / Recommendations and test classes
+* <b>Custom Labels</b> to customize and integrate Trailhead Assignments / Recommendations LWCs with your myTrailhead Instance
+
 
 ## Assignment Component
 
