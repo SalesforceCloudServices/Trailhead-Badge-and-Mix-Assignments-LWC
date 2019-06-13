@@ -1,19 +1,21 @@
 # Overview
 This repository provides a number of Trail Tracker customizations allowing developers and admins to extend Trailhead and myTrailhead.
 
-If you want to install this repository as a package in an org use the following URL: https://login.salesforce.com/packaging/installPackage.apexp?p0=04t2E000002dAih
+If you want to install this repository as a package in an org use the following URL: https://login.salesforce.com/packaging/installPackage.apexp?p0=04t2E000003jw7j
 
-If you installed previous versions of these packages or lightning compoments, completely remove the from your org by uninstalling the package AND deleting it from Setup > Installed Packages.
+If you installed previous versions of this package or lightning compoments, completely remove the from your org by uninstalling the package AND deleting it from Setup > Installed Packages.
 
 As a prerequisite be sure to have installed the latest version of the [Trail Tracker app](https://appexchange.salesforce.com/appxListingDetail?listingId=a0N3A00000EFpAtUAL) first.
 
 # What is included
 * <b>Lightning Web Components</b> to show Assignments and Recommendations for Badges and Trailmixes
-* <b>Processes</b> for creating new assignments and recommendations (needs to be manually updated with Trailmix Ids)
-* <b>Login Flow</b> with the Assignments Lightning Web Component (needs to be manually assigned to a Profile)
-* <b>Custom object</b> to persist Recommendations
-* <b>Aura wrapper</b> for the Assignment Lightning Web Component so it can be used with Lightning Out, Visualforce Pages and Flow
-* <b>Apex classes</b> to retrieve Trailhead Assignments / Recommendations and test classes
+* <b>Processes</b> for creating new assignments and recommendations 
+* <b>Login Flow</b> with the Assignments Lightning Web Component 
+* <b>Custom Object</b> to persist Recommendations
+* <b>Aura Wrapper</b> for the Assignment Lightning Web Component so it can be used with Lightning Out, Visualforce Pages and Flow
+* <b>Apex Classes</b> to retrieve Trailhead Assignments / Recommendations and test classes
+* <b>Custom Labels</b> to customize and integrate Trailhead Assignments / Recommendations LWCs with your myTrailhead Instance
+
 
 ## Assignment Component
 
@@ -35,19 +37,28 @@ As a prerequisite be sure to have installed the latest version of the [Trail Tra
 
 ## Private components
 
-* [th\_trailheadAssignment\_entry](dx/force-app/main/default/lwc/th_trailheadAssignment_entry/) - (private lwc component that represents a single badge or trailmix)
+* [th\_trailheadAssignment\_entry](dx/force-app/main/default/lwc/th_trailheadAssignment_entry/) - Private LWC component that represents a single badge or trailmix
   * [HTML - th\_trailheadAssignment\_entry](dx/force-app/main/default/lwc/th_trailheadAssignment_entry/th_trailheadAssignment_entry.html)
   * [JavaScript - th\_trailheadAssignment\_entry](dx/force-app/main/default/lwc/th_trailheadAssignment_entry/th_trailheadAssignment_entry.js)
   * [Metadata - th\_trailheadAssignment\_entry](dx/force-app/main/default/lwc/th_trailheadAssignment_entry/th_trailheadAssignment_entry.js-meta.xml)
 
-* [th\_paginator\_entry](dx/force-app/main/default/lwc/th_paginator_entry/) - (private lwc component that paginates a list of th_trailheadAssignment_entry's)
+* [th\_paginator\_entry](dx/force-app/main/default/lwc/th_paginator_entry/) - Private LWC component that paginates a list of th_trailheadAssignment_entry's
 
 ## Component Breakdown
 Both the assignment and recommendation component leverage the private components
 
 ![Screenshot of Home Page Component](docs/images/LWC_Breakdown.png)
 
-### Aura Component
+## Processes & Flows
+The following Process and flows are included:
+* Assigned Trailmix Chatter Post: Example of a chatter notification when a Trailmix is assigned
+* Assign Lead Trailmix: Example of assigning a Trailmix when a Lead is updated
+* Opportunity Badge Recommendation: Example of creating a recommendation when an opporutnity is updated
+* TH Login Flow: Login flow that checks for uncompleted assignements and if any are found displays the Assignements LWC.  This needs to be manually assigned to a Profile.
+
+All process are deployed as inactive.  Clone the latest version, update with a valid Badge or Trailmix Id and Activate.
+
+### Aura Wrap Component
 
 To allow the Assignment component to be used in places where Lightning Web Components are not yet supported (like Lightning-Out and flow), we provide a 'Wrapper component' (written in aura).  It includes the LWC component and can be used in many more areas.
 
