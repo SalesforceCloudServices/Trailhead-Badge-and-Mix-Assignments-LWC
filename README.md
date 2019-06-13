@@ -1,5 +1,5 @@
 # Overview
-This repository provides a number of Trail Tracker customizations allowing developers and admins to extend Trailhead and myTrailhead.
+This repository provides a number of Trail Tracker customizations examples to show developers and admins how they can extend Trailhead and myTrailhead. The code within is provided as an example of what can be done and is not currently supported.
 
 If you want to install this repository as a package in an org use the following URL: https://login.salesforce.com/packaging/installPackage.apexp?p0=04t2E000003jw7j
 
