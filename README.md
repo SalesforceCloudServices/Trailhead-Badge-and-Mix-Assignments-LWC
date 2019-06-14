@@ -1,11 +1,15 @@
 # Overview
-This repository provides a number of Trail Tracker customizations examples to show developers and admins how they can extend Trailhead and myTrailhead. The code within is provided as an example of what can be done and is not currently supported.
+This repository provides a number of Trail Tracker customizations examples to show developers and admins how they can extend Trailhead and myTrailhead. The code within is provided as an example of what can be done and is not actively supported.
 
-If you want to install this repository as a package in an org use the following URL: https://login.salesforce.com/packaging/installPackage.apexp?p0=04t2E000003jw7j
+If you want to install this repository as a package in an org use one of the following URLs: 
 
-If you installed previous versions of this package or lightning compoments, completely remove the from your org by uninstalling the package AND deleting it from Setup > Installed Packages.
+Sandbox (Recommended):
+https://test.salesforce.com/packaging/installPackage.apexp?p0=04t2E000003jw7j
 
-As a prerequisite be sure to have installed the latest version of the [Trail Tracker app](https://appexchange.salesforce.com/appxListingDetail?listingId=a0N3A00000EFpAtUAL) first.
+Developer Edition or Production:
+https://login.salesforce.com/packaging/installPackage.apexp?p0=04t2E000003jw7j
+
+As a prerequisite be sure to have installed the latest version of the [Trail Tracker app](https://appexchange.salesforce.com/appxListingDetail?listingId=a0N3A00000EFpAtUAL) first. If you installed previous versions of this package, completely remove the from your org by uninstalling the package AND deleting it from Setup > Installed Packages.
 
 # What is included
 * <b>Lightning Web Components</b> to show Assignments and Recommendations for Badges and Trailmixes
