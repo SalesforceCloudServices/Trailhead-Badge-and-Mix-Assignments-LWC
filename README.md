@@ -34,7 +34,7 @@ As a prerequisite be sure to have installed the latest version of the [Trail Tra
   * [StyleSheets - th\_trailheadAssignments](dx/force-app/main/default/lwc/th_trailheadAssignments/th_trailheadAssignments.css)
 
 ## Recommendation Component
-* [th\_contextualRecommend](dx/force-app/main/default/lwc/th_contextualRecommend) - the Lightning Web Component that shows the list of recommendations. On a lightning record page it will show recommendations specific to that record, on a home or app page it will show all recommendations.
+* [th\_contextualRecommend](dx/force-app/main/default/lwc/th_contextualRecommend) - the Lightning Web Component that shows the list of recommendations stored in the TH_Recommendation__c object. On a lightning record page it will show recommendations specific to that record, on a home or app page it will show all recommendations. If there are no recommendations the component will not render. 
   * supports the following design attributes:
      * Page Size (Integer) - the number of records to show per page
      * Warning # days until due date (Integer) - Items within this many days will have orange due dates
