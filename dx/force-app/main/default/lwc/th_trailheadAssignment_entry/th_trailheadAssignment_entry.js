@@ -61,7 +61,8 @@ export default class Th_trailheadAssignment_entry extends LightningElement {
   /** whether the add button should be shown */
   @api
   get showAddBtn(){
-    return this.btnAddEligible && !Th_trailheadAssignment_entry.isCurrentlyAssigned(this.assignmentEntry);
+    let result = this.btnAddEligible && !Th_trailheadAssignment_entry.isCurrentlyAssigned(this.assignmentEntry);
+    return result;
   }
 
   /** whether the share button should be shown */
@@ -117,8 +118,17 @@ export default class Th_trailheadAssignment_entry extends LightningElement {
    * @return boolean - whether the assignment is currently assigned to the current user (true) or not (false)
    */
   static isCurrentlyAssigned(assignmentEntry){
-    // @TODO
-    return true;
+    //-- there are three statuses: Assigned, In Progress and Completed
+    //-- assume if there is any of those statuses, then it is assigned.
+    if (!assignmentEntry){
+      return false;
+    }
+    let status = assignmentEntry.Status;
+    let result = false;
+    if (status){
+      result = true;
+    }
+    return result;
   }
 
   /**
@@ -127,7 +137,16 @@ export default class Th_trailheadAssignment_entry extends LightningElement {
    * @return boolean - whether the assignment has been completed by the current user (true) or not (false)
    */
   static isAssignmentCompleted(assignmentEntry){
-    // @TODO
-    return true;
+    //-- there are three statuses: Assigned, In Progress and Completed
+    //-- assume completed ONLY if the Status is Completed
+    if (!assignmentEntry){
+      return false;
+    }
+    let status = assignmentEntry.Status;
+    let result = false;
+    if (status === 'Completed'){
+      result = true;
+    }
+    return result;
   }
 }
