@@ -16,9 +16,16 @@
                 </template>
             </div>
         </lightning-layout-item>
-                
-        <lightning-button-icon icon-name="utility:add"  alternative-text="Add"></lightning-button-icon>
-        <lightning-button-icon icon-name="utility:internal_share"  alternative-text="Share"></lightning-button-icon>
         
+        <template if:true={showAddBtn}>
+            <lightning-button-icon icon-name="utility:add"  alternative-text="Add"
+                onclick={handleAddClick}
+            ></lightning-button-icon>
+        </template>
+        <template if:true={showShareBtn}>
+            <lightning-button-icon icon-name="utility:internal_share"  alternative-text="Share"
+                onclick={handleShareClick}
+            ></lightning-button-icon>
+        </template>
     </lightning-layout>
 </template>
