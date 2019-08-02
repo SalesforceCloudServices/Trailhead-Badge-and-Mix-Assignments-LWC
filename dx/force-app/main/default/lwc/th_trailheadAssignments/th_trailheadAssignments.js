@@ -189,12 +189,12 @@ export default class Tl_trailheadAssignments extends LightningElement {
   @api
   determineSectionIcon(badgesOrTrailmixes){
     let sectionIcon = '';
-		if(badgesOrTrailmixes===TYPE_BOTH){
-			sectionIcon = ICON_BOTH;
-		} else if(badgesOrTrailmixes===TYPE_TRAILMIX){
-			sectionIcon = ICON_TRAILMIX;
-		} else { //-- assume TYPE_BADGE
-			sectionIcon = ICON_BADGE;
+    if(badgesOrTrailmixes===TYPE_BOTH){
+      sectionIcon = ICON_BOTH;
+    } else if(badgesOrTrailmixes===TYPE_TRAILMIX){
+      sectionIcon = ICON_TRAILMIX;
+    } else { //-- assume TYPE_BADGE
+      sectionIcon = ICON_BADGE;
     }
     return sectionIcon;
   }
@@ -212,9 +212,9 @@ export default class Tl_trailheadAssignments extends LightningElement {
     let sectionTitle = '';
     if(badgesOrTrailmixes===TYPE_TRAILMIX){
       sectionTitle = `Assigned Trailmixes (${trailmixAssignmentCount})`;
-		} else if(badgesOrTrailmixes===TYPE_BADGE){
+    } else if(badgesOrTrailmixes===TYPE_BADGE){
       sectionTitle = `Assigned Badges (${badgeAssignmentCount})`;
-		} else {//-- assume TYPE_BADGE
+    } else {//-- assume TYPE_BADGE
       sectionTitle = `Assigned Badges (${badgeAssignmentCount}) & Trailmixes (${trailmixAssignmentCount})`;
     }
     return sectionTitle;

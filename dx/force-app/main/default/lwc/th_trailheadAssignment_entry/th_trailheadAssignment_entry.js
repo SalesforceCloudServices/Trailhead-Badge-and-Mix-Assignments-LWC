@@ -1,7 +1,7 @@
 /**
  * Represents an entry in the list of trailhead assignments.
  */
-import { LightningElement, track, api } from 'lwc';
+import { LightningElement, api } from 'lwc';
 
 //-- note: custom labels are currently supported in LWC - Custom Settings require an apex callout
 //-- because this is an organization wide value, the choice was made to use custom labels instead
@@ -42,7 +42,7 @@ export default class Th_trailheadAssignment_entry extends LightningElement {
   get iconURL(){
     let result = this.assignmentEntry.Icon;
     if (!result || this.assignmentEntry.EntryType === ENTRY_TYPE_TRAILMIX){
-      result = TRAILHEAD_TRAIL_ICON
+      result = TRAILHEAD_TRAIL_ICON;
     }
     return result;
   }
@@ -65,7 +65,7 @@ export default class Th_trailheadAssignment_entry extends LightningElement {
       result = STATUS_UPCOMING;
     }
 
-    result += ' slds-p-left_xxx-small'
+    result += ' slds-p-left_xxx-small';
 
     return result;
   }

@@ -77,8 +77,9 @@ export default class Paginator {
   set pageNumber(val){
     if (val < 0){
       val = 0;
-    } else if (this._offsetIndex )
-    this._pageNumber = val;
+    } else if (this._offsetIndex ){
+      this._pageNumber = val;
+    }
   }
   get pageNumber(){
     return this._pageNumber;

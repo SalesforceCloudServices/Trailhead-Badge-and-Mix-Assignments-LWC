@@ -1,9 +1,9 @@
 /**
  * Component to list the trailhead recommendations for a given user and record.
  **/
-import { LightningElement, track, api, wire } from 'lwc';
+import { LightningElement, track, api } from 'lwc';
 
-import {refreshApex} from '@salesforce/apex';
+// import {refreshApex} from '@salesforce/apex';
 
 
 // import getRecommendedEntries from '@salesforce/apex/TH_Contextual_Badge_Recommend.getRecommendedEntries';
@@ -19,6 +19,11 @@ import TRAILHEAD_LINK_LABEL from '@salesforce/label/c.th_trailhead_link_label';
 const ICON_BADGE = 'custom:custom48';
 const ICON_TRAILMIX = 'custom:custom78';
 const ICON_BOTH = 'custom:custom78';
+
+//-- types of assignments to show
+import TYPE_BADGE from '@salesforce/label/c.th_TrailheadTypeBadge';
+import TYPE_TRAILMIX from '@salesforce/label/c.th_TrailheadTypeTrailmix';
+import TYPE_BOTH from '@salesforce/label/c.th_TrailheadTypeBoth';
 
 export default class Tl_trailheadAssignments extends LightningElement {
   //-- properties (see - meta.xml)
@@ -201,12 +206,14 @@ export default class Tl_trailheadAssignments extends LightningElement {
   @api
   determineSectionIcon(badgesOrTrailmixes){
     let sectionIcon = '';
-		if(badgesOrTrailmixes===TYPE_BOTH){
-			sectionIcon = ICON_BOTH;
-		} else if(badgesOrTrailmixes===TYPE_TRAILMIX){
-			sectionIcon = ICON_TRAILMIX;
-		} else { //-- assume TYPE_BADGE
-			sectionIcon = ICON_BADGE;
+    if(badgesOrTrailmixes===TYPE_BOTH){
+      sectionIcon = ICON_BOTH;
+    } else if(badgesOrTrailmixes===TYPE_TRAILMIX){
+      sectionIcon = ICON_TRAILMIX;
+    } else if(badgesOrTrailmixes===TYPE_BADGE){
+      sectionIcon = ICON_BADGE;
+    } else { //-- assume TYPE_BADGE
+      sectionIcon = ICON_BADGE;
     }
     return sectionIcon;
   }
