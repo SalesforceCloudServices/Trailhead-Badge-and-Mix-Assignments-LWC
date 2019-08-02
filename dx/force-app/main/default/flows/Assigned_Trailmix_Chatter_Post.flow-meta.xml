@@ -97,7 +97,7 @@
                     </value>
                 </processMetadataValues>
                 <leftValueReference>myVariable_current.trailheadapp__Status__c</leftValueReference>
-                <operator>EqualTo</operator>
+                <operator>NotEqualTo</operator>
                 <rightValue>
                     <stringValue>Completed</stringValue>
                 </rightValue>
