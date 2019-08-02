@@ -3,6 +3,8 @@
   "version": "0.0.1",
   "description": "Components to work with the Trailhead Tracker to show the current assignments",
   "scripts": {
+    "lint": "node node_modules/eslint/bin/eslint.js force-app/main/default/lwc/",
+    "lint:watch": "node node_modules/eslint-watch/bin/esw --watch --changed force-app/main/default/lwc/",
     "test": "node node_modules/@salesforce/lwc-jest/bin/lwc-jest",
     "test:watch": "node node_modules/@salesforce/lwc-jest/bin/lwc-jest --watch",
     "test:debug": "node node_modules/@salesforce/lwc-jest/bin/lwc-jest --debug"
@@ -20,6 +22,8 @@
   "devDependencies": {
     "@salesforce/eslint-config-lwc": "^0.3.0",
     "@salesforce/lwc-jest": "^0.5.1",
-    "eslint": "6.1.0"
+    "eslint": "6.1.0",
+    "eslint-plugin-import": "2.18.2",
+    "eslint-watch": "6.0.0"
   }
 }
