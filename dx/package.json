@@ -19,6 +19,7 @@
   "homepage": "https://github.com/SalesforceCloudServices/Trailhead-Badge-and-Mix-Assignments#readme",
   "devDependencies": {
     "@salesforce/eslint-config-lwc": "^0.3.0",
-    "@salesforce/lwc-jest": "^0.4.14"
+    "@salesforce/lwc-jest": "^0.5.1",
+    "eslint": "6.1.0"
   }
 }
