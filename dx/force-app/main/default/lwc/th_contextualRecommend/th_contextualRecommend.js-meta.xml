@@ -29,6 +29,20 @@
                 max="355"
                 required="true"
             />
+            <!-- whether to show the 'Add' button on entries of the list -->
+            <property name="btnAddEligible" type="Boolean"
+                label="Show Add button on Entries?"
+                description="Whether to show the 'Add' button on the entries of the list"
+                default="true"
+                required="false"
+            />
+            <!-- whether to show the 'Share' button on entries of the list -->
+            <property name="btnShareEligible" type="Boolean"
+                label="Show Share button on Entries?"
+                description="Whether to show the 'Share' button on the entries of the list"
+                default="true"
+                required="false"
+            />
         </targetConfig>
     </targetConfigs>
 </LightningComponentBundle>

@@ -71,6 +71,12 @@ export default class Tl_trailheadAssignments extends LightningElement {
     return this.recordPaginator.paginatedValues;
   }
 
+  /** Whether to show the Add button on entries of the list. */
+  @api btnAddEligible;
+
+  /** Whether to show the Share button on entries of the list. */
+  @api btnShareEligible;
+
   //-- NOTE: the sectionIcon and title COULD be getters/setters
   //-- but they would be continually re-evaluated.
   //-- saving calculations is preferred here as it only gets set on load.
