@@ -34,59 +34,6 @@
     <flexiPageRegions>
         <componentInstances>
             <componentInstanceProperties>
-                <name>decorate</name>
-                <value>true</value>
-            </componentInstanceProperties>
-            <componentInstanceProperties>
-                <name>richTextValue</name>
-                <value>&lt;div style=&quot;text-align: center;&quot;&gt;Learn the skills that will help you take your role to the next level.&lt;br /&gt;
-&lt;a href=&quot;https://trailhead.salesforce.com/&quot;&gt;Visit Trailhead&lt;/a&gt;&lt;/div&gt;</value>
-            </componentInstanceProperties>
-            <componentName>flexipage:richText</componentName>
-        </componentInstances>
-        <componentInstances>
-            <componentName>home:assistant</componentName>
-        </componentInstances>
-        <componentInstances>
-            <componentInstanceProperties>
-                <name>badgesOrTrailmixes</name>
-                <value>Badge</value>
-            </componentInstanceProperties>
-            <componentInstanceProperties>
-                <name>dueDateFilter</name>
-                <value>All</value>
-            </componentInstanceProperties>
-            <componentInstanceProperties>
-                <name>paginationSize</name>
-                <value>4</value>
-            </componentInstanceProperties>
-            <componentInstanceProperties>
-                <name>upcomingEventWindow</name>
-                <value>7</value>
-            </componentInstanceProperties>
-            <componentName>th_trailheadAssignments</componentName>
-        </componentInstances>
-        <componentInstances>
-            <componentInstanceProperties>
-                <name>badgesOrTrailmixes</name>
-                <value>TrailMix</value>
-            </componentInstanceProperties>
-            <componentInstanceProperties>
-                <name>dueDateFilter</name>
-                <value>All</value>
-            </componentInstanceProperties>
-            <componentInstanceProperties>
-                <name>paginationSize</name>
-                <value>5</value>
-            </componentInstanceProperties>
-            <componentInstanceProperties>
-                <name>upcomingEventWindow</name>
-                <value>7</value>
-            </componentInstanceProperties>
-            <componentName>th_trailheadAssignments</componentName>
-        </componentInstances>
-        <componentInstances>
-            <componentInstanceProperties>
                 <name>badgesOrTrailmixes</name>
                 <value>Both</value>
             </componentInstanceProperties>
@@ -96,13 +43,35 @@
             </componentInstanceProperties>
             <componentInstanceProperties>
                 <name>paginationSize</name>
-                <value>5</value>
+                <value>2</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>upcomingEventWindow</name>
+                <value>10</value>
+            </componentInstanceProperties>
+            <componentName>th_trailheadAssignments</componentName>
+        </componentInstances>
+        <componentInstances>
+            <componentInstanceProperties>
+                <name>btnAddEligible</name>
+                <value>true</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>btnShareEligible</name>
+                <value>true</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>paginationSize</name>
+                <value>2</value>
             </componentInstanceProperties>
             <componentInstanceProperties>
                 <name>upcomingEventWindow</name>
                 <value>7</value>
             </componentInstanceProperties>
-            <componentName>th_trailheadAssignments</componentName>
+            <componentName>th_contextualRecommend</componentName>
+        </componentInstances>
+        <componentInstances>
+            <componentName>home:assistant</componentName>
         </componentInstances>
         <mode>Replace</mode>
         <name>sidebar</name>

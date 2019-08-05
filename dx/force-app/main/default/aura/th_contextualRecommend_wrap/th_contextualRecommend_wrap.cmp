@@ -1,0 +1,35 @@
+<!--
+/**
+ * Aura wrapper for the th_contextualRecommend lwc component
+ */
+-->
+<aura:component
+    implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,lightning:availableForFlowScreens"
+    access="global"
+>
+    <!-- attributes -->
+    <aura:attribute name="paginationSize" type="Integer" default="5"
+        description='pagination size for the results'
+    />
+    <aura:attribute name="upcomingEventWindow" type="Integer" default="7"
+        description='number of days until duedate that the assignment is upcoming'
+    />
+    <aura:attribute name="btnAddEligible" type="Boolean" default="true"
+        description="Whether to show the 'Add' button on entries of the list"
+    />
+    <aura:attribute name="btnShareEligible" type="Boolean" default="true"
+        description="Whether to show the 'Share' button on entries of the list"
+    />
+
+    <!-- handlers -->
+
+    <!-- events -->
+
+    <!-- elements -->
+    <c:th_contextualRecommend
+        paginationSize="{!v.paginationSize}"
+        upcomingEventWindow="{!v.upcomingEventWindow}"
+        btnAddEligible="{!v.btnAddEligible}"
+        btnShareEligible="{!v.btnShareEligible}"
+    />
+</aura:component>
