@@ -187,9 +187,6 @@ global class TH_Assignments {
         
         return results;
     }
-    
-
-
 
 
     //-- #  #   #   #   #   #   #   #   #   #   #   #   #   #   #   #   #

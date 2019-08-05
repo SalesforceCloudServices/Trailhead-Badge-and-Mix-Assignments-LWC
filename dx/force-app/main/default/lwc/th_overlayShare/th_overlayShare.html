@@ -1,7 +1,51 @@
 <template>
     <lightning-card title="Share">
-        <div slot="actions">
-            <lightning-button label="New"></lightning-button>
+        <div slot="actions"></div>
+        <div aria-labelledby="my-form">
+            <form class="slds-form_stacked">
+                <lightning-layout multiple-rows="true">
+                    <lightning-layout-item padding="around-small" size="6">
+                        <!-- use onkeyup to capture when the user presses return
+                            
+                        -->
+                        <div>
+                            <lightning-input
+                                name="userSearch" type="search"
+                                label="User to notify"
+                                value={targetUserSearch}
+                                onblur={handleSearchBlur}
+                                onkeyup={handleSearchKeyUp}
+                                required
+                            ></lightning-input>
+                            <!--
+                            button in case the timeout won't work...
+                            <lightning-button-icon
+                                icon-name="utility:search" alternative-text="search"
+                            ></lightning-button-icon>
+                            -->
+                        </div>
+                        <div if:true={targetUserSearch}>
+                            Searching for user:{targetUserSearch}
+                        </div>
+                    </lightning-layout-item>
+                    <lightning-layout-item padding="around-small" size="6">
+                        <lightning-combobox
+                            name="userSelect"
+                            label="User Select"
+                            value={targetUserId}
+                            options={targetUserOptions}
+                            onchange={handleTargetUserChanged}
+                        ></lightning-combobox>
+                    </lightning-layout-item>
+                    <lightning-layout-item padding="around-small" size="6">
+                        <lightning-textarea
+                            name="message"
+                            label="message"
+                            value={message}
+                        ></lightning-textarea>
+                    </lightning-layout-item>
+                </lightning-layout>
+            </form>
         </div>
         This is the content
         <div slot="footer">
