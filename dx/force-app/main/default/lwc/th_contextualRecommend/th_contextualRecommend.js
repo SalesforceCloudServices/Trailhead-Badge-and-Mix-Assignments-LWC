@@ -139,6 +139,24 @@ export default class Tl_trailheadAssignments extends LightningElement {
     console.error(`Lightning data service encountered an error when loading record:${this.recordId}`);
   }
 
+  //-- pass the events from the internal components
+  /**
+   * Pass an event 
+   * @param {LwcEvent} event - Event dispatched from a contained component
+   */
+  passEvent(event){
+    // this.dispatchEvent(event);
+    const e2 = new CustomEvent(event.type, {detail:event.detail});
+    this.dispatchEvent(e2);
+  }
+
+  passShareTrailhead(event){
+    const e = new CustomEvent('requestsharetrailhead',{
+      detail: event.detail
+    });
+    this.dispatchEvent(e);
+  }
+
   /**
    * Refresh the current counts
    * <p>Note: this must have access

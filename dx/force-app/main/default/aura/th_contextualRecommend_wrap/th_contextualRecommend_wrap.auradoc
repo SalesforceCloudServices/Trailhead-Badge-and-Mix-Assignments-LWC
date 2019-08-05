@@ -1,6 +1,7 @@
 <aura:documentation>
 	<aura:description>
-		<p>Wrapper component needed for when Lightning Web Components
+		<p>Aura wrapper for the th_contextualRecommend lwc component</p>
+		<p>Wrapper components are needed for when Lightning Web Components
 		still rely on Aura Technologies.</p>
 		<p>For more information, please see
 			<a href='https://developer.salesforce.com/docs/component-library/documentation/lwc/lwc.interop_intro'>https://developer.salesforce.com/docs/component-library/documentation/lwc/lwc.interop_intro</a>

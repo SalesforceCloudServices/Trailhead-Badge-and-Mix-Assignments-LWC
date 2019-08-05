@@ -19,6 +19,12 @@ const STATUS_DUE = 'event-due';
 /** The event is considered 'upcoming' */
 const STATUS_UPCOMING = 'event-upcoming';
 
+/** The event to dispatch when we want to add an assignment to a specific trailhead trail or module */
+const EVENT_ADD_ASSIGNMENT = 'requestaddassignment';
+
+/** The event to dispatch when we want to share a specific trailhead trail or module */
+const EVENT_SHARE_TRAILHEAD = 'requestsharetrailhead';
+
 /** milliseconds per day */
 // const MILLI_PER_DAY = 24 * 60 * 60 * 1000;
 
@@ -98,17 +104,48 @@ export default class Th_trailheadAssignment_entry extends LightningElement {
   handleAddClick(){
     // @TODO
     console.log('add button was clicked');
+
+    if (!this.assignmentEntry){
+      return;
+    }
+
+    const eventAdd = new CustomEvent(EVENT_ADD_ASSIGNMENT,
+      {
+        detail: {
+          entryType: this.assignmentEntry.EntryType,
+          entryId: this.assignmentEntry.Id
+        }
+      }
+    );
+
+    this.dispatchEvent(eventAdd);
   }
 
   @api
   handleShareClick(){
     // @TODO
     console.log('share button was clicked');
-    if (Th_trailheadAssignment_entry.isAssignmentCompleted(this.assignmentEntry)){
-      console.log('Hey I completed this. check it out');
-    } else {
-      console.log('Hey this might be interesting. Should we check it out?');
+
+    if (!this.assignmentEntry){
+      return;
     }
+
+    let message = 'Hey this might be interesting. Should we check it out?';
+    if (Th_trailheadAssignment_entry.isAssignmentCompleted(this.assignmentEntry)){
+      message = 'Hey I completed this. check it out';
+    }
+
+    const eventShare = new CustomEvent(EVENT_SHARE_TRAILHEAD,
+      {
+        detail: {
+          entryType: this.assignmentEntry.EntryType,
+          entryId: this.assignmentEntry.Id,
+          message: message
+        }
+      }
+    );
+
+    this.dispatchEvent(eventShare);
   }
 
   //-- internal methods
