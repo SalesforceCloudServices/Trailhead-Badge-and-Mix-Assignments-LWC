@@ -181,7 +181,6 @@ export default class Tl_trailheadAssignments extends LightningElement {
       });
   }
  
-  
   /** Provide a link to Trailhead using the custom label */
   @api
   get trailheadLinkLabel(){

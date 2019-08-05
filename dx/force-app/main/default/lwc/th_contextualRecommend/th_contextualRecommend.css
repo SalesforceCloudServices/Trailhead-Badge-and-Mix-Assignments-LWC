@@ -14,6 +14,8 @@
         (Testing on various devices actually found
          it did not always work even then.)
     **/
-    width: 330px;
+    /** @TODO: review auto. previously set to `width: 330px;` **/
+    width: 100%;
     min-height: 70px;
+    padding-right: 10px;
 }
