@@ -34,4 +34,5 @@
         onrequestaddassignment="{!c.handleAddAssignmentRequest}"
         onrequestsharetrailhead="{!c.handleShareTrailheadRequest}"
     />
+    <lightning:overlayLibrary aura:id="contextualRecommendOverlayLib" />
 </aura:component>

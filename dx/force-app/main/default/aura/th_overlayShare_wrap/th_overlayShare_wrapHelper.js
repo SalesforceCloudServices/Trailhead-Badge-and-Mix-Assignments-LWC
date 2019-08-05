@@ -6,42 +6,33 @@
   initializeComponent : function(component, helper) {
     helper.noop();
   },
-
-  /**
-   * Handles when a user requests adding a trailhead assignment
-   */
-  handleShareTrailheadRequest : function(component, event, helper){
-    var modalBody;
-    var overlayLib = component.find('contextualRecommendOverlayLib');
-
-    var recordId = null;
-    var eventParams = event.getParams();
-
-    if (typeof eventParams.entryId !== 'undefined'){
-      recordId = eventParams.entryId;
-    }
-
-    $A.createComponent('c:th_overlayShare_wrap',
-      {
-        recordId: recordId
-      },
-      function(content, status){
-        if (status === 'SUCCESS'){
-          modalBody = content;
-          overlayLib.showCustomModal({
-            header: 'EXAMPLE HEADER',
-            body: modalBody,
-            showCloseButton: true,
-            closeCallback: function(){
-              console.log('you closed the add assignment modal. captured from wrapper.'); // eslint-disable-line no-console
-            }
-          });
-        }
-      }
-    );
-  },
-
   
+  /**
+   * performs a server side call
+   * @param exampleRecordId (Id)
+   **/
+  makeServerSideCallout : function(component, helper, recordId) {
+    var action = component.get('c.methodToCall');
+    action.setParams({ recordId: recordId });
+    
+    action.setCallback(this, function(response){
+      var state = response.getState();
+      if( state === 'SUCCESS' ){
+        helper.error('action success');
+        var results = response.getReturnValue();
+        helper.log('results came back:');
+        helper.log(results);
+      } else {
+        helper.error('Error occurred from Action');
+        
+        //-- https://developer.salesforce.com/blogs/2017/09/error-handling-best-practices-lightning-apex.html
+        var errors = response.getError();
+        helper.handleCallError(component, helper, state, errors);
+      }
+    });
+    //-- optionally set storable, abortable, background flags here
+    $A.enqueueAction(action);
+  },
   
   /**
    * Displays an error

@@ -136,7 +136,7 @@ export default class Tl_trailheadAssignments extends LightningElement {
    * Called if the Lightning Data Service has an error in pulling in the record
    */
   handleLdsError(event){
-    console.error(`Lightning data service encountered an error when loading record:${this.recordId}`);
+    console.error(`Lightning data service encountered an error when loading record:${this.recordId}`); // eslint-disable-line no-console
   }
 
   //-- pass the events from the internal components

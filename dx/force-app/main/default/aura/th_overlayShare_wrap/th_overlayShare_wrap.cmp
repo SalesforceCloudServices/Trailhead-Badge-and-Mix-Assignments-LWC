@@ -1,0 +1,50 @@
+<!--
+/**
+* Represents an overlay (popup) that allows the user to share a MyTrailhead Module or Trail.
+* @component: th_overlayShareContainer
+* @see th_overlayShare
+**/
+-->
+<aura:component
+    access="global"
+>
+    <!-- attributes -->
+
+    <aura:attribute name="moduleId" type="Id"
+        description="The id of the trailhead module to share"
+    />
+    <aura:attribute name="trailId" type="Id"
+        description="The id of the trailhead trail to share"
+    />
+
+    <aura:attribute name="recordId" type="Id"
+        description="The id of the record to share"
+    />
+
+    <!-- handlers -->
+    <aura:handler name="init" value="{!this}" action="{!c.init}" />
+    
+    <!-- events -->
+    
+    <!-- elements -->
+    
+    <!-- the LWC component that this wraps around-->
+    <c:th_overlayShare
+        oncloserequest="{c.handleCloseRequest}"
+    />
+
+    <!-- NOTE: an overlay library is ALSO needed in the modal, to allow it to close itself. -->
+    <div>record: {!v.recordId}</div>
+    <forceChatter:publisher
+        context="RECORD"
+        recordId="{!v.recordId}"
+    />
+    <div>Global</div>
+    <forceChatter:publisher
+        context="GLOBAL"
+    />
+
+    <lightning:overlayLibrary
+        aura:id="shareContainerOverlayLib"
+    />
+</aura:component>

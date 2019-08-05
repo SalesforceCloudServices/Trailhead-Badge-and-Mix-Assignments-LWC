@@ -14,6 +14,9 @@
             ],
             "c/th_trailheadAssignments": [
                 "th_trailheadAssignments/th_trailheadAssignments.js"
+            ],
+            "c/th_overlayShare": [
+                "th_overlayShare/th_overlayShare.js"
             ]
         }
     },
