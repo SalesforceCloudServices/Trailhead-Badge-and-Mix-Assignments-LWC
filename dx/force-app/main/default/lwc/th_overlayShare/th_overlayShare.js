@@ -39,6 +39,12 @@ export default class th_overlayShare extends LightningElement {
   @track targetUserId;
 
   /**
+   * User object of the user to @mention
+   * @type {sobject}
+   */
+  @track targetUserOption;
+
+  /**
    * Message to send in the chatter post
    * @type {string}
    */
@@ -46,9 +52,7 @@ export default class th_overlayShare extends LightningElement {
 
   /** initialize the component */
   connectedCallback(){
-    this.targetUserSearch = '';
-    this.targetUserOptions = [];
-    this.targetUserId = null;
+    this.clearUserSearch();
   }
 
   /** handle when the ok button is pressed */
@@ -124,9 +128,9 @@ export default class th_overlayShare extends LightningElement {
           if (typeof data.length !== 'undefined'){
             if (data.length === 1){
               this.targetUserId = data[0].value;
+              this.targetUserSearch = data[0].label;
+              this.targetUserOption = data[0];
             }
-          } else if (typeof data.value !== 'undefined'){
-            this.targetUserId = data.value;
           }
         }
       })
@@ -141,8 +145,10 @@ export default class th_overlayShare extends LightningElement {
    * Clears the user search
    */
   clearUserSearch(){
-    this.targetUserOptions=[];
-    this.targetUserId=null;
+    this.targetUserSearch = '';
+    this.targetUserOptions = [];
+    this.targetUserId = null;
+    this.targetUserOption = null;
   }
 
   /**
@@ -150,5 +156,14 @@ export default class th_overlayShare extends LightningElement {
    */
   handleTargetUserChanged(evt){
     console.log('user selected the target user');
+
+    this.targetUserOption = this.targetUserOptions.find((targetUserOption) => {
+      return targetUserOption && targetUserOption.value === evt.target.value;
+    });
+
+    if (this.targetUserOption){
+      this.targetUserSearch = this.targetUserOption.label;
+      this.targetUserId = this.targetUserOption.value;
+    }
   }
 }
