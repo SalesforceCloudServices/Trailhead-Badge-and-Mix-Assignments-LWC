@@ -2,6 +2,12 @@ import { LightningElement, track, api } from 'lwc'; // eslint-disable-line no-un
 
 import shareUtilFindMatchingUsers from '@salesforce/apex/TH_ShareUtil.findMatchingUsers';
 
+//-- custom labels for the message
+/** The message to share for in-progress trailhead items */
+import TRAILHEAD_SHARE_INCOMPLETE_MSG from '@salesforce/label/c.th_TrailheadShareIncompleteMsg';
+/** The message to share for completed trailhead items */
+import TRAILHEAD_SHARE_COMPLETE_MSG from '@salesforce/label/c.th_TrailheadShareCompleteMsg';
+
 /** Represents the enter key */
 const KEY_ENTER = 13;
 
@@ -50,10 +56,74 @@ export default class th_overlayShare extends LightningElement {
    */
   @track message;
 
+  //-- getter / setters
+
+  /**
+   * Determines whether a user has been selected and the message can proceed
+   */
+  @api
+  get isUserSelected(){
+    return this.targetUserOption !== null;
+  }
+
+  /** Whether there are any user options (true) or an empty list (false) */
+  @api
+  get userOptionsAvailable(){
+    return this.targetUserOptions && this.targetUserOptions.length > 0;
+  }
+
   /** initialize the component */
   connectedCallback(){
     this.clearUserSearch();
   }
+
+  /**
+   * Clears the user search
+   */
+  clearUserSearch(){
+    this.targetUserSearch = '';
+    this.targetUserOptions = [];
+    this.targetUserId = null;
+    this.targetUserOption = null;
+  }
+
+  /**
+   * Performs the search on a user.
+   * @param {string} userSearch - the string to use in the search for users.
+   */
+  searchUsers (userSearchStr) {
+    console.log('user search is getting performed with:' + userSearchStr);
+    
+    if (!userSearchStr){
+      this.clearUserSearch();
+    } else if (userSearchStr.length < 3){
+      return;
+    }
+    
+    let userSearchWild = WILDCARD + userSearchStr + WILDCARD;
+
+    shareUtilFindMatchingUsers( {userSearch:userSearchWild} )
+      .then(data => {
+        //-- @TODO: handle data
+        console.log('got a list of results');
+        this.targetUserOptions = data;
+        
+        if (data){
+          if (typeof data.length !== 'undefined'){
+            if (data.length === 1){
+              this.selectTargetUserById(data[0].value);
+            }
+          }
+        }
+      })
+      .catch(error => {
+        //-- @TODO: handle error
+        console.error('error occurred searchUsers:jsImportedApexMethodName', JSON.stringify(error));
+        this.error = error;
+      })
+  }
+
+  //-- handlers
 
   /** handle when the ok button is pressed */
   onOkButtonClick(){
@@ -104,66 +174,29 @@ export default class th_overlayShare extends LightningElement {
   }
 
   /**
-   * Performs the search on a user.
-   * @param {string} userSearch - the string to use in the search for users.
-   */
-  searchUsers (userSearchStr) {
-    console.log('user search is getting performed with:' + userSearchStr);
-    
-    if (!userSearchStr){
-      this.clearUserSearch();
-    } else if (userSearchStr.length < 3){
-      return;
-    }
-    
-    let userSearchWild = WILDCARD + userSearchStr + WILDCARD;
-
-    shareUtilFindMatchingUsers( {userSearch:userSearchWild} )
-      .then(data => {
-        //-- @TODO: handle data
-        console.log('got a list of results');
-        this.targetUserOptions = data;
-        
-        if (data){
-          if (typeof data.length !== 'undefined'){
-            if (data.length === 1){
-              this.targetUserId = data[0].value;
-              this.targetUserSearch = data[0].label;
-              this.targetUserOption = data[0];
-            }
-          }
-        }
-      })
-      .catch(error => {
-        //-- @TODO: handle error
-        console.error('error occurred searchUsers:jsImportedApexMethodName', JSON.stringify(error));
-        this.error = error;
-      })
-  }
-
-  /**
-   * Clears the user search
-   */
-  clearUserSearch(){
-    this.targetUserSearch = '';
-    this.targetUserOptions = [];
-    this.targetUserId = null;
-    this.targetUserOption = null;
-  }
-
-  /**
    * Handles when the target user is selected
    */
   handleTargetUserChanged(evt){
     console.log('user selected the target user');
+    this.selectTargetUserById(evt.target.value);
+  }
+  
+  //-- private methods
 
+  /**
+   * Selects a user from the list of target users
+   * @param targetUserId {string} - id of the target user
+   * @return {object} - the target user label value pair
+   */
+  selectTargetUserById(targetUserId){
     this.targetUserOption = this.targetUserOptions.find((targetUserOption) => {
-      return targetUserOption && targetUserOption.value === evt.target.value;
+      return targetUserOption && targetUserOption.value === targetUserId;
     });
 
     if (this.targetUserOption){
       this.targetUserSearch = this.targetUserOption.label;
       this.targetUserId = this.targetUserOption.value;
+      this.targetUserOptions = [];
     }
   }
 }

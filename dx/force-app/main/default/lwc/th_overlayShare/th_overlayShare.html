@@ -4,7 +4,7 @@
         <div aria-labelledby="my-form">
             <form class="slds-form_stacked">
                 <lightning-layout multiple-rows="true">
-                    <lightning-layout-item padding="around-small" size="6">
+                    <lightning-layout-item padding="around-small" size="12">
                         <!-- use onkeyup to capture when the user presses return
                             
                         -->
@@ -24,20 +24,20 @@
                             ></lightning-button-icon>
                             -->
                         </div>
-                        <div if:true={targetUserSearch}>
-                            Searching for user:{targetUserSearch}
+                        <div if:true={isUserSelected}>
+                            User found: {targetUserOption.label}
+                        </div>
+                        <div if:true={userOptionsAvailable}>
+                            <lightning-combobox
+                                name="userSelect"
+                                label="User Select"
+                                value={targetUserId}
+                                options={targetUserOptions}
+                                onchange={handleTargetUserChanged}
+                            ></lightning-combobox>
                         </div>
                     </lightning-layout-item>
-                    <lightning-layout-item padding="around-small" size="6">
-                        <lightning-combobox
-                            name="userSelect"
-                            label="User Select"
-                            value={targetUserId}
-                            options={targetUserOptions}
-                            onchange={handleTargetUserChanged}
-                        ></lightning-combobox>
-                    </lightning-layout-item>
-                    <lightning-layout-item padding="around-small" size="6">
+                    <lightning-layout-item padding="around-small" size="12" if:true={isUserSelected}>
                         <lightning-textarea
                             name="message"
                             label="message"
@@ -47,7 +47,6 @@
                 </lightning-layout>
             </form>
         </div>
-        This is the content
         <div slot="footer">
             <lightning-button label="OK" onclick={onOkButtonClick}></lightning-button>
             <lightning-button label="Close"  onclick={onCloseButtonClick}></lightning-button>

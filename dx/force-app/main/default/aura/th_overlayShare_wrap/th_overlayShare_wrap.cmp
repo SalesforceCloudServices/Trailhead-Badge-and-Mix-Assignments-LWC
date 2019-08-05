@@ -27,13 +27,10 @@
     <!-- events -->
     
     <!-- elements -->
-    
-    <!-- the LWC component that this wraps around-->
-    <c:th_overlayShare
-        oncloserequest="{c.handleCloseRequest}"
-    />
 
-    <!-- NOTE: an overlay library is ALSO needed in the modal, to allow it to close itself. -->
+    <!-- @TODO: it appears we cannot default anything within the standard chatter component-->
+
+    <!--
     <div>record: {!v.recordId}</div>
     <forceChatter:publisher
         context="RECORD"
@@ -43,6 +40,14 @@
     <forceChatter:publisher
         context="GLOBAL"
     />
+    -->
+    
+    <!-- the LWC component that this wraps around-->
+    <c:th_overlayShare
+        oncloserequest="{c.handleCloseRequest}"
+    />
+
+    <!-- NOTE: an overlay library is ALSO needed in the modal, to allow it to close itself. -->
 
     <lightning:overlayLibrary
         aura:id="shareContainerOverlayLib"
