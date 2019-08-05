@@ -146,15 +146,8 @@ export default class Tl_trailheadAssignments extends LightningElement {
    */
   passEvent(event){
     // this.dispatchEvent(event);
-    const e2 = new CustomEvent(event.type, {detail:event.detail});
-    this.dispatchEvent(e2);
-  }
-
-  passShareTrailhead(event){
-    const e = new CustomEvent('requestsharetrailhead',{
-      detail: event.detail
-    });
-    this.dispatchEvent(e);
+    const eventClone = new CustomEvent(event.type, {detail:event.detail});
+    this.dispatchEvent(eventClone);
   }
 
   /**

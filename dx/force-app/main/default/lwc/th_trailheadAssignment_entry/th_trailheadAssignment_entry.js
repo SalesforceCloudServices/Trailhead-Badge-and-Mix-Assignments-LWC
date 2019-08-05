@@ -111,6 +111,8 @@ export default class Th_trailheadAssignment_entry extends LightningElement {
 
     const eventAdd = new CustomEvent(EVENT_ADD_ASSIGNMENT,
       {
+        bubbles:true,
+        composed:true,
         detail: {
           entryType: this.assignmentEntry.EntryType,
           entryId: this.assignmentEntry.Id
@@ -137,6 +139,8 @@ export default class Th_trailheadAssignment_entry extends LightningElement {
 
     const eventShare = new CustomEvent(EVENT_SHARE_TRAILHEAD,
       {
+        bubbles: true,
+        composed: true,
         detail: {
           entryType: this.assignmentEntry.EntryType,
           entryId: this.assignmentEntry.Id,
