@@ -11,8 +11,11 @@ import TRAILHEAD_SHARE_COMPLETE_MSG from '@salesforce/label/c.th_TrailheadShareC
 /** Represents the enter key */
 const KEY_ENTER = 13;
 
+/** Minimum characters to enter before doing a search */
+const MIN_SEARCH_CHAR_THRESHOLD = 1;  //-- @TODO: custom label?
+
 /** Represents the timeout to provide for waiting for input prior to doing the search */
-const DELAY = 600;
+const DELAY = 600;  //-- @TODO: custom label?
 
 /** wildcard to apply to the search */
 const WILDCARD = '%';
@@ -96,7 +99,7 @@ export default class th_overlayShare extends LightningElement {
     
     if (!userSearchStr){
       this.clearUserSearch();
-    } else if (userSearchStr.length < 3){
+    } else if (userSearchStr.length < MIN_SEARCH_CHAR_THRESHOLD){
       return;
     }
     
