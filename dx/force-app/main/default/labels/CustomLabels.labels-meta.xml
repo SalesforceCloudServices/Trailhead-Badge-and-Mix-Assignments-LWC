@@ -1,6 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
     <labels>
+        <fullName>th_TrailheadInputSearchDelay</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Number of milliseconds to wait before perfoming a search</shortDescription>
+        <value>600</value>
+    </labels>
+    <labels>
+        <fullName>th_TrailheadMinCharSearchThreshold</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Minimum number of characters before a search is perfomed</shortDescription>
+        <value>3</value>
+    </labels>
+    <labels>
+        <fullName>th_TrailheadShareCompleteMsg</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Message to share for completed trailhead items</shortDescription>
+        <value>Hey, I completed this. Why don&#39;t you give it a try?</value>
+    </labels>
+    <labels>
+        <fullName>th_TrailheadShareIncompleteMsg</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Message to share for in-progress trailhead items</shortDescription>
+        <value>Hey, check out this learning.</value>
+    </labels>
+    <labels>
         <fullName>th_TrailheadTypeBadge</fullName>
         <language>en_US</language>
         <protected>false</protected>

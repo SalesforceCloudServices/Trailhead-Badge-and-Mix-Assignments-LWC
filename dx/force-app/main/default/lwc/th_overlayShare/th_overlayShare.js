@@ -6,20 +6,20 @@ import shareUtilFindMatchingUsers from '@salesforce/apex/TH_ShareUtil.findMatchi
 /** apex method to share a chatter post */
 import shareUtilMentionTrailheadToUser from '@salesforce/apex/TH_ShareUtil.mentionTrailheadToUser';
 
+/** Minimum characters to enter before doing a search */
+import shareUtilMinCharSearchThreshold from '@salesforce/label/c.th_TrailheadMinCharSearchThreshold';
+
+/** Represents the timeout to provide for waiting for input prior to doing the search */
+import shareUtilInputSearchDelay from '@salesforce/label/c.th_TrailheadInputSearchDelay';
+
+const MIN_SEARCH_THRESHOLD = Number.parseInt(shareUtilMinCharSearchThreshold, 10);
+const INPUT_SEARCH_DELAY = Number.parseInt(shareUtilInputSearchDelay, 10);
+
 /** indicates that the overlay should close */
 const EVENT_CLOSE_REQUEST = 'closerequest';
 
-/** indicates that an assignment is complete */
-const STATUS_COMPLETE = 'Complete';
-
 /** Represents the enter key */
 const KEY_ENTER = 13; // eslint-disable-line no-unused-vars
-
-/** Minimum characters to enter before doing a search */
-const MIN_SEARCH_CHAR_THRESHOLD = 1;  //-- @TODO: custom label?
-
-/** Represents the timeout to provide for waiting for input prior to doing the search */
-const DELAY = 600;  //-- @TODO: custom label?
 
 /** wildcard to apply to the search */
 const WILDCARD = '%';
@@ -118,7 +118,7 @@ export default class th_overlayShare extends LightningElement {
     
     if (!userSearchStr){
       this.clearUserSearch();
-    } else if (userSearchStr.length < MIN_SEARCH_CHAR_THRESHOLD){
+    } else if (userSearchStr.length < MIN_SEARCH_THRESHOLD){
       return;
     }
 
@@ -129,8 +129,6 @@ export default class th_overlayShare extends LightningElement {
 
     shareUtilFindMatchingUsers( {userSearch:userSearchWild} )
       .then(data => {
-        //-- @TODO: handle data
-        console.log('got a list of results');
         this.targetUserOptions = data;
         
         if (data){
@@ -211,7 +209,7 @@ export default class th_overlayShare extends LightningElement {
 
     this.delayTimeout = setTimeout(() => { // eslint-disable-line
       this.searchUsers(searchValue);
-    }, DELAY);
+    }, INPUT_SEARCH_DELAY);
   }
 
   /**
