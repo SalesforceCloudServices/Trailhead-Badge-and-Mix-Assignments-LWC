@@ -114,7 +114,7 @@ export default class th_overlayShare extends LightningElement {
    * @param {string} userSearch - the string to use in the search for users.
    */
   searchUsers (userSearchStr) {
-    console.log('user search is getting performed with:' + userSearchStr);
+    // console.log('user search is getting performed with:' + userSearchStr);
     
     if (!userSearchStr){
       this.clearUserSearch();
@@ -140,7 +140,7 @@ export default class th_overlayShare extends LightningElement {
         }
       })
       .catch(error => {
-        //-- @TODO: handle error
+        // eslint-disable-next-line no-console
         console.error('error occurred searchUsers:jsImportedApexMethodName', JSON.stringify(error));
         this.error = error;
       });
@@ -150,8 +150,6 @@ export default class th_overlayShare extends LightningElement {
 
   /** handle when the ok button is pressed */
   onOkButtonClick(){
-    console.log('okay button was clicked');
-
     let inputMessage = this.template.querySelector('.input-message');
 
     if (!inputMessage || !inputMessage.checkValidity() || !this.targetUserId || !this.trailheadEntry){
@@ -166,11 +164,10 @@ export default class th_overlayShare extends LightningElement {
       }
     )
       .then(isSuccessful => {
-        console.log('results from chatter post:' + isSuccessful);
         this.requestPopupClose(false);
       })
       .catch(error => {
-        //-- @TODO: handle error
+        // eslint-disable-next-line no-console
         console.error('error occurred jsMethodName:jsImportedApexMethodName', JSON.stringify(error));
       });
   }
@@ -179,8 +176,6 @@ export default class th_overlayShare extends LightningElement {
    * Handles when the cancel / close button is clicked
    */
   onCloseButtonClick(){
-    console.log('close button was clicked');
-
     this.requestPopupClose(false);
   }
 
@@ -230,7 +225,6 @@ export default class th_overlayShare extends LightningElement {
    * Handles when the target user is selected
    */
   handleTargetUserChanged(evt){
-    console.log('user selected the target user');
     this.selectTargetUserById(evt.target.value);
   }
   

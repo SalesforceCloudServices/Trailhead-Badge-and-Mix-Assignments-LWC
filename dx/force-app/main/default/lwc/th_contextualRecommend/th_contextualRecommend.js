@@ -109,7 +109,7 @@ export default class Tl_trailheadAssignments extends LightningElement {
       }
 
       if(this.isLastModifiedDifferent(this.recordLastModifiedDate, recordLastModified)){
-        console.log('record change detected');
+        // console.log('record change detected');
         this.recordLastModifiedDate = recordLastModified;
         this.refreshRecommends();
       }
@@ -186,7 +186,7 @@ export default class Tl_trailheadAssignments extends LightningElement {
         this.recordPaginator = new Paginator(data, this.paginationSize); 
       })
       .catch(error => {
-        //-- @TODO: handle error
+        // eslint-disable-next-line no-console
         console.error('error occurred captureGetRecommendTrailEntries:getRecommendTrailEntriesApex', JSON.stringify(error));
         this.error = error;
       });

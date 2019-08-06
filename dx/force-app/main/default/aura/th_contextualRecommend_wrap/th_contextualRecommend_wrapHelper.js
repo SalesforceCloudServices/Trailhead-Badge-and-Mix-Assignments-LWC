@@ -35,7 +35,7 @@
             body: modalBody,
             showCloseButton: true,
             closeCallback: function(){
-              console.log('you closed the add assignment modal. captured from wrapper.'); // eslint-disable-line no-console
+              // console.log('you closed the add assignment modal. captured from wrapper.'); // eslint-disable-line no-console
             }
           });
         }
@@ -66,7 +66,7 @@
             body: modalBody,
             showCloseButton: true,
             closeCallback: function(){
-              console.log('you closed the add assignment modal. captured from wrapper.'); // eslint-disable-line no-console
+              // console.log('you closed the add assignment modal. captured from wrapper.'); // eslint-disable-line no-console
             }
           });
         }

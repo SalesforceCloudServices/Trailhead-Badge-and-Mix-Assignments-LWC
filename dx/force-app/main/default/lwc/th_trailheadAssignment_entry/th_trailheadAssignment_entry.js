@@ -165,9 +165,6 @@ export default class Th_trailheadAssignment_entry extends LightningElement {
    */
   @api
   handleShareClick(){
-    // @TODO
-    console.log('share button was clicked');
-
     if (!this.assignmentEntry){
       return;
     }

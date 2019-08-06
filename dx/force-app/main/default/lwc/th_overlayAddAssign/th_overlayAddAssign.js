@@ -36,8 +36,6 @@ export default class Th_overlayAddAssign extends LightningElement {
 
   /** handle whent he ok button is pressed */
   onOkButtonClick(){
-    console.log('okay button was clicked');
-
     const dateInput = this.template.querySelector('.input-dueDate');
     let dueDate = dateInput.value;
 
@@ -47,6 +45,7 @@ export default class Th_overlayAddAssign extends LightningElement {
     }
 
     if (!this.trailheadEntry){
+      // eslint-disable-next-line no-console
       console.error('Unknown Trailhead Entry:null'); // eslint-disable-line no-console
       return;
     }
@@ -58,7 +57,7 @@ export default class Th_overlayAddAssign extends LightningElement {
     } = this.trailheadEntry;
 
     if (entryType === ENTRY_TYPE_BADGE){
-      console.log('add badge assignment');
+      // console.log('add badge assignment');
       apexAddTrailheadModuleAssignment(
         {
           moduleId:entryId,
@@ -67,17 +66,15 @@ export default class Th_overlayAddAssign extends LightningElement {
         }
       )
         .then(data => {
-          //-- @TODO: handle data
-          console.log('successfully added assignment');
           this.requestPopupClose(true);
         })
         .catch(error => {
-          //-- @TODO: handle error
+          // eslint-disable-next-line no-console
           console.error('error occurred while adding module:' + entryName, JSON.stringify(error));
           this.error = error;
         });
     } else if (entryType === ENTRY_TYPE_TRAILMIX){
-      console.log('add trailmix assignent');
+      // console.log('add trailmix assignent');
       apexAddTrailmixAssignment(
         {
           trailmixId:entryId,
@@ -86,23 +83,22 @@ export default class Th_overlayAddAssign extends LightningElement {
         }
       )
         .then(data => {
-          //-- @TODO: handle data
-          console.log('successfully added assignment');
+          // console.log('successfully added assignment');
           this.requestPopupClose(true);
         })
         .catch(error => {
-          //-- @TODO: handle error
+          // eslint-disable-next-line no-console
           console.error('error occurred while adding module:' + entryName, JSON.stringify(error));
-          this.error = error;
+           this.error = error;
         });
     } else {
+      // eslint-disable-next-line no-console
       console.error('unknown entry type');
     }
   }
 
   /** handle when the cancel button is pressed */
   onCloseButtonClick(){
-    console.log('cancel button was clicked');
     this.requestPopupClose(false);
   }
 
