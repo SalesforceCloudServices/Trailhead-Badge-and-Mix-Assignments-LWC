@@ -3,6 +3,9 @@
  */
 import { LightningElement, api } from 'lwc';
 
+//-- import the custom javascript types
+// require('../th_trailheadAssignments/__types__/CustomTypes);
+
 //-- note: custom labels are currently supported in LWC - Custom Settings require an apex callout
 //-- because this is an organization wide value, the choice was made to use custom labels instead
 
@@ -11,6 +14,12 @@ import TRAILHEAD_TRAIL_ICON from '@salesforce/label/c.th_trailhead_trail_icon';
 
 /** The TrailMix entry type */
 import ENTRY_TYPE_TRAILMIX from '@salesforce/label/c.th_TrailheadTypeTrailmix';
+
+//-- custom labels for the message
+/** The message to share for in-progress trailhead items */
+import TRAILHEAD_SHARE_INCOMPLETE_MSG from '@salesforce/label/c.th_TrailheadShareIncompleteMsg';
+/** The message to share for completed trailhead items */
+import TRAILHEAD_SHARE_COMPLETE_MSG from '@salesforce/label/c.th_TrailheadShareCompleteMsg';
 
 /** The standard event status */
 const STATUS_STANDARD = 'event-standard';
@@ -30,19 +39,29 @@ const EVENT_SHARE_TRAILHEAD = 'requestsharetrailhead';
 
 export default class Th_trailheadAssignment_entry extends LightningElement {
 
-  /** the assignment */
+  /**
+   * the assignment
+   * @type {AssignmentEntry}
+   **/
   @api assignmentEntry;
 
-  /** length of time until the upcoming event window is closed */
+  /**
+   * Number of Days until an event is no longer considered 'upcoming'
+   * @type {Number}
+   **/
   @api upcomingEventWindow;
 
-  /** Whether the Add button is eligible to be shown (admin setting) */
+  /**
+   * Whether the Add button is eligible to be shown (admin setting)
+   * @type {boolean}
+   **/
   @api btnAddEligible;
 
-  /** whether the Share button is eliglbe to be shown (admin setting) */
+  /** Whether the Share button is eliglbe to be shown (admin setting)
+   * @type {boolean} */
   @api btnShareEligible;
 
-  /** called on initial creation */
+  /** Called on initial creation */
   connectedCallback(){
     if (!this.assignmentEntry){
       this.assignmentEntry = {};
@@ -54,7 +73,10 @@ export default class Th_trailheadAssignment_entry extends LightningElement {
     this.btnShareEligible = this.btnShareEligible !== false;
   }
 
-  /** url for the icon to show */
+  /** 
+   * Url for the icon to show
+   * @type {string}
+   */
   @api
   get iconURL(){
     let result = this.assignmentEntry.Icon;
@@ -64,26 +86,39 @@ export default class Th_trailheadAssignment_entry extends LightningElement {
     return result;
   }
 
-  /** whether the add button should be shown */
+  /**
+   * whether the add button should be shown
+   * @type {boolean}
+   */
   @api
   get showAddBtn(){
     let result = this.btnAddEligible && !Th_trailheadAssignment_entry.isCurrentlyAssigned(this.assignmentEntry);
     return result;
   }
 
-  /** whether the share button should be shown */
+  /**
+   * Whether the share button should be shown
+   * @type {boolean}
+   */
   @api
   get showShareBtn(){
     return this.btnShareEligible;
   }
 
-  /** whether there is a due date assigned */
+  /**
+   * Whether there is a due date assigned
+   * @type {boolean}
+   */
   @api
   get hasDueDate(){
     //-- move truthy evaluation here for clarity
     return this.assignmentEntry.DueDate ? true : false;
   }
 
+  /**
+   * CSS class of the status (based on whether it is overdue, upcoming or in the future)
+   * @type {string}
+   */
   @api
   get statusClass(){
     let result = STATUS_STANDARD;
@@ -100,20 +135,23 @@ export default class Th_trailheadAssignment_entry extends LightningElement {
     return result;
   }
 
+  /**
+   * Handles when the user clicks the Add button
+   */
   @api
   handleAddClick(){
-    // @TODO
-    console.log('add button was clicked');
-
     if (!this.assignmentEntry){
       return;
     }
 
+    /** @type {EventAddAssignment} */
     const eventAdd = new CustomEvent(EVENT_ADD_ASSIGNMENT,
       {
         bubbles:true,
         composed:true,
         detail: {
+          assignmentEntry: this.assignmentEntry,
+          entryName: this.assignmentEntry.Name,
           entryType: this.assignmentEntry.EntryType,
           entryId: this.assignmentEntry.Id
         }
@@ -123,6 +161,9 @@ export default class Th_trailheadAssignment_entry extends LightningElement {
     this.dispatchEvent(eventAdd);
   }
 
+  /**
+   * Handles when the user clicks the Share button
+   */
   @api
   handleShareClick(){
     // @TODO
@@ -132,16 +173,19 @@ export default class Th_trailheadAssignment_entry extends LightningElement {
       return;
     }
 
-    let message = 'Hey this might be interesting. Should we check it out?';
+    let message = TRAILHEAD_SHARE_INCOMPLETE_MSG;
     if (Th_trailheadAssignment_entry.isAssignmentCompleted(this.assignmentEntry)){
-      message = 'Hey I completed this. check it out';
+      message = TRAILHEAD_SHARE_COMPLETE_MSG;
     }
 
+    /** @type {EventShareTrailhead} */
     const eventShare = new CustomEvent(EVENT_SHARE_TRAILHEAD,
       {
         bubbles: true,
         composed: true,
         detail: {
+          entry: this.assignmentEntry,
+          entryName: this.assignmentEntry.Name,
           entryType: this.assignmentEntry.EntryType,
           entryId: this.assignmentEntry.Id,
           message: message
