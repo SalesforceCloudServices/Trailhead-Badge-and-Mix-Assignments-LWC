@@ -24,10 +24,10 @@ const WILDCARD = '%';
 export default class th_overlayShare extends LightningElement {
 
   /** the trailhead assignment entry */
-  @api assignmentEntry;
+  @api trailheadEntry;
 
   /** The default message to use when sharing the assignment entry */
-  @api defaultShareMessage;
+  @api defaultMessage;
 
   /** timeout used for running the search */
   @track delayTimeout;
@@ -81,7 +81,7 @@ export default class th_overlayShare extends LightningElement {
   /** initialize the component */
   connectedCallback(){
     this.clearUserSearch();
-    this.message = '' + this.defaultShareMessage;
+    this.message = '' + this.defaultMessage;
   }
 
   /**

@@ -150,10 +150,9 @@ export default class Th_trailheadAssignment_entry extends LightningElement {
         bubbles:true,
         composed:true,
         detail: {
-          assignmentEntry: this.assignmentEntry,
-          entryName: this.assignmentEntry.Name,
-          entryType: this.assignmentEntry.EntryType,
-          entryId: this.assignmentEntry.Id
+          trailheadEntry: this.assignmentEntry,
+          trailheadEntryName: this.assignmentEntry.Name,
+          trailheadEntryType: this.assignmentEntry.EntryType
         }
       }
     );
@@ -173,9 +172,9 @@ export default class Th_trailheadAssignment_entry extends LightningElement {
       return;
     }
 
-    let message = TRAILHEAD_SHARE_INCOMPLETE_MSG;
+    let defaultMessage = TRAILHEAD_SHARE_INCOMPLETE_MSG;
     if (Th_trailheadAssignment_entry.isAssignmentCompleted(this.assignmentEntry)){
-      message = TRAILHEAD_SHARE_COMPLETE_MSG;
+      defaultMessage = TRAILHEAD_SHARE_COMPLETE_MSG;
     }
 
     /** @type {EventShareTrailhead} */
@@ -184,11 +183,10 @@ export default class Th_trailheadAssignment_entry extends LightningElement {
         bubbles: true,
         composed: true,
         detail: {
-          entry: this.assignmentEntry,
-          entryName: this.assignmentEntry.Name,
-          entryType: this.assignmentEntry.EntryType,
-          entryId: this.assignmentEntry.Id,
-          message: message
+          trailheadEntry: this.assignmentEntry,
+          trailheadEntryName: this.assignmentEntry.Name,
+          trailheadEntryType: this.assignmentEntry.EntryType,
+          defaultMessage: defaultMessage
         }
       }
     );

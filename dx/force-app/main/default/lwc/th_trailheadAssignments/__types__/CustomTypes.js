@@ -26,8 +26,8 @@
   * Detail container for the Add Assignment Event
   * @typedef EventAddAssignmentDetail
   * @property {AssignmentEntry} assignmentEntry
+  * @property {string} entryName - The name of the entry
   * @property {string} entryType - The type of entry (badge / trail / etc)
-  * @property {string} entryId - the id of the assignment
   */
 
  /**
@@ -38,10 +38,9 @@
 /**
  * Detail container for the Share Trailhead Event
   * @typedef EventShareTrailheadDetail
-  * @property {AssignmentEntry} assignmentEntry
+  * @property {AssignmentEntry} trailheadEntry
   * @property {string} entryName - The name of the entry
   * @property {string} entryType - The type of entry (badge / trail / etc)
-  * @property {string} entryId - the id of the assignment
  */
 
  /**

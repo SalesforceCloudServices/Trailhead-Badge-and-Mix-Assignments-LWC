@@ -17,25 +17,15 @@
     var modalBody;
     var overlayLib = component.find('contextualRecommendOverlayLib');
 
-    var recordId = null;
-    var assignmentEntry = null;
-    var entryName = null;
-    var message = '';
-    /** @type {EventShareTrailheadDetail} */
-    var eventParams = event.getParams();
-
-    if (eventParams){
-      recordId = eventParams.entryId;
-      entryName = eventParams.entryName;
-      assignmentEntry = JSON.parse(JSON.stringify(eventParams.entry));
-      message = eventParams.message;
-    }
+    var trailheadEntry = JSON.parse(JSON.stringify(event.getParam('trailheadEntry')));
+    var entryName = event.getParam('trailheadEntryName');
+    // var entryType = event.getParam('entryType');
+    var defaultMessage = event.getParam('defaultMessage');
 
     $A.createComponent('c:th_overlayShare_wrap',
       {
-        recordId: recordId,
-        assignmentEntry: assignmentEntry,
-        defaultShareMessage: message
+        trailheadEntry: trailheadEntry,
+        defaultMessage: defaultMessage
       },
       function(content, status){
         if (status === 'SUCCESS'){
