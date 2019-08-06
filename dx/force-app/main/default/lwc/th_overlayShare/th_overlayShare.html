@@ -1,5 +1,5 @@
 <template>
-    <lightning-card title="Share">
+    <lightning-card>
         <div slot="actions"></div>
         <div aria-labelledby="my-form">
             <form class="slds-form_stacked">
@@ -13,7 +13,6 @@
                                 name="userSearch" type="search"
                                 label="User to notify"
                                 value={targetUserSearch}
-                                onblur={handleSearchBlur}
                                 onkeyup={handleSearchKeyUp}
                                 required
                             ></lightning-input>
@@ -48,8 +47,15 @@
             </form>
         </div>
         <div slot="footer">
-            <lightning-button label="OK" onclick={onOkButtonClick}></lightning-button>
-            <lightning-button label="Close"  onclick={onCloseButtonClick}></lightning-button>
+            <lightning-button
+                label="OK"
+                class="slds-p-right_large" 
+                onclick={onOkButtonClick}
+            ></lightning-button>
+            <lightning-button
+                label="Close"
+                onclick={onCloseButtonClick}
+            ></lightning-button>
         </div>
     </lightning-card>
 </template>

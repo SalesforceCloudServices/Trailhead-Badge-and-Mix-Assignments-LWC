@@ -2,14 +2,11 @@ import { LightningElement, track, api } from 'lwc'; // eslint-disable-line no-un
 
 import shareUtilFindMatchingUsers from '@salesforce/apex/TH_ShareUtil.findMatchingUsers';
 
-//-- custom labels for the message
-/** The message to share for in-progress trailhead items */
-import TRAILHEAD_SHARE_INCOMPLETE_MSG from '@salesforce/label/c.th_TrailheadShareIncompleteMsg';
-/** The message to share for completed trailhead items */
-import TRAILHEAD_SHARE_COMPLETE_MSG from '@salesforce/label/c.th_TrailheadShareCompleteMsg';
+/** indicates that an assignment is complete */
+const STATUS_COMPLETE = 'Complete';
 
 /** Represents the enter key */
-const KEY_ENTER = 13;
+const KEY_ENTER = 13; // eslint-disable-line no-unused-vars
 
 /** Minimum characters to enter before doing a search */
 const MIN_SEARCH_CHAR_THRESHOLD = 1;  //-- @TODO: custom label?
@@ -25,6 +22,12 @@ const WILDCARD = '%';
  * @component <c:th_overlay-share> or <th_overlay-share>
  */
 export default class th_overlayShare extends LightningElement {
+
+  /** the trailhead assignment entry */
+  @api assignmentEntry;
+
+  /** The default message to use when sharing the assignment entry */
+  @api defaultShareMessage;
 
   /** timeout used for running the search */
   @track delayTimeout;
@@ -78,6 +81,7 @@ export default class th_overlayShare extends LightningElement {
   /** initialize the component */
   connectedCallback(){
     this.clearUserSearch();
+    this.message = '' + this.defaultShareMessage;
   }
 
   /**
@@ -87,6 +91,14 @@ export default class th_overlayShare extends LightningElement {
     this.targetUserSearch = '';
     this.targetUserOptions = [];
     this.targetUserId = null;
+    this.targetUserOption = null;
+    this.message = '';
+  }
+
+  /**
+   * Clears the current user selection
+   */
+  clearUserSelection(){
     this.targetUserOption = null;
   }
 
@@ -102,6 +114,9 @@ export default class th_overlayShare extends LightningElement {
     } else if (userSearchStr.length < MIN_SEARCH_CHAR_THRESHOLD){
       return;
     }
+
+    //-- we restart the search
+    this.clearUserSelection();
     
     let userSearchWild = WILDCARD + userSearchStr + WILDCARD;
 
@@ -123,7 +138,7 @@ export default class th_overlayShare extends LightningElement {
         //-- @TODO: handle error
         console.error('error occurred searchUsers:jsImportedApexMethodName', JSON.stringify(error));
         this.error = error;
-      })
+      });
   }
 
   //-- handlers
@@ -168,15 +183,6 @@ export default class th_overlayShare extends LightningElement {
   }
 
   /**
-   * Handles when the user search is no longer the focus.
-   */
-  handleSearchBlur(evt){
-    console.log('search blur');
-    const searchVal = evt.target.value;
-    this.searchUsers(searchVal);
-  }
-
-  /**
    * Handles when the target user is selected
    */
   handleTargetUserChanged(evt){
@@ -200,6 +206,8 @@ export default class th_overlayShare extends LightningElement {
       this.targetUserSearch = this.targetUserOption.label;
       this.targetUserId = this.targetUserOption.value;
       this.targetUserOptions = [];
+    } else {
+      this.clearUserSearch();
     }
   }
 }

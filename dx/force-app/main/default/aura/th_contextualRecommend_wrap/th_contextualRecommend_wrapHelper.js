@@ -1,4 +1,7 @@
 /*global $A */
+
+/** {require('../../lwc/th_trailheadAssignments/__types__/CustomTypes')} **/
+
 ({
   /**
    * Initialize the component
@@ -15,21 +18,30 @@
     var overlayLib = component.find('contextualRecommendOverlayLib');
 
     var recordId = null;
+    var assignmentEntry = null;
+    var entryName = null;
+    var message = '';
+    /** @type {EventShareTrailheadDetail} */
     var eventParams = event.getParams();
 
-    if (typeof eventParams.entryId !== 'undefined'){
+    if (eventParams){
       recordId = eventParams.entryId;
+      entryName = eventParams.entryName;
+      assignmentEntry = JSON.parse(JSON.stringify(eventParams.entry));
+      message = eventParams.message;
     }
 
     $A.createComponent('c:th_overlayShare_wrap',
       {
-        recordId: recordId
+        recordId: recordId,
+        assignmentEntry: assignmentEntry,
+        defaultShareMessage: message
       },
       function(content, status){
         if (status === 'SUCCESS'){
           modalBody = content;
           overlayLib.showCustomModal({
-            header: 'EXAMPLE HEADER',
+            header: 'Share: ' + entryName,
             body: modalBody,
             showCloseButton: true,
             closeCallback: function(){

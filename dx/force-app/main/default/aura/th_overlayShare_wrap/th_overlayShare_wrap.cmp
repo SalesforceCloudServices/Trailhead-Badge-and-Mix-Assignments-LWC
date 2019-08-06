@@ -10,15 +10,14 @@
 >
     <!-- attributes -->
 
-    <aura:attribute name="moduleId" type="Id"
-        description="The id of the trailhead module to share"
+    <aura:attribute name="assignmentEntry" type="object"
+        description="The Trailhead Assignment Entry"
     />
-    <aura:attribute name="trailId" type="Id"
-        description="The id of the trailhead trail to share"
-    />
-
     <aura:attribute name="recordId" type="Id"
         description="The id of the record to share"
+    />
+    <aura:attribute name="defaultShareMessage" type="String"
+        description="The message to use when sharing the entry"
     />
 
     <!-- handlers -->
@@ -45,6 +44,8 @@
     <!-- the LWC component that this wraps around-->
     <c:th_overlayShare
         oncloserequest="{c.handleCloseRequest}"
+        assignmentEntry="{!v.assignmentEntry}"
+        defaultShareMessage="{!v.defaultShareMessage}"
     />
 
     <!-- NOTE: an overlay library is ALSO needed in the modal, to allow it to close itself. -->
