@@ -1,6 +1,13 @@
 import { LightningElement, track, api } from 'lwc'; // eslint-disable-line no-unused-vars
 
+/** apex method to find the users */
 import shareUtilFindMatchingUsers from '@salesforce/apex/TH_ShareUtil.findMatchingUsers';
+
+/** apex method to share a chatter post */
+import shareUtilMentionTrailheadToUser from '@salesforce/apex/TH_ShareUtil.mentionTrailheadToUser';
+
+/** indicates that the overlay should close */
+const EVENT_CLOSE_REQUEST = 'closerequest';
 
 /** indicates that an assignment is complete */
 const STATUS_COMPLETE = 'Complete';
@@ -146,6 +153,28 @@ export default class th_overlayShare extends LightningElement {
   /** handle when the ok button is pressed */
   onOkButtonClick(){
     console.log('okay button was clicked');
+
+    let inputMessage = this.template.querySelector('.input-message');
+
+    if (!inputMessage || !inputMessage.checkValidity() || !this.targetUserId || !this.trailheadEntry){
+      return;
+    }
+
+    shareUtilMentionTrailheadToUser(
+      {
+        targetUserId:this.targetUserId,
+        trailheadURL: this.trailheadEntry.URL,
+        message: inputMessage.value
+      }
+    )
+      .then(isSuccessful => {
+        console.log('results from chatter post:' + isSuccessful);
+        this.onCloseButtonClick();
+      })
+      .catch(error => {
+        //-- @TODO: handle error
+        console.error('error occurred jsMethodName:jsImportedApexMethodName', JSON.stringify(error));
+      });
   }
 
   /**
@@ -153,13 +182,16 @@ export default class th_overlayShare extends LightningElement {
    */
   onCloseButtonClick(){
     console.log('close button was clicked');
+
+    const eventClose = new CustomEvent(EVENT_CLOSE_REQUEST);
+
+    this.dispatchEvent(eventClose);
   }
 
   /**
    * Handles when the user presses the key up in the user search box.
    */
   handleSearchKeyUp(evt){
-    console.log('key up');
     /*
     const isEnterKey = evt.keyCode === KEY_ENTER;
     if (isEnterKey) {

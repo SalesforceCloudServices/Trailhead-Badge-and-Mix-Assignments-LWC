@@ -40,7 +40,7 @@
     
     <!-- the LWC component that this wraps around-->
     <c:th_overlayShare
-        oncloserequest="{c.handleCloseRequest}"
+        oncloserequest="{!c.handleCloseRequest}"
         trailheadEntry="{!v.trailheadEntry}"
         defaultMessage="{!v.defaultMessage}"
     />

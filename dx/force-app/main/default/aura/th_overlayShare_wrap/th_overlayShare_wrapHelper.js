@@ -7,31 +7,9 @@
     helper.noop();
   },
   
-  /**
-   * performs a server side call
-   * @param exampleRecordId (Id)
-   **/
-  makeServerSideCallout : function(component, helper, recordId) {
-    var action = component.get('c.methodToCall');
-    action.setParams({ recordId: recordId });
-    
-    action.setCallback(this, function(response){
-      var state = response.getState();
-      if( state === 'SUCCESS' ){
-        helper.error('action success');
-        var results = response.getReturnValue();
-        helper.log('results came back:');
-        helper.log(results);
-      } else {
-        helper.error('Error occurred from Action');
-        
-        //-- https://developer.salesforce.com/blogs/2017/09/error-handling-best-practices-lightning-apex.html
-        var errors = response.getError();
-        helper.handleCallError(component, helper, state, errors);
-      }
-    });
-    //-- optionally set storable, abortable, background flags here
-    $A.enqueueAction(action);
+  closeOverlay : function(component, helper){
+    var overlayLib = component.find('shareContainerOverlayLib');
+    overlayLib.notifyClose();
   },
   
   /**
