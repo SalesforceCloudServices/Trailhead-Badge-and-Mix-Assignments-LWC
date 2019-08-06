@@ -7,7 +7,14 @@
     helper.noop();
   },
   
-  closeOverlay : function(component, helper){
+  closeOverlay : function(component, event, helper){
+    console.log('close overlay requested');
+
+    var shouldRefresh = event.getParam('shouldRefresh') === true;
+    if (shouldRefresh){
+      $A.get('e.force:refreshView').fire();
+    }
+    
     var overlayLib = component.find('shareContainerOverlayLib');
     overlayLib.notifyClose();
   },

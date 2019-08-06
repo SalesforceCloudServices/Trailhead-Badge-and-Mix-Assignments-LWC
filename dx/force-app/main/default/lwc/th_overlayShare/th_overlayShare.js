@@ -167,7 +167,7 @@ export default class th_overlayShare extends LightningElement {
     )
       .then(isSuccessful => {
         console.log('results from chatter post:' + isSuccessful);
-        this.onCloseButtonClick();
+        this.requestPopupClose(false);
       })
       .catch(error => {
         //-- @TODO: handle error
@@ -181,8 +181,22 @@ export default class th_overlayShare extends LightningElement {
   onCloseButtonClick(){
     console.log('close button was clicked');
 
-    const eventClose = new CustomEvent(EVENT_CLOSE_REQUEST);
+    this.requestPopupClose(false);
+  }
 
+  /**
+   * Requests that the popup be closed
+   * @param {boolean} shouldRefresh - whether the list should be refreshed after closing.
+   */
+  requestPopupClose(shouldRefresh){
+
+    shouldRefresh = (shouldRefresh)?true:false;
+
+    const eventClose = new CustomEvent(EVENT_CLOSE_REQUEST, {
+      detail: {
+        shouldRefresh: shouldRefresh
+      }
+    });
     this.dispatchEvent(eventClose);
   }
 

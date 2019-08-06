@@ -22,28 +22,28 @@
  * @property {integer} trailmixAssignmentCount - # of trailmixes assigned
  */
 
- /**
-  * Detail container for the Add Assignment Event
-  * @typedef EventAddAssignmentDetail
-  * @property {AssignmentEntry} assignmentEntry
-  * @property {string} entryName - The name of the entry
-  * @property {string} entryType - The type of entry (badge / trail / etc)
-  */
+/**
+ * Detail container for the Add Assignment Event
+ * @typedef EventAddAssignmentDetail
+ * @property {AssignmentEntry} assignmentEntry
+ * @property {string} entryName - The name of the entry
+ * @property {string} entryType - The type of entry (badge / trail / etc)
+ */
 
- /**
-  * Represents an Add Assignment Event
-  * @typedef {CustomEvent} EventAddAssignment
-  */
+/**
+ * Represents an Add Assignment Event
+ * @typedef {CustomEvent} EventAddAssignment
+ */
 
 /**
  * Detail container for the Share Trailhead Event
-  * @typedef EventShareTrailheadDetail
-  * @property {AssignmentEntry} trailheadEntry
-  * @property {string} entryName - The name of the entry
-  * @property {string} entryType - The type of entry (badge / trail / etc)
+ * @typedef EventShareTrailheadDetail
+ * @property {AssignmentEntry} trailheadEntry
+ * @property {string} entryName - The name of the entry
+ * @property {string} entryType - The type of entry (badge / trail / etc)
  */
 
- /**
-  * Represents a Share Trailhead Event
-  * @typedef {CustomEvent} EventShareTrailhead
-  */
+/**
+ * Represents a Share Trailhead Event
+ * @typedef {CustomEvent} EventShareTrailhead
+ */

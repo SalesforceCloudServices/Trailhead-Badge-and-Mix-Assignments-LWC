@@ -4,18 +4,16 @@ import { LightningElement, api, track } from 'lwc'; // eslint-disable-line no-un
 import apexAddTrailheadModuleAssignment from '@salesforce/apex/TH_Assignments.addTrailheadModuleAssignment';
 import apexAddTrailmixAssignment from '@salesforce/apex/TH_Assignments.addTrailmixAssignment';
 
-/** indicates that the overlay should close */
-const EVENT_CLOSE_REQUEST = 'closerequest';
+// require('../th_trailheadAssignments/__types__/CustomTypes')
 
 /** type of trailhead entries */
 import ENTRY_TYPE_BADGE from '@salesforce/label/c.th_TrailheadTypeBadge';
 
-const TYPE_BADGE = 'Badge';
 /** The TrailMix entry type */
 import ENTRY_TYPE_TRAILMIX from '@salesforce/label/c.th_TrailheadTypeTrailmix';
-const TYPE_TRAILMIX = 'TrailMix';
 
-// require('../th_trailheadAssignments/__types__/CustomTypes')
+/** indicates that the overlay should close */
+const EVENT_CLOSE_REQUEST = 'closerequest';
 
 export default class Th_overlayAddAssign extends LightningElement {
 
@@ -32,7 +30,7 @@ export default class Th_overlayAddAssign extends LightningElement {
 
   /** clears the form */
   clearForm(){
-    const dateInput = this.template.querySelector('.input-dueDate');
+    // const dateInput = this.template.querySelector('.input-dueDate');
     // dateInput.value = null;
   }
 
@@ -71,7 +69,7 @@ export default class Th_overlayAddAssign extends LightningElement {
         .then(data => {
           //-- @TODO: handle data
           console.log('successfully added assignment');
-          this.onCloseButtonClick();
+          this.requestPopupClose(true);
         })
         .catch(error => {
           //-- @TODO: handle error
@@ -90,7 +88,7 @@ export default class Th_overlayAddAssign extends LightningElement {
         .then(data => {
           //-- @TODO: handle data
           console.log('successfully added assignment');
-          this.onCloseButtonClick();
+          this.requestPopupClose(true);
         })
         .catch(error => {
           //-- @TODO: handle error
@@ -105,7 +103,22 @@ export default class Th_overlayAddAssign extends LightningElement {
   /** handle when the cancel button is pressed */
   onCloseButtonClick(){
     console.log('cancel button was clicked');
-    const eventClose = new CustomEvent(EVENT_CLOSE_REQUEST);
+    this.requestPopupClose(false);
+  }
+
+  /**
+   * Requests that the popup be closed
+   * @param {boolean} shouldRefresh - whether the list should be refreshed after closing.
+   */
+  requestPopupClose(shouldRefresh){
+
+    shouldRefresh = (shouldRefresh)?true:false;
+
+    const eventClose = new CustomEvent(EVENT_CLOSE_REQUEST, {
+      detail: {
+        shouldRefresh: shouldRefresh
+      }
+    });
     this.dispatchEvent(eventClose);
   }
 }

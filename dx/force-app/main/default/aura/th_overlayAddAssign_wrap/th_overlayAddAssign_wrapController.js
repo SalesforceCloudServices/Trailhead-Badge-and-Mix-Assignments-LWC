@@ -11,6 +11,6 @@
    * Handles a request to close the overlay.
    */
   handleCloseRequest : function(component, event, helper){
-    helper.closeOverlay(component, helper);
+    helper.closeOverlay(component, event, helper);
   }
 });

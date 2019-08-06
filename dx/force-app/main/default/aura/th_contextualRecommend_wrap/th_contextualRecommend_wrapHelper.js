@@ -36,8 +36,6 @@
             showCloseButton: true,
             closeCallback: function(){
               console.log('you closed the add assignment modal. captured from wrapper.'); // eslint-disable-line no-console
-              //-- now tell the component to refresh
-              helper.refreshView(component, helper);
             }
           });
         }
@@ -69,20 +67,11 @@
             showCloseButton: true,
             closeCallback: function(){
               console.log('you closed the add assignment modal. captured from wrapper.'); // eslint-disable-line no-console
-              //-- now tell the component to refresh
-              helper.refreshView(component, helper);
             }
           });
         }
       }
     );
-  },
-
-  /**
-   * Requests the component to refresh the view
-   */
-  refreshView : function(component, helper){
-    $A.get('e.force:refreshView').fire();
   },
 
   
