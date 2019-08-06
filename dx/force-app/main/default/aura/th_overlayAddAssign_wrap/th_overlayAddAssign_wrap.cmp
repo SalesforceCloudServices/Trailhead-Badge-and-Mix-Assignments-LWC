@@ -1,0 +1,35 @@
+<!--
+/**
+ * Represents an overlay (popup) that allows the user to assign themselves a Module or Trail.
+ * @component: th_overlayAddAssign_wrap
+ * @see: th_overlay-add-assign, th_overlayAddAssign
+**/
+-->
+<aura:component
+    access="global"
+>
+    <!-- attributes -->
+
+    <aura:attribute name="trailheadEntry" type="object"
+        description="Information about the trailhead module or trail"
+    />
+
+    <!-- handlers -->
+    <aura:handler name="init" value="{!this}" action="{!c.init}" />
+
+    <!-- events -->
+
+    <!-- elements -->
+
+    <!-- the LWC component that this wraps around-->
+    <c:th_overlayAddAssign
+        oncloserequest="{!c.handleCloseRequest}"
+        trailheadEntry="{!v.trailheadEntry}"
+    />
+
+    <!-- NOTE: an overlay library is ALSO needed in the modal, to allow it to close itself. -->
+
+    <lightning:overlayLibrary
+    aura:id="addContainerOverlayLib"
+    />
+</aura:component>	

@@ -6,6 +6,12 @@
             "c/th_contextualRecommend": [
                 "th_contextualRecommend/th_contextualRecommend.js"
             ],
+            "c/th_overlayAddAssign": [
+                "th_overlayAddAssign/th_overlayAddAssign.js"
+            ],
+            "c/th_overlayShare": [
+                "th_overlayShare/th_overlayShare.js"
+            ],
             "c/th_paginator": [
                 "th_paginator/th_paginator.js"
             ],
@@ -14,9 +20,6 @@
             ],
             "c/th_trailheadAssignments": [
                 "th_trailheadAssignments/th_trailheadAssignments.js"
-            ],
-            "c/th_overlayShare": [
-                "th_overlayShare/th_overlayShare.js"
             ]
         }
     },

@@ -1,0 +1,112 @@
+import { LightningElement, api, track } from 'lwc'; // eslint-disable-line no-unused-vars
+
+//-- import the apex methods
+import apexAddTrailheadModuleAssignment from '@salesforce/apex/TH_Assignments.addTrailheadModuleAssignment';
+import apexAddTrailmixAssignment from '@salesforce/apex/TH_Assignments.addTrailmixAssignment';
+
+/** indicates that the overlay should close */
+const EVENT_CLOSE_REQUEST = 'closerequest';
+
+/** type of trailhead entries */
+import ENTRY_TYPE_BADGE from '@salesforce/label/c.th_TrailheadTypeBadge';
+
+const TYPE_BADGE = 'Badge';
+/** The TrailMix entry type */
+import ENTRY_TYPE_TRAILMIX from '@salesforce/label/c.th_TrailheadTypeTrailmix';
+const TYPE_TRAILMIX = 'TrailMix';
+
+// require('../th_trailheadAssignments/__types__/CustomTypes')
+
+export default class Th_overlayAddAssign extends LightningElement {
+
+  /** 
+   * The trailhead assignment entry
+   * @type {AssignmentEntry}
+   */
+  @api trailheadEntry;
+
+  /** initialize the component */
+  connectedCallback(){
+    this.clearForm();
+  }
+
+  /** clears the form */
+  clearForm(){
+    const dateInput = this.template.querySelector('.input-dueDate');
+    // dateInput.value = null;
+  }
+
+  /** handle whent he ok button is pressed */
+  onOkButtonClick(){
+    console.log('okay button was clicked');
+
+    const dateInput = this.template.querySelector('.input-dueDate');
+    let dueDate = dateInput.value;
+
+    //-- do any validation
+    if (!dueDate){
+      dueDate = null;
+    }
+
+    if (!this.trailheadEntry){
+      console.error('Unknown Trailhead Entry:null'); // eslint-disable-line no-console
+      return;
+    }
+
+    const {
+      EntryType:entryType,
+      Id:entryId,
+      Name:entryName
+    } = this.trailheadEntry;
+
+    if (entryType === ENTRY_TYPE_BADGE){
+      console.log('add badge assignment');
+      apexAddTrailheadModuleAssignment(
+        {
+          moduleId:entryId,
+          dueDate:dueDate,
+          userId:null
+        }
+      )
+        .then(data => {
+          //-- @TODO: handle data
+          console.log('successfully added assignment');
+          this.onCloseButtonClick();
+        })
+        .catch(error => {
+          //-- @TODO: handle error
+          console.error('error occurred while adding module:' + entryName, JSON.stringify(error));
+          this.error = error;
+        });
+    } else if (entryType === ENTRY_TYPE_TRAILMIX){
+      console.log('add trailmix assignent');
+      apexAddTrailmixAssignment(
+        {
+          trailmixId:entryId,
+          dueDate:dueDate,
+          userId:null
+        }
+      )
+        .then(data => {
+          //-- @TODO: handle data
+          console.log('successfully added assignment');
+          this.onCloseButtonClick();
+        })
+        .catch(error => {
+          //-- @TODO: handle error
+          console.error('error occurred while adding module:' + entryName, JSON.stringify(error));
+          this.error = error;
+        });
+    } else {
+      console.error('unknown entry type');
+    }
+  }
+
+  /** handle when the cancel button is pressed */
+  onCloseButtonClick(){
+    console.log('cancel button was clicked');
+    const eventClose = new CustomEvent(EVENT_CLOSE_REQUEST);
+    this.dispatchEvent(eventClose);
+  }
+}
+

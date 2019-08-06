@@ -1,0 +1,6 @@
+<aura:documentation>
+	<aura:description>Represents an overlay (popup) that allows the user to assign themselves a Module or Trail.</aura:description>
+	<aura:example name="ExampleName" ref="exampleComponentName" label="Label">
+		Example Description
+	</aura:example>
+</aura:documentation>

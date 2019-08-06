@@ -4,8 +4,11 @@ global class TH_Assignments {
     //-- IGNORED OFFSET/PAGE SIZES for combined collated results.
     public static final Integer NO_OFFSET = 0;
     public static final Integer MAX_RESULTS = 255;
+
+    public static final String DEFAULT_STATUS = 'Assigned';
     
-    
+    /** format for external ids */
+    public static final String FORMAT_EXTERNAL_ID = '{0}-{1}';
     
     //-- #  #   #   #   #   #   #   #   #   #   #   #   #   #   #   #   #
     //-- internal result classes
@@ -186,6 +189,136 @@ global class TH_Assignments {
         //results.clear();
         
         return results;
+    }
+
+
+    /**
+     * Adds a trailhead module assignment for the current user.
+     * @param moduleId (Id) - the id of the module or trail to assign them to.
+     * @param dueDate (DateTime) - date the module is due
+     * @param userId (Id) - the optional id of the user to assign it to.
+     * @returns (Boolean) - whether the assignment could be created
+     */
+    @AuraEnabled
+    public static Boolean addTrailheadModuleAssignment(Id moduleId, DateTime dueDate, Id userId){
+        if (userId == null){
+            userId = UserInfo.getUserId();
+        }
+
+        Trailheadapp__User_Badge__c result = null;
+        Trailheadapp__Badge__c badge = null;
+        String externalId = null;
+        
+        try {
+            badge = [
+                SELECT Id, Name,
+                    trailheadapp__URL__c, trailheadapp__Type__c, trailheadapp__Badge_Icon__c,
+                    trailheadapp__Description__c
+                FROM trailheadapp__Badge__c
+                WHERE id = :moduleId
+                limit 1
+            ];
+            if (badge == null){
+                throw new AuraHandledException('Module could not be found');
+            }
+        } catch( Exception err){
+            throw new AuraHandledException('Module could not be found:' + moduleId);
+        }
+
+        //-- assume the badge exists or has been caught before
+        // System.debug('Badge:'); System.debug(badge);
+
+        externalId = String.format(FORMAT_EXTERNAL_ID,
+            new Object[]{
+                badge.Id,
+                userId
+            }
+        );
+
+        result = new trailheadapp__User_Badge__c(
+            trailheadapp__User__c = userId,
+            trailheadapp__Badge__c = badge.Id,
+            trailheadapp__Due_Date__c = dueDate,
+            trailheadapp__External_Id__c = externalId,
+            trailheadapp__Status__c = DEFAULT_STATUS
+        );
+
+        try {
+            insert result;
+        } catch(Exception err){
+            throw new AuraHandledException('Error occurred when assigning module:' + err.getMessage());
+        }
+
+        return true;
+    }
+
+
+    /**
+     * Adds a trailhead trail assignment for the current user.
+     * @param trailmixId (Id) - the id of the or trail to assign them to.
+     * @param dueDate (DateTime) - date the module is due
+     * @param userId (Id) - the optional id of the user to assign it to.
+     * @returns (Boolean) - whether the assignment could be created
+     */
+    @AuraEnabled
+    public static Boolean addTrailmixAssignment(Id trailmixId, DateTime dueDate, Id userId){
+        if (userId == null){
+            userId = UserInfo.getUserId();
+        }
+
+        //-- While the process is similar to assigning a module,
+        //-- the fields and objects etc are so very different
+        //-- it would just cause confusion to have multiple shadow versions
+        //-- making it harder to read and harder to test
+
+        Trailheadapp__User_Trailmix__c result = null;
+        Trailheadapp__Trailmix__c trailmix = null;
+        String externalId = null;
+        
+        try {
+            trailmix = [
+                SELECT Id, Name,
+                    trailheadapp__URL__c, trailheadapp__Description__c,
+                    trailheadapp__Slug__c, trailheadapp__External_Id__c
+                FROM Trailheadapp__Trailmix__c
+                WHERE id = :trailmixId
+                limit 1
+            ];
+            if (trailmix == null){
+                throw new AuraHandledException('Trailmix could not be found');
+            }
+        } catch( Exception err){
+            throw new AuraHandledException('Trailmix could not be found:' + trailmixId);
+        }
+
+        //-- assume the badge exists or has been caught before
+        // System.debug('trailmix:'); System.debug(trailmix);
+
+        externalId = String.format(FORMAT_EXTERNAL_ID,
+            new Object[]{
+                trailmix.Id,
+                userId
+            }
+        );
+
+        //-- assume the badge exists or has been caught before
+        // System.debug('Badge:'); System.debug(badge);
+
+        result = new Trailheadapp__User_Trailmix__c(
+            trailheadapp__User__c = userId,
+            trailheadapp__Trailmix__c = trailmix.Id,
+            trailheadapp__Due_At__c = dueDate,
+            trailheadapp__External_Id__c = externalId,
+            trailheadapp__Status__c = DEFAULT_STATUS
+        );
+
+        try {
+            insert result;
+        } catch(Exception err){
+            throw new AuraHandledException('Error occurred when assigning module:' + err.getMessage());
+        }
+
+        return true;
     }
 
 
