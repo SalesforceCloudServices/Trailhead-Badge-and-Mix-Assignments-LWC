@@ -3,6 +3,8 @@
  **/
 import { LightningElement, track, api, wire } from 'lwc';
 
+/** require('./__types__/CustomTypes') **/
+
 import {refreshApex} from '@salesforce/apex';
 
 // import getAssignmentCountApex from '@salesforce/apex/TH_Assignments.getAssignmentCount';
@@ -50,10 +52,16 @@ export default class Tl_trailheadAssignments extends LightningElement {
   //-- see here for more information
   //-- https://developer.salesforce.com/docs/component-library/documentation/lwc/apex#data_apex__refresh_cache
 
-  //-- collection of all the assignments (used for apexRefresh)
+  /**
+   * collection of all the assignments (used for apexRefresh)
+   * @type {AssignmentEntry[]}
+   **/
   @track assignedTrailEntries = {};
 
-  //-- paginator that determines which pages, etc.
+  /**
+   * Paginator that determines which pages etc.
+   * @type {Paginator}
+   */
   @track recordPaginator;
 
   //-- @TODO: investigate way to directly link to paginator instead
@@ -61,33 +69,53 @@ export default class Tl_trailheadAssignments extends LightningElement {
   //-- so paginator.hasNext and paginator.hasPrevious within getters / setters
   //-- work initially but won't work afterwards, because paginator doesn't change.
 
-  /** Whether there are any assignments */
+  /**
+   * Whether there are any assignments
+   * @type {boolean}
+   **/
   @track hasAnyAssignments;
   // get hasAnyAssignments(){}
 
-  /** whether there is a previous page */
-  // @track hasPrevious;
+  /**
+   * whether there is a previous page
+   * @type {boolean}
+   **/
   @api get hasPrevious() {
     return this.recordPaginator.hasPrevious;
   }
-  /** whether there is a next page */
-  // @track hasNext;
+  // @track hasPrevious;
+
+  /**
+   * whether there is a next page
+   * @type {boolean}
+   **/
   @api get hasNext(){
     return this.recordPaginator.hasNext;
   }
-  //-- 'current page' of the assignments
-  // @track paginatedTrailEntries = {};
+  // @track hasNext;
+
+  /**
+   * The 'current page' of the assignments.
+   * @type {AssignmentEntry[]}
+   */
   @api get paginatedTrailEntries(){
     return this.recordPaginator.paginatedValues;
   }
+  // @track paginatedTrailEntries = {};
 
   //-- NOTE: the sectionIcon and title COULD be getters/setters
   //-- but they would be continually re-evaluated.
   //-- saving calculations is preferred here as it only gets set on load.
 
-  //-- the icon to use for the section
+  /**
+   * The icon to use for the section
+   * @type {string}
+   **/
   @track sectionIcon;
-  //-- the title to use for the section
+  /**
+   * The Title to use for this section
+   * @type {string}
+   **/
   @track sectionTitle;
 
   /**
@@ -149,6 +177,7 @@ export default class Tl_trailheadAssignments extends LightningElement {
       this.recordPaginator = new Paginator(filteredRecords, this.paginationSize);
 
       let {badgeAssignmentCount, trailmixAssignmentCount} = this.determineAssignmentCounts(filteredRecords);
+
       //-- section icon is pre-set, now we only care about the assignments
       this.sectionTitle = this.determineSectionTitle(
         this.badgesOrTrailmixes,
@@ -159,18 +188,27 @@ export default class Tl_trailheadAssignments extends LightningElement {
   }
 
   
-  /** Provide a link to Trailhead using the custom label */
+  /**
+   * Provide a link to Trailhead using the custom label
+   * @type {string}
+   */
   @api
   get trailheadLinkLabel(){
     return TRAILHEAD_LINK_LABEL;
   }
-  /** Provide a link to Trailhead using the custom label */
+  /**
+   * Provide a link to Trailhead using the custom label
+   * @type {string}
+   **/
   @api
   get trailheadLinkAddress(){
     return TRAILHEAD_LINK_ADDRESS;
   }
   
-  /** whether any pagination buttons should be shown */
+  /**
+   * whether any pagination buttons should be shown
+   * @type {boolean}
+   */
   @api
   get shouldShowPagination(){
     return (
@@ -184,7 +222,7 @@ export default class Tl_trailheadAssignments extends LightningElement {
    * Determines the icon to show for the section
    * @param {string} badgesOrTrailmixes - (Badge|TrailMix|Both)
    * @visibility private
-   * @returns String
+   * @returns {string}
    */
   @api
   determineSectionIcon(badgesOrTrailmixes){
@@ -205,7 +243,7 @@ export default class Tl_trailheadAssignments extends LightningElement {
    * @param {integer} badgeAssignmentCount - # of badges assigned
    * @param {integer} trailmixAssignmentCount - # of trailmixes assigned
    * @visibility private
-   * @returns String
+   * @returns {string}
    */
   @api
   determineSectionTitle(badgesOrTrailmixes, badgeAssignmentCount, trailmixAssignmentCount){
@@ -224,7 +262,7 @@ export default class Tl_trailheadAssignments extends LightningElement {
    * Determines the assignment breakdown of a list of assignments
    * @visibility private
    * @param {array} assignmentList 
-   * @return {badgeAssignmentCount:integer, trailmixAssignmentCount:integer}
+   * @return {BadgeAssignmentCount}
    */
   @api
   determineAssignmentCounts(assignmentList){
