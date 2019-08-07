@@ -89,7 +89,7 @@ export default class Th_overlayAddAssign extends LightningElement {
         .catch(error => {
           // eslint-disable-next-line no-console
           console.error('error occurred while adding module:' + entryName, JSON.stringify(error));
-           this.error = error;
+          this.error = error;
         });
     } else {
       // eslint-disable-next-line no-console
