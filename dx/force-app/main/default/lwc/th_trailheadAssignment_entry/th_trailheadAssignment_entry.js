@@ -68,7 +68,6 @@ export default class Th_trailheadAssignment_entry extends LightningElement {
     }
 
     //-- default the eligibility of the buttons
-    //-- @TODO - remove / use via the metadata.
     this.btnAddEligible = this.btnAddEligible !== false;
     this.btnShareEligible = this.btnShareEligible !== false;
   }

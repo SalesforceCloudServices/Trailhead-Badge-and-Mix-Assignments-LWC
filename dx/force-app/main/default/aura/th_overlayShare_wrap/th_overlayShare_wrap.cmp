@@ -28,9 +28,9 @@
         as it will be a blank form (there is no way to provide an initial post text).
         the best we can do is to reference the Trailhead Entry record
         (although this depends on settings within the custom module that may also not be set)
-    -->
 
-    <!--
+        Uncomment the following here for some examples
+    
     <div>record: {!v.recordId}</div>
     <forceChatter:publisher
         context="RECORD"
