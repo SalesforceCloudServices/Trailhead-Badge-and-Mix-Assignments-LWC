@@ -101,4 +101,46 @@ To allow the component to be easier to extend, we have created three Custom Labe
     </tr></table>
     
 
+# Status
 
+* Linting
+  * You can now lint everything
+    * by `cd dx; npm run lint` - will lint all javascript files
+    * or `cd dx; npm run lint:watch` - to repeatedly lint everything
+    * or `cd dx; npm run lint:watch:changed` - or to lint when you save a file and only lint that file (neat)
+* Users can share badges and trails
+  * Work Remaining
+     * Unit tests
+     * Cleanup TODO in th_overlayShare_wrap, left an example using the standard forceChatter:publisher components and bask in the glory of how well it doesn't meet our needs.
+     * Review if resizing the ContextualRecommend and trailheadAssignments makes them look funny. I manually et the width to 100% on the entries, but unsure if it works everywhere.
+     * How to show errors if apex fails in `th_traiheadAssignments`, th_overlayShare or th_overlayAddAssign. Show toast message?
+  * Caveats
+     * So far only Badges and Trailmixes are supported. Seems complete unless we need trail.
+     * Sharing seems to share to another user, although it doesn't appear to show up on their wall for some reason? (Although they get an email)
+  * How was it done?
+     * We need to switch the Trailhead Assignments and Recommendations components to the wrap components (they register the share and add events emitted from the `trailheadAssignment_entry` component). This was done on the home page, but not sure where else is needed.
+     * Note that we leverage the overlaylibrary. This is the reason we need the wrapper as it is only supported in Aura. There was a response that [the only other option is to recreate the modal component by hand.](https://org62.lightning.force.com/lightning/r/0D50M00004S4r45SAB/view)
+     * The `lwc/trailheadAssignment_entry` has the buttons that emit a custom event, note that it uses bubbles and composed. [This allows the intermediaries to not know about them or care.](https://developer.salesforce.com/docs/component-library/documentation/lwc/lwc.events_propagation)
+     * The `Assignments_wrapper` / `Recommendations_wrapper` then listen for it, and then use the [aura component - lightning:overlayLibrary](https://developer.salesforce.com/docs/component-library/bundle/lightning:overlayLibrary/documentation) to then create the aura `overlayShare_wrap` component.
+     * That in turn creates the lwc `overlayShare` component.
+     * The Apex is in the `TH_ShareUtil` apex class to actually do the share.
+     * The 'click enter' to search in the Search Input examples for [lwc lightning-input component](https://developer.salesforce.com/docs/component-library/bundle/lightning-input/example) didn't work out. So I used the timeout method done in the [lwc-recipes for CompositionContactSearch](https://github.com/trailheadapps/lwc-recipes/blob/master/force-app/main/default/lwc/compositionContactSearch/compositionContactSearch.js)
+     * To test the search, either add more users, or set the [th_TrailheadMinCharSearchThreshold](https://trail-assignments-lwc-dev-ed.my.salesforce.com/one/one.app#/alohaRedirect/1012E00000AjFqn?isdtp=p1) custom label.  (This seems to cache pretty hard, manually setting might be necessary)
+     * Custom Labels used: [th_TrailheadMinCharSearchThreshold](https://trail-assignments-lwc-dev-ed.my.salesforce.com/one/one.app#/alohaRedirect/1012E00000AjFqn?isdtp=p1), [th_TrailheadInputSearchDelay](https://trail-assignments-lwc-dev-ed.my.salesforce.com/one/one.app#/alohaRedirect/1012E00000AjFqs?isdtp=p1)
+
+* User can add assignments
+  * Work Remaining
+     * Unit tests
+     * Cleanup TODO in th_overlayShare_wrap, left an example using the standard forceChatter:publisher components and bask in the glory of how well it doesn't meet our needs.
+     * Review if resizing the `ContextualRecommend` and `trailheadAssignments` makes them look funny. I manually et the width to 100% on the entries, but unsure if it works everywhere.
+     * How to show errors if apex fails in `th_traiheadAssignments`, `th_overlayShare` or `th_overlayAddAssign`. Show toast message?
+  * Caveats
+     * None - so far
+  * How was it done?
+     * * We need to switch the Trailhead Assignments and Recommendations components to the wrap components (they register the share and add events emitted from the `trailheadAssignment_entry` component). This was done on the home page, but not sure where else is needed.
+     * Note that we leverage the overlaylibrary. This is the reason we need the wrapper as it is only supported in Aura. There was a response that [the only other option is to recreate the modal component by hand.](https://org62.lightning.force.com/lightning/r/0D50M00004S4r45SAB/view)
+     * The `lwc/trailheadAssignment_entry` has the buttons that emit a custom event, note that it uses bubbles and composed. [This allows the intermediaries to not know about them or care.](https://developer.salesforce.com/docs/component-library/documentation/lwc/lwc.events_propagation)
+     * The `Assignments_wrapper` / `Recommendations_wrapper` then listen for it, and then use the [aura component - lightning:overlayLibrary](https://developer.salesforce.com/docs/component-library/bundle/lightning:overlayLibrary/documentation) to then create the aura  `overlayAddAssign_wrap` components.
+     * They in turn create the lwc `overlayAddAssign` components.
+     * The Apex is in the `TH_Assignments` apex class to actually add the assignment.
+         * Based on the type of the entry, we call either the `addTrailheadModuleAssignment` or `the addTrailmixAssignment` method
