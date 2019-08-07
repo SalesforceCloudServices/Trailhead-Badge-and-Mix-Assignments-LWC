@@ -21,6 +21,9 @@
     <aura:attribute name="dueDateFilter" type="String" default="All" access="global"
         description="What assignments to show?"
     />
+    <aura:attribute name="btnShareEligible" type="Boolean" default="true"
+        description="Whether to show the 'Share' button on entries of the list"
+    />
     
     <!--
         @TODO: investigate why this did not always work
@@ -38,5 +41,8 @@
         paginationSize='{!v.paginationSize}'
         upcomingEventWindow='{!v.upcomingEventWindow}'
         dueDateFilter='{!v.dueDateFilter}'
+        btnShareEligible="{!v.btnShareEligible}"
+        onrequestsharetrailhead="{!c.handleShareTrailheadRequest}"
     />
+    <lightning:overlayLibrary aura:id="trailheadAssignmentsOverlayLib" />
 </aura:component>

@@ -44,6 +44,9 @@ export default class Tl_trailheadAssignments extends LightningElement {
   @api upcomingEventWindow;
   @api dueDateFilter;
 
+  /** Whether to show the Share button on entries of the list. */
+  @api btnShareEligible;
+
   @track error;
 
   //-- private attributes

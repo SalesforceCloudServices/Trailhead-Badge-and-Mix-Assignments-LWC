@@ -17,14 +17,14 @@
     />
     <!-- Whether to show the 'Add' button on entries to the list -->
     <design:attribute name="btnAddEligible"
-        label="Show Add button on Entries?"
+        label="Show Add button?"
         description="Whether to show the 'Add' button on entries of the list"
         default="true"
         required="false"
     />
     <!-- Whether to show the 'Share' button on entries to the list -->
     <design:attribute name="btnShareEligible"
-        label="Show Share button on Entries?"
+        label="Show Share button?"
         description="Whether to show the 'Share' button on entries of the list"
         default="true"
         required="false"

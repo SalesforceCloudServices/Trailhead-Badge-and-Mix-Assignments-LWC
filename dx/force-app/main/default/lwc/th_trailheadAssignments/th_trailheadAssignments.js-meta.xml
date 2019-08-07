@@ -43,6 +43,13 @@
                 default="All"
                 datasource="All,Overdue,Overdue+Upcoming"
             />
+            <!-- whether to show the 'Share' button on entries of the list -->
+            <property name="btnShareEligible" type="Boolean"
+                label="Show Share button?"
+                description="Whether to show the 'Share' button on the entries of the list"
+                default="true"
+                required="false"
+            />
         </targetConfig>
     </targetConfigs>
 </LightningComponentBundle>
