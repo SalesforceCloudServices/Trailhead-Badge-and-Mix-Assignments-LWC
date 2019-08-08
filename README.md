@@ -144,3 +144,17 @@ To allow the component to be easier to extend, we have created three Custom Labe
      * They in turn create the lwc `overlayAddAssign` components.
      * The Apex is in the `TH_Assignments` apex class to actually add the assignment.
          * Based on the type of the entry, we call either the `addTrailheadModuleAssignment` or `the addTrailmixAssignment` method
+
+Wishlist
+
+* Look into the flow as a Lightning Web Component
+* Look into removing the need for the wrapper components
+  * the [e.force:refreshView event](https://developer.salesforce.com/docs/component-library/bundle/force:refreshView/documentation) requires aura...
+     * Without this event, if we add the badge in one component, other components can't detect it, and the user would still have a '+' button.
+     * However, it seems like this is an edge case and are okay with not covering this for now / will address if needed later.
+     * (Possible we could leverage Application Level events to communicate between all of them, but would need more thought)
+  * The standard way of showing modals (through [lightning:overlayLibrary](https://developer.salesforce.com/docs/component-library/bundle/lightning:overlayLibrary/documentation)) requires aura...
+     * So instead, lets show the forms within the components instead of through overlays.
+     * Current thought is that we take the iterator showing the list of entries and move that to a separate component that the Assigned Learning and Recommended Learning share. (Because its really just what items are fed to it that differs between the recommended and assigned learning)
+     * When the user clicks the '+' or 'share' button, the list disappears and the respective form is shown.
+     * When the user completes the form (either by cancelling or completing it), then the form disappears and the list re-appears as though nothing happened.
