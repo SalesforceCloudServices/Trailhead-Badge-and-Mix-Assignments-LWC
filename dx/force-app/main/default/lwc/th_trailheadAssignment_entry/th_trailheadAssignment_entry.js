@@ -17,9 +17,9 @@ import ENTRY_TYPE_TRAILMIX from '@salesforce/label/c.th_TrailheadTypeTrailmix';
 
 //-- custom labels for the message
 /** The message to share for in-progress trailhead items */
-import TRAILHEAD_SHARE_INCOMPLETE_MSG from '@salesforce/label/c.th_TrailheadShareIncompleteMsg';
+// import TRAILHEAD_SHARE_INCOMPLETE_MSG from '@salesforce/label/c.th_TrailheadShareIncompleteMsg';
 /** The message to share for completed trailhead items */
-import TRAILHEAD_SHARE_COMPLETE_MSG from '@salesforce/label/c.th_TrailheadShareCompleteMsg';
+// import TRAILHEAD_SHARE_COMPLETE_MSG from '@salesforce/label/c.th_TrailheadShareCompleteMsg';
 
 /** The standard event status */
 const STATUS_STANDARD = 'event-standard';
@@ -32,7 +32,7 @@ const STATUS_UPCOMING = 'event-upcoming';
 const EVENT_ADD_ASSIGNMENT = 'requestaddassignment';
 
 /** The event to dispatch when we want to share a specific trailhead trail or module */
-const EVENT_SHARE_TRAILHEAD = 'requestsharetrailhead';
+// const EVENT_SHARE_TRAILHEAD = 'requestsharetrailhead';
 
 /** milliseconds per day */
 // const MILLI_PER_DAY = 24 * 60 * 60 * 1000;
@@ -177,29 +177,34 @@ export default class Th_trailheadAssignment_entry extends LightningElement {
       return;
     }
 
-    let defaultMessage = TRAILHEAD_SHARE_INCOMPLETE_MSG;
-    if (Th_trailheadAssignment_entry.isAssignmentCompleted(this.assignmentEntry)){
-      defaultMessage = TRAILHEAD_SHARE_COMPLETE_MSG;
-    }
-
-    /** @type {EventShareTrailhead} */
-    const eventShare = new CustomEvent(EVENT_SHARE_TRAILHEAD,
-      {
-        bubbles: true,
-        composed: true,
-        detail: {
-          trailheadEntry: this.assignmentEntry,
-          trailheadEntryName: this.assignmentEntry.Name,
-          trailheadEntryType: this.assignmentEntry.EntryType,
-          defaultMessage: defaultMessage
-        }
-      }
-    );
-
     //-- @TODO - uncomment
+    // let defaultMessage = TRAILHEAD_SHARE_INCOMPLETE_MSG;
+    // if (Th_trailheadAssignment_entry.isAssignmentCompleted(this.assignmentEntry)){
+    //   defaultMessage = TRAILHEAD_SHARE_COMPLETE_MSG;
+    // }
+    // /** @type {EventShareTrailhead} */
+    // const eventShare = new CustomEvent(EVENT_SHARE_TRAILHEAD,
+    //   {
+    //     bubbles: true,
+    //     composed: true,
+    //     detail: {
+    //       trailheadEntry: this.assignmentEntry,
+    //       trailheadEntryName: this.assignmentEntry.Name,
+    //       trailheadEntryType: this.assignmentEntry.EntryType,
+    //       defaultMessage: defaultMessage
+    //     }
+    //   }
+    // );
     // this.dispatchEvent(eventShare);
 
     this.isShareFormShown = !this.isShareFormShown;
+  }
+
+  /** Handles when a user requests that the share form be closed */
+  @api
+  handleShareCloseRequest(evt){
+    console.log('share form has requested to close');
+    this.isShareFormShown = false;
   }
 
   //-- internal methods
@@ -217,25 +222,6 @@ export default class Th_trailheadAssignment_entry extends LightningElement {
     let status = assignmentEntry.Status;
     let result = false;
     if (status){
-      result = true;
-    }
-    return result;
-  }
-
-  /**
-   * Whether an assignmentEntry has been completed by the current person.
-   * @param assignmentEntry - AssignmentEntry - the assignment entry given for the current person
-   * @return boolean - whether the assignment has been completed by the current user (true) or not (false)
-   */
-  static isAssignmentCompleted(assignmentEntry){
-    //-- there are three statuses: Assigned, In Progress and Completed
-    //-- assume completed ONLY if the Status is Completed
-    if (!assignmentEntry){
-      return false;
-    }
-    let status = assignmentEntry.Status;
-    let result = false;
-    if (status === 'Completed'){
       result = true;
     }
     return result;
