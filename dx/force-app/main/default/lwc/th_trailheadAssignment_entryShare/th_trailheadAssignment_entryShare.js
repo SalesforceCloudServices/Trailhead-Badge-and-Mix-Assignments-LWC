@@ -112,11 +112,11 @@ export default class th_overlayShare extends LightningElement {
   /** determine the default message */
   @api
   get defaultMessage(){
-    let defaultMessage = TRAILHEAD_SHARE_INCOMPLETE_MSG;
+    let result = TRAILHEAD_SHARE_INCOMPLETE_MSG;
     if (this.isAssignmentCompleted){
-      defaultMessage = TRAILHEAD_SHARE_COMPLETE_MSG;
+      result = TRAILHEAD_SHARE_COMPLETE_MSG;
     }
-    return defaultMessage;
+    return result;
   }
 
   /** initialize the component */
