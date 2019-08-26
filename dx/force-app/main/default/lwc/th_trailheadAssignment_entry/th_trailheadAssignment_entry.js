@@ -223,6 +223,12 @@ export default class Th_trailheadAssignment_entry extends LightningElement {
   handleAddCloseRequest(evt){
     console.log('add form has requested to close');
     this.isAddFormShown = false;
+
+    if (evt && evt.detail){
+      if (evt.detail.shouldRefresh === true) {
+        this.btnAddEligible = false;
+      }
+    }
   }
 
   //-- internal methods
