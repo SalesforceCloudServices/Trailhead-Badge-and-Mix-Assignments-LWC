@@ -35,4 +35,10 @@
             oncloserequest={handleShareCloseRequest}
         ></c-th_trailhead-assignment_entry-share>
     </div>
+    <div class='action-form' if:true={isAddFormShown}>
+        <c-th_trailhead-assignment_entry-add
+            trailhead-entry={assignmentEntry}
+            oncloserequest={handleAddCloseRequest}
+        ></c-th_trailhead-assignment_entry-add>
+    </div>
 </template>

@@ -68,6 +68,12 @@ export default class Th_trailheadAssignment_entry extends LightningElement {
   */
   @track isShareFormShown;
 
+  /**
+   * Whether the add form is shown
+   * @type {boolean}
+   */
+  @track isAddFormShown;
+
   /** Called on initial creation */
   connectedCallback(){
     if (!this.assignmentEntry){
@@ -79,6 +85,7 @@ export default class Th_trailheadAssignment_entry extends LightningElement {
     this.btnShareEligible = this.btnShareEligible !== false;
 
     this.isShareFormShown = false;
+    this.isAddFormShown = false;
   }
 
   /** 
@@ -152,20 +159,22 @@ export default class Th_trailheadAssignment_entry extends LightningElement {
       return;
     }
 
-    /** @type {EventAddAssignment} */
-    const eventAdd = new CustomEvent(EVENT_ADD_ASSIGNMENT,
-      {
-        bubbles:true,
-        composed:true,
-        detail: {
-          trailheadEntry: this.assignmentEntry,
-          trailheadEntryName: this.assignmentEntry.Name,
-          trailheadEntryType: this.assignmentEntry.EntryType
-        }
-      }
-    );
+    //-- @TODO: remove
+    // /** @type {EventAddAssignment} */
+    // const eventAdd = new CustomEvent(EVENT_ADD_ASSIGNMENT,
+    //   {
+    //     bubbles:true,
+    //     composed:true,
+    //     detail: {
+    //       trailheadEntry: this.assignmentEntry,
+    //       trailheadEntryName: this.assignmentEntry.Name,
+    //       trailheadEntryType: this.assignmentEntry.EntryType
+    //     }
+    //   }
+    // );
+    // this.dispatchEvent(eventAdd);
 
-    this.dispatchEvent(eventAdd);
+    this.isAddFormShown = !this.isAddFormShown;
   }
 
   /**
@@ -205,6 +214,15 @@ export default class Th_trailheadAssignment_entry extends LightningElement {
   handleShareCloseRequest(evt){
     console.log('share form has requested to close');
     this.isShareFormShown = false;
+  }
+
+  /**
+   * Handles when a user requests that the add form be closed
+   */
+  @api
+  handleAddCloseRequest(evt){
+    console.log('add form has requested to close');
+    this.isAddFormShown = false;
   }
 
   //-- internal methods

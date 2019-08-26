@@ -23,6 +23,9 @@
             ],
             "c/th_trailheadAssignment_entryShare": [
                 "th_trailheadAssignment_entryShare/th_trailheadAssignment_entryShare.js"
+            ],
+            "c/th_trailheadAssignment_entryAdd": [
+                "th_trailheadAssignment_entryAdd/th_trailheadAssignment_entryAdd.js"
             ]
         }
     },
