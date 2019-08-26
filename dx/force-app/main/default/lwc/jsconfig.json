@@ -20,6 +20,9 @@
             ],
             "c/th_trailheadAssignments": [
                 "th_trailheadAssignments/th_trailheadAssignments.js"
+            ],
+            "c/th_trailheadAssignment_entryShare": [
+                "th_trailheadAssignment_entryShare/th_trailheadAssignment_entryShare.js"
             ]
         }
     },

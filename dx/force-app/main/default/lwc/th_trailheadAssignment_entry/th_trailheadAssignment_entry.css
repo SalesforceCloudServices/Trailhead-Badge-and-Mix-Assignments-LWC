@@ -13,3 +13,8 @@
 .event-standard {
     color: inherit;
 }
+
+div.action-form {
+    padding-bottom: 0.75rem;
+    margin-left: 10px;
+}

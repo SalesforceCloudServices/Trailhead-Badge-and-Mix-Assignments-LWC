@@ -1,7 +1,7 @@
 /**
  * Represents an entry in the list of trailhead assignments.
  */
-import { LightningElement, api } from 'lwc';
+import { LightningElement, api, track } from 'lwc';
 
 //-- import the custom javascript types
 // require('../th_trailheadAssignments/__types__/CustomTypes);
@@ -61,6 +61,13 @@ export default class Th_trailheadAssignment_entry extends LightningElement {
    * @type {boolean} */
   @api btnShareEligible;
 
+  //-- @TODO: remove
+  /**
+   * Whether the share form is shown
+   * @type {boolean}
+  */
+  @track isShareFormShown;
+
   /** Called on initial creation */
   connectedCallback(){
     if (!this.assignmentEntry){
@@ -70,6 +77,8 @@ export default class Th_trailheadAssignment_entry extends LightningElement {
     //-- default the eligibility of the buttons
     this.btnAddEligible = this.btnAddEligible !== false;
     this.btnShareEligible = this.btnShareEligible !== false;
+
+    this.isShareFormShown = false;
   }
 
   /** 
@@ -187,7 +196,10 @@ export default class Th_trailheadAssignment_entry extends LightningElement {
       }
     );
 
-    this.dispatchEvent(eventShare);
+    //-- @TODO - uncomment
+    // this.dispatchEvent(eventShare);
+
+    this.isShareFormShown = !this.isShareFormShown;
   }
 
   //-- internal methods
