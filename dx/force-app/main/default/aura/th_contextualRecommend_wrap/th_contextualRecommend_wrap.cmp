@@ -31,8 +31,6 @@
         upcomingEventWindow="{!v.upcomingEventWindow}"
         btnAddEligible="{!v.btnAddEligible}"
         btnShareEligible="{!v.btnShareEligible}"
-        onrequestaddassignment="{!c.handleAddAssignmentRequest}"
-        onrequestsharetrailhead="{!c.handleShareTrailheadRequest}"
     />
     <lightning:overlayLibrary aura:id="contextualRecommendOverlayLib" />
 </aura:component>

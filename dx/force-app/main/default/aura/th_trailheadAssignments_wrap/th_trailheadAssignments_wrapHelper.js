@@ -9,41 +9,6 @@
   initializeComponent : function(component, helper) {
     helper.noop();
   },
-
-  /**
-   * Handles when a user requests adding a trailhead assignment
-   */
-  handleShareTrailheadRequest : function(component, event, helper){
-    var modalBody;
-    var overlayLib = component.find('trailheadAssignmentsOverlayLib');
-
-    var trailheadEntry = JSON.parse(JSON.stringify(event.getParam('trailheadEntry')));
-    var entryName = event.getParam('trailheadEntryName');
-    // var entryType = event.getParam('entryType');
-    var defaultMessage = event.getParam('defaultMessage');
-
-    $A.createComponent('c:th_overlayShare_wrap',
-      {
-        trailheadEntry: trailheadEntry,
-        defaultMessage: defaultMessage
-      },
-      function(content, status){
-        if (status === 'SUCCESS'){
-          modalBody = content;
-          overlayLib.showCustomModal({
-            header: 'Share: ' + entryName,
-            body: modalBody,
-            showCloseButton: true,
-            closeCallback: function(){
-              // console.log('you closed the add assignment modal. captured from wrapper.'); // eslint-disable-line no-console
-            }
-          });
-        }
-      }
-    );
-  },
-
-  
   
   /**
    * Displays an error

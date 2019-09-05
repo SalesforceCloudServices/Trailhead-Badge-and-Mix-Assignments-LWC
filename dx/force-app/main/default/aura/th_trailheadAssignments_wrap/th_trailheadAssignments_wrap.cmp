@@ -42,7 +42,6 @@
         upcomingEventWindow='{!v.upcomingEventWindow}'
         dueDateFilter='{!v.dueDateFilter}'
         btnShareEligible="{!v.btnShareEligible}"
-        onrequestsharetrailhead="{!c.handleShareTrailheadRequest}"
     />
     <lightning:overlayLibrary aura:id="trailheadAssignmentsOverlayLib" />
 </aura:component>
