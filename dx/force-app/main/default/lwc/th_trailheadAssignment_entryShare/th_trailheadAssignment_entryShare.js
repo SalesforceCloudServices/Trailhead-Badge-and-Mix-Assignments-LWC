@@ -1,7 +1,5 @@
-/**
- * Represents the form to 'Share' the trailheadAssignment suggestion.
- * @component th_trailhead-assignment_entry-share or th_trailheadAssignment_entryShare
- */
+//-- include custom javascript types for tooltip / vscode intellisense
+// require('../th_trailheadAssignments/__types__/CustomTypes')
 
 import { LightningElement, track, api } from 'lwc'; // eslint-disable-line no-unused-vars
 
@@ -13,9 +11,11 @@ import shareUtilMentionTrailheadToUser from '@salesforce/apex/TH_ShareUtil.menti
 
 /** Minimum characters to enter before doing a search */
 import shareUtilMinCharSearchThreshold from '@salesforce/label/c.th_TrailheadMinCharSearchThreshold';
+const MIN_SEARCH_THRESHOLD = Number.parseInt(shareUtilMinCharSearchThreshold, 10);
 
 /** Represents the timeout to provide for waiting for input prior to doing the search */
 import shareUtilInputSearchDelay from '@salesforce/label/c.th_TrailheadInputSearchDelay';
+const INPUT_SEARCH_DELAY = Number.parseInt(shareUtilInputSearchDelay, 10);
 
 //-- custom labels for the message
 /** The message to share for in-progress trailhead items */
@@ -23,70 +23,64 @@ import TRAILHEAD_SHARE_INCOMPLETE_MSG from '@salesforce/label/c.th_TrailheadShar
 /** The message to share for completed trailhead items */
 import TRAILHEAD_SHARE_COMPLETE_MSG from '@salesforce/label/c.th_TrailheadShareCompleteMsg';
 
-const MIN_SEARCH_THRESHOLD = Number.parseInt(shareUtilMinCharSearchThreshold, 10);
-const INPUT_SEARCH_DELAY = Number.parseInt(shareUtilInputSearchDelay, 10);
 
-/** indicates that the overlay should close */
+
+
+/** @type {string} - indicates that the overlay should close */
 const EVENT_CLOSE_REQUEST = 'closerequest';
 
-/** Represents the enter key */
-const KEY_ENTER = 13; // eslint-disable-line no-unused-vars
-
-/** wildcard to apply to the search */
+/** @type {string} - wildcard to apply to the search to support any position. */
 const WILDCARD = '%';
 
+
+/**
+ * Represents the form to 'Share' the trailheadAssignment suggestion.
+ * @component th_trailhead-assignment_entry-share or th_trailheadAssignment_entryShare
+ */
 export default class th_trailheadAssignment_entryShare extends LightningElement {
 
-  /** the trailhead assignment entry */
+  /** @type {AssignmentEntry} - The trailhead assignment entry **/
   @api trailheadEntry;
 
-  /** timeout used for running the search */
+  /** @type {AssignmentEntry} - the Trailhead entry */
+  @api myTrailheadEntry;
+
+  /** @type {Timeout} - timeout used for running the search */
   @track delayTimeout;
 
-  /** Search spinning indicator */
+  /** @type {boolean} - Whether the spinning 'is searching' indicator should be shown (true) or not (false) **/
   @track isCurrentlySearching;
 
-  /**
-   * Represents the string to search by to find the user to @mention
-   * @type {string}
-   */
+  /** @type {string} - Represents the string to search by to find the user to @mention */
   @track targetUserSearch;
 
-  /**
-   * Collection of possible search results in user key value pairs 
-   * @type {KeyValue[]}
-   */
+  /** @type {KeyValue[]} - Collection of possible search results in user key value pairs **/
   @track targetUserOptions;
 
-  /**
-   * Id of the user that we will use to @mention the user.
-   * @type {string}
-   */
+  /** @type {string} - Id of the user that we will use to @mention the user. **/
   @track targetUserId;
 
-  /**
-   * User object of the user to @mention
-   * @type {sobject}
-   */
+  /** @type {sobject} - User object of the user to @mention */
   @track targetUserOption;
 
-  /**
-   * Message to send in the chatter post
-   * @type {string}
-   */
+  /** @type {string} - Message to send in the chatter post */
   @track message;
 
   //-- getter / setters
 
   /**
    * Determines whether a user has been selected and the message can proceed
-   */
+   * @returns {boolean}
+   **/
   @api
   get isUserSelected(){
     return this.targetUserOption !== null;
   }
 
-  /** Whether there are any user options (true) or an empty list (false) */
+  /**
+   * Whether there are any user options (true) or an empty list (false)
+   * @returns {boolean}
+   **/
   @api
   get userOptionsAvailable(){
     return this.targetUserOptions && this.targetUserOptions.length > 0;
@@ -94,8 +88,7 @@ export default class th_trailheadAssignment_entryShare extends LightningElement 
 
   /**
    * Whether an assignmentEntry has been completed by the current person.
-   * @param assignmentEntry - AssignmentEntry - the assignment entry given for the current person
-   * @return boolean - whether the assignment has been completed by the current user (true) or not (false)
+   * @returns {boolean} - whether the assignment has been completed by the current user (true) or not (false)
    */
   @api
   get isAssignmentCompleted(){
@@ -112,7 +105,10 @@ export default class th_trailheadAssignment_entryShare extends LightningElement 
     return result;
   }
 
-  /** determine the default message */
+  /**
+   * Determine the default message
+   * @returns {string}
+   */
   @api
   get defaultMessage(){
     let result = TRAILHEAD_SHARE_INCOMPLETE_MSG;
@@ -122,16 +118,18 @@ export default class th_trailheadAssignment_entryShare extends LightningElement 
     return result;
   }
 
+  //-- methods
+
   /** initialize the component */
   connectedCallback(){
-    this.clearUserSearch();
+    this.resetForm();
     this.message = '' + this.defaultMessage;
   }
 
   /**
    * Clears the user search
    */
-  clearUserSearch(){
+  resetForm(){
     this.targetUserSearch = '';
     this.targetUserOptions = [];
     this.targetUserId = null;
@@ -140,8 +138,33 @@ export default class th_trailheadAssignment_entryShare extends LightningElement 
     this.isCurrentlySearching = false;
   }
 
+
+  
+  //-- private methods
+
+  /**
+   * Selects a user from the list of target users
+   * @param targetUserId {string} - id of the target user
+   * @return {object} - the target user label value pair
+   * @private
+   */
+  selectTargetUserById(targetUserId){
+    this.targetUserOption = this.targetUserOptions.find((targetUserOption) => {
+      return targetUserOption && targetUserOption.value === targetUserId;
+    });
+
+    if (this.targetUserOption){
+      this.targetUserSearch = this.targetUserOption.label;
+      this.targetUserId = this.targetUserOption.value;
+      this.targetUserOptions = [];
+    } else {
+      this.resetForm();
+    }
+  }
+
   /**
    * Clears the current user selection
+   * @private
    */
   clearUserSelection(){
     this.targetUserOption = null;
@@ -150,22 +173,22 @@ export default class th_trailheadAssignment_entryShare extends LightningElement 
   /**
    * Performs the search on a user.
    * @param {string} userSearch - the string to use in the search for users.
+   * @private
    */
   searchUsers (userSearchStr) {
     // console.log('user search is getting performed with:' + userSearchStr);
     
     if (!userSearchStr){
-      this.clearUserSearch();
+      this.resetForm();
     } else if (userSearchStr.length < MIN_SEARCH_THRESHOLD){
       return;
     }
 
     //-- we restart the search
     this.clearUserSelection();
+    this.isCurrentlySearching = true;
     
     let userSearchWild = WILDCARD + userSearchStr + WILDCARD;
-
-    this.isCurrentlySearching = true;
 
     shareUtilFindMatchingUsers( {userSearch:userSearchWild} )
       .then(data => {
@@ -191,7 +214,10 @@ export default class th_trailheadAssignment_entryShare extends LightningElement 
 
   //-- handlers
 
-  /** handle when the ok button is pressed */
+  /**
+   * handle when the ok button is pressed
+   * @private
+   */
   onOkButtonClick(){
     let inputMessage = this.template.querySelector('.input-message');
 
@@ -217,6 +243,7 @@ export default class th_trailheadAssignment_entryShare extends LightningElement 
 
   /**
    * Handles when the cancel / close button is clicked
+   * @private
    */
   onCloseButtonClick(){
     this.requestPopupClose(false);
@@ -225,6 +252,7 @@ export default class th_trailheadAssignment_entryShare extends LightningElement 
   /**
    * Requests that the popup be closed
    * @param {boolean} shouldRefresh - whether the list should be refreshed after closing.
+   * @private
    */
   requestPopupClose(shouldRefresh){
 
@@ -240,6 +268,7 @@ export default class th_trailheadAssignment_entryShare extends LightningElement 
 
   /**
    * Handles when the user presses the key up in the user search box.
+   * @private
    */
   handleSearchKeyUp(evt){
     /*
@@ -266,29 +295,9 @@ export default class th_trailheadAssignment_entryShare extends LightningElement 
 
   /**
    * Handles when the target user is selected
+   * @private
    */
   handleTargetUserChanged(evt){
     this.selectTargetUserById(evt.target.value);
-  }
-  
-  //-- private methods
-
-  /**
-   * Selects a user from the list of target users
-   * @param targetUserId {string} - id of the target user
-   * @return {object} - the target user label value pair
-   */
-  selectTargetUserById(targetUserId){
-    this.targetUserOption = this.targetUserOptions.find((targetUserOption) => {
-      return targetUserOption && targetUserOption.value === targetUserId;
-    });
-
-    if (this.targetUserOption){
-      this.targetUserSearch = this.targetUserOption.label;
-      this.targetUserId = this.targetUserOption.value;
-      this.targetUserOptions = [];
-    } else {
-      this.clearUserSearch();
-    }
   }
 }

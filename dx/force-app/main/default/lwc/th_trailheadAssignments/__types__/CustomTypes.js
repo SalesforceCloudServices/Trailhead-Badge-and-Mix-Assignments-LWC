@@ -3,6 +3,12 @@
  */
 
 /**
+ * Represents a setTimeout pointer.
+ * @typedef {Number} Timeout
+ * @property {boolean} isTimeout - whether the timer is currently active or not.
+ */
+
+/**
  * Describes an Assignment to a Trailhead Entry (either Module or Trail)
  * @typedef AssignmentEntry
  * @property {string} Id - Id of the user assignment
