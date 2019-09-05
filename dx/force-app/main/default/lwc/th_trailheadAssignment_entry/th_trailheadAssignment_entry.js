@@ -136,16 +136,16 @@ export default class Th_trailheadAssignment_entry extends LightningElement {
    */
   @api
   get statusClass(){
-    let result = STATUS_STANDARD;
+    let result = 'slds-p-left_xxx-small ';
 
     let daysUntilDue = this.assignmentEntry.NumDaysUntilDue;
     if (daysUntilDue < 0){
-      result = STATUS_DUE;
+      result += STATUS_DUE;
     } else if (daysUntilDue < this.upcomingEventWindow){
-      result = STATUS_UPCOMING;
+      result += STATUS_UPCOMING;
+    } else {
+      result += STATUS_STANDARD;
     }
-
-    result += ' slds-p-left_xxx-small';
 
     return result;
   }
@@ -174,7 +174,15 @@ export default class Th_trailheadAssignment_entry extends LightningElement {
     // );
     // this.dispatchEvent(eventAdd);
 
-    this.isAddFormShown = !this.isAddFormShown;
+    if (this.isAddFormShown === false) {
+      //-- show the form
+      this.isAddFormShown = true;
+      //-- hide the share form, so only one is shown at a time.
+      this.isShareFormShown = false;
+    } else { // this.isAddFormShown === true
+      //-- hide the form
+      this.isAddFormShown = false;
+    }
   }
 
   /**
@@ -206,7 +214,15 @@ export default class Th_trailheadAssignment_entry extends LightningElement {
     // );
     // this.dispatchEvent(eventShare);
 
-    this.isShareFormShown = !this.isShareFormShown;
+    if (this.isShareFormShown === false) {
+      //-- show the form
+      this.isShareFormShown = true;
+      //-- hide the share form, so only one is shown at a time.
+      this.isAddFormShown = false;
+    } else { // this.isAddFormShown === true
+      //-- hide the form
+      this.isShareFormShown = false;
+    }
   }
 
   /** Handles when a user requests that the share form be closed */
