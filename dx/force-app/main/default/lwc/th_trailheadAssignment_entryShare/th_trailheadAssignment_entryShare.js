@@ -35,7 +35,7 @@ const KEY_ENTER = 13; // eslint-disable-line no-unused-vars
 /** wildcard to apply to the search */
 const WILDCARD = '%';
 
-export default class th_overlayShare extends LightningElement {
+export default class th_trailheadAssignment_entryShare extends LightningElement {
 
   /** the trailhead assignment entry */
   @api trailheadEntry;
