@@ -1,7 +1,14 @@
 /**
  * Represents an entry in the list of trailhead assignments.
  */
-import { LightningElement, api, track } from 'lwc';
+
+import { LightningElement, api, track, wire } from 'lwc';
+
+//-- pubsub to support enrolling in one component visually notifies the other components to refresh
+import { fireEvent as firePubSubEvent } from 'c/th_pubsub';
+//-- support page reference within the pubsub
+import { CurrentPageReference } from 'lightning/navigation';
+
 
 //-- import the custom javascript types
 // require('../th_trailheadAssignments/__types__/CustomTypes);
@@ -38,6 +45,8 @@ const EVENT_ADD_ASSIGNMENT = 'requestaddassignment';
 // const MILLI_PER_DAY = 24 * 60 * 60 * 1000;
 
 export default class Th_trailheadAssignment_entry extends LightningElement {
+
+  @wire(CurrentPageReference) pageRef;
 
   /**
    * the assignment
@@ -243,6 +252,8 @@ export default class Th_trailheadAssignment_entry extends LightningElement {
     if (evt && evt.detail){
       if (evt.detail.shouldRefresh === true) {
         this.btnAddEligible = false;
+
+        firePubSubEvent(this.pageRef, 'enrollment', evt.detail);
       }
     }
   }

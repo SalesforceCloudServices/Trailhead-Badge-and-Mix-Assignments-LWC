@@ -3,6 +3,11 @@
  **/
 import { LightningElement, track, api, wire } from 'lwc';
 
+//-- pubsub to support enrolling in one component visually notifies the other components to refresh
+import { registerListener as registerPubSubListener, unregisterAllListeners as unregisterAllPubSubListeners, fireEvent as firePubSubEvent } from 'c/th_pubsub';
+//-- support page reference within the pubsub
+import { CurrentPageReference } from 'lightning/navigation';
+
 /** require('./__types__/CustomTypes') **/
 
 import {refreshApex} from '@salesforce/apex';
@@ -46,6 +51,9 @@ export default class Tl_trailheadAssignments extends LightningElement {
 
   /** Whether to show the Share button on entries of the list. */
   @api btnShareEligible;
+
+  /** track the current page for pubsub page reference checks */
+  @wire(CurrentPageReference) pageRef;
 
   @track error;
 
@@ -129,6 +137,13 @@ export default class Tl_trailheadAssignments extends LightningElement {
     this.sectionTitle = this.determineSectionTitle(this.badgesOrTrailmixes,0,0);
 
     this.recordPaginator = new Paginator(null, this.paginationSize);
+
+    registerPubSubListener('enrollment', this.refreshAssignments, this);
+  }
+
+  disconnectedCallback(){
+    //-- unsubscribe from listeners
+    unregisterAllPubSubListeners(this);
   }
 
   /**
