@@ -16,7 +16,7 @@ public with sharing class TH_ShareUtil {
         for (User matchingUser : [
             SELECT id, name
             FROM user
-            WHERE name like :userSearch
+            WHERE name like :userSearch or email like :userSearch
         ]){
             option = new UserMatchOption(
                 matchingUser.id, matchingUser.name
