@@ -22,6 +22,9 @@
                             ></lightning-button-icon>
                             -->
                         </div>
+                        <div if:true={isCurrentlySearching}>
+                            <lightning-spinner alternative-text="Searching..." size="small"></lightning-spinner>
+                        </div>
                         <div if:true={isUserSelected}>
                             User found: {targetUserOption.label}
                         </div>

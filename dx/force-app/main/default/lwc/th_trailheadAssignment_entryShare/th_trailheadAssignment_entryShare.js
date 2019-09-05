@@ -43,6 +43,9 @@ export default class th_overlayShare extends LightningElement {
   /** timeout used for running the search */
   @track delayTimeout;
 
+  /** Search spinning indicator */
+  @track isCurrentlySearching;
+
   /**
    * Represents the string to search by to find the user to @mention
    * @type {string}
@@ -134,6 +137,7 @@ export default class th_overlayShare extends LightningElement {
     this.targetUserId = null;
     this.targetUserOption = null;
     this.message = '';
+    this.isCurrentlySearching = false;
   }
 
   /**
@@ -161,9 +165,13 @@ export default class th_overlayShare extends LightningElement {
     
     let userSearchWild = WILDCARD + userSearchStr + WILDCARD;
 
+    this.isCurrentlySearching = true;
+
     shareUtilFindMatchingUsers( {userSearch:userSearchWild} )
       .then(data => {
+        this.isCurrentlySearching = false;
         this.targetUserOptions = data;
+        this.targetUserId = null;
         
         if (data){
           if (typeof data.length !== 'undefined'){
@@ -174,6 +182,7 @@ export default class th_overlayShare extends LightningElement {
         }
       })
       .catch(error => {
+        this.isCurrentlySearching = false;
         // eslint-disable-next-line no-console
         console.error('error occurred searchUsers:jsImportedApexMethodName', JSON.stringify(error));
         this.error = error;
