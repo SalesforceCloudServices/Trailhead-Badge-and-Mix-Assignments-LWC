@@ -29,7 +29,7 @@ import TYPE_BOTH from '@salesforce/label/c.th_TrailheadTypeBoth';
 
 
 
-//-- constantts
+//-- constants
 
 //-- icons to show based on type of items to show
 const ICON_BADGE = 'custom:custom48';
@@ -70,10 +70,12 @@ export default class Tl_trailheadAssignments extends LightningElement {
   /** @type {boolean} Whether to show the Share button on entries of the list. */
   @api btnShareEligible;
 
-  /** @type {Error} - the last error encountered (for debugging) */
-  @track error;
+
 
   //-- private attributes
+
+  /** @type {Error} - the last error encountered (for debugging) */
+  @track error;
 
   //-- note: the collections are required for refreshApex
   //-- see here for more information
@@ -139,77 +141,6 @@ export default class Tl_trailheadAssignments extends LightningElement {
         trailmixAssignmentCount
       );
     }
-  }
-
-
-
-  //-- methods
-
-  /**
-   * Called when the component is initially created
-   */
-  connectedCallback(){
-    this.sectionIcon = this.determineSectionIcon(this.badgesOrTrailmixes);
-    this.sectionTitle = this.determineSectionTitle(this.badgesOrTrailmixes,0,0);
-
-    this.recordPaginator = new Paginator(null, this.paginationSize);
-
-    registerPubSubListener(EVENT_ENROLLMENT, this.refreshAssignments, this);
-  }
-
-  /**
-   * Called when the component is removed from the page
-   */
-  disconnectedCallback(){
-    //-- unsubscribe from listeners
-    unregisterAllPubSubListeners(this);
-  }
-
-  /**
-   * Refresh the current counts
-   * <p>Note: this must have access
-   * to the exact response from the wire service to work.</p>
-   */
-  @api
-  refreshAssignments(){
-    refreshApex(this.assignedTrailEntries);
-  }
-
-  /** Paginate to the next page */
-  @api
-  next(){
-    if (this.hasNext){
-      this.recordPaginator = this.recordPaginator.nextPaginator();
-    }
-  }
-  /** Paginate to the previous page */
-  @api
-  previous(){
-    if (this.hasPrevious){
-      this.recordPaginator = this.recordPaginator.previousPaginator();
-    }
-  }
-
-  /**
-   * Filters the list of assignments based on the filter selected.
-   * @private
-   * @param {array} listOfRecords - collection of assignments
-   * @param {String} dueDateFilter - type of filter to apply
-   */
-  @api
-  filterDueDate(listOfRecords, dueDateFilter){
-    let dueDateNum = FILTER_DATE_ALL;
-
-    if (dueDateFilter === SHOW_ALL){
-      // dueDateNum = FILTER_DATE_ALL;
-    } else if (dueDateFilter === SHOW_OVERDUE_ONLY){
-      dueDateNum = FILTER_DATE_OVERDUE;
-    } else if (dueDateFilter === SHOW_OVERDUE_AND_UPCOMING){
-      dueDateNum = this.upcomingEventWindow;
-    }
-    return listOfRecords.filter(record => {
-      return record.NumDaysUntilDue < dueDateNum;
-    });
   }
 
 
@@ -335,5 +266,76 @@ export default class Tl_trailheadAssignments extends LightningElement {
     }
 
     return results;
+  }
+
+
+
+  //-- methods
+
+  /**
+   * Called when the component is initially created
+   */
+  connectedCallback(){
+    this.sectionIcon = this.determineSectionIcon(this.badgesOrTrailmixes);
+    this.sectionTitle = this.determineSectionTitle(this.badgesOrTrailmixes,0,0);
+
+    this.recordPaginator = new Paginator(null, this.paginationSize);
+
+    registerPubSubListener(EVENT_ENROLLMENT, this.refreshAssignments, this);
+  }
+
+  /**
+   * Called when the component is removed from the page
+   */
+  disconnectedCallback(){
+    //-- unsubscribe from listeners
+    unregisterAllPubSubListeners(this);
+  }
+
+  /**
+   * Refresh the current counts
+   * <p>Note: this must have access
+   * to the exact response from the wire service to work.</p>
+   */
+  @api
+  refreshAssignments(){
+    refreshApex(this.assignedTrailEntries);
+  }
+
+  /** Paginate to the next page */
+  @api
+  next(){
+    if (this.hasNext){
+      this.recordPaginator = this.recordPaginator.nextPaginator();
+    }
+  }
+  /** Paginate to the previous page */
+  @api
+  previous(){
+    if (this.hasPrevious){
+      this.recordPaginator = this.recordPaginator.previousPaginator();
+    }
+  }
+
+  /**
+   * Filters the list of assignments based on the filter selected.
+   * @private
+   * @param {array} listOfRecords - collection of assignments
+   * @param {String} dueDateFilter - type of filter to apply
+   */
+  @api
+  filterDueDate(listOfRecords, dueDateFilter){
+    let dueDateNum = FILTER_DATE_ALL;
+
+    if (dueDateFilter === SHOW_ALL){
+      // dueDateNum = FILTER_DATE_ALL;
+    } else if (dueDateFilter === SHOW_OVERDUE_ONLY){
+      dueDateNum = FILTER_DATE_OVERDUE;
+    } else if (dueDateFilter === SHOW_OVERDUE_AND_UPCOMING){
+      dueDateNum = this.upcomingEventWindow;
+    }
+    return listOfRecords.filter(record => {
+      return record.NumDaysUntilDue < dueDateNum;
+    });
   }
 }
