@@ -35,11 +35,8 @@ const STATUS_DUE = 'event-due';
 /** The event is considered 'upcoming' */
 const STATUS_UPCOMING = 'event-upcoming';
 
-/** The event to dispatch when we want to add an assignment to a specific trailhead trail or module */
-const EVENT_ADD_ASSIGNMENT = 'requestaddassignment';
-
-/** The event to dispatch when we want to share a specific trailhead trail or module */
-// const EVENT_SHARE_TRAILHEAD = 'requestsharetrailhead';
+/** The event to dispatch when a new enrollment has been requested */
+const EVENT_ENROLLMENT = 'enrollment';
 
 /** milliseconds per day */
 // const MILLI_PER_DAY = 24 * 60 * 60 * 1000;
@@ -83,6 +80,10 @@ export default class Th_trailheadAssignment_entry extends LightningElement {
    */
   @track isAddFormShown;
 
+
+
+  //-- methods
+
   /** Called on initial creation */
   connectedCallback(){
     if (!this.assignmentEntry){
@@ -96,6 +97,101 @@ export default class Th_trailheadAssignment_entry extends LightningElement {
     this.isShareFormShown = false;
     this.isAddFormShown = false;
   }
+
+
+  
+  //-- internal methods
+  /**
+   * Whether an assignmentEntry is already assigned to the current person.
+   * @param assignmentEntry - AssignmentEntry - The assignment entry given for the current person
+   * @return boolean - whether the assignment is currently assigned to the current user (true) or not (false)
+   */
+  static isCurrentlyAssigned(assignmentEntry){
+    //-- there are three statuses: Assigned, In Progress and Completed
+    //-- assume if there is any of those statuses, then it is assigned.
+    if (!assignmentEntry){
+      return false;
+    }
+    let status = assignmentEntry.Status;
+    let result = false;
+    if (status){
+      result = true;
+    }
+    return result;
+  }
+
+  
+
+  //-- handlers
+
+  /**
+   * Handles when the user clicks the Add button
+   */
+  @api
+  handleAddClick(){
+    if (!this.assignmentEntry){
+      return;
+    }
+
+    if (this.isAddFormShown === false) {
+      //-- show the form
+      this.isAddFormShown = true;
+      //-- hide the share form, so only one is shown at a time.
+      this.isShareFormShown = false;
+    } else { // this.isAddFormShown === true
+      //-- hide the form
+      this.isAddFormShown = false;
+    }
+  }
+
+  /**
+   * Handles when the user clicks the Share button
+   */
+  @api
+  handleShareClick(){
+    if (!this.assignmentEntry){
+      return;
+    }
+
+    if (this.isShareFormShown === false) {
+      //-- show the form
+      this.isShareFormShown = true;
+      //-- hide the share form, so only one is shown at a time.
+      this.isAddFormShown = false;
+    } else { // this.isAddFormShown === true
+      //-- hide the form
+      this.isShareFormShown = false;
+    }
+  }
+
+  /** Handles when a user requests that the share form be closed */
+  @api
+  handleShareCloseRequest(evt){
+    // console.log('share form has requested to close');
+    this.isShareFormShown = false;
+  }
+
+  /**
+   * Handles when a user requests that the add form be closed
+   */
+  @api
+  handleAddCloseRequest(evt){
+    //console.log('add form has requested to close');
+    this.isAddFormShown = false;
+
+    if (evt && evt.detail){
+      if (evt.detail.shouldRefresh === true) {
+        this.btnAddEligible = false;
+
+        //-- let any other components that need to know that an enrollment occurred.
+        firePubSubEvent(this.pageRef, EVENT_ENROLLMENT, evt.detail);
+      }
+    }
+  }
+
+
+
+  //-- getter / setters
 
   /** 
    * Url for the icon to show
@@ -156,125 +252,6 @@ export default class Th_trailheadAssignment_entry extends LightningElement {
       result += STATUS_STANDARD;
     }
 
-    return result;
-  }
-
-  /**
-   * Handles when the user clicks the Add button
-   */
-  @api
-  handleAddClick(){
-    if (!this.assignmentEntry){
-      return;
-    }
-
-    //-- @TODO: remove
-    // /** @type {EventAddAssignment} */
-    // const eventAdd = new CustomEvent(EVENT_ADD_ASSIGNMENT,
-    //   {
-    //     bubbles:true,
-    //     composed:true,
-    //     detail: {
-    //       trailheadEntry: this.assignmentEntry,
-    //       trailheadEntryName: this.assignmentEntry.Name,
-    //       trailheadEntryType: this.assignmentEntry.EntryType
-    //     }
-    //   }
-    // );
-    // this.dispatchEvent(eventAdd);
-
-    if (this.isAddFormShown === false) {
-      //-- show the form
-      this.isAddFormShown = true;
-      //-- hide the share form, so only one is shown at a time.
-      this.isShareFormShown = false;
-    } else { // this.isAddFormShown === true
-      //-- hide the form
-      this.isAddFormShown = false;
-    }
-  }
-
-  /**
-   * Handles when the user clicks the Share button
-   */
-  @api
-  handleShareClick(){
-    if (!this.assignmentEntry){
-      return;
-    }
-
-    //-- @TODO - uncomment
-    // let defaultMessage = TRAILHEAD_SHARE_INCOMPLETE_MSG;
-    // if (Th_trailheadAssignment_entry.isAssignmentCompleted(this.assignmentEntry)){
-    //   defaultMessage = TRAILHEAD_SHARE_COMPLETE_MSG;
-    // }
-    // /** @type {EventShareTrailhead} */
-    // const eventShare = new CustomEvent(EVENT_SHARE_TRAILHEAD,
-    //   {
-    //     bubbles: true,
-    //     composed: true,
-    //     detail: {
-    //       trailheadEntry: this.assignmentEntry,
-    //       trailheadEntryName: this.assignmentEntry.Name,
-    //       trailheadEntryType: this.assignmentEntry.EntryType,
-    //       defaultMessage: defaultMessage
-    //     }
-    //   }
-    // );
-    // this.dispatchEvent(eventShare);
-
-    if (this.isShareFormShown === false) {
-      //-- show the form
-      this.isShareFormShown = true;
-      //-- hide the share form, so only one is shown at a time.
-      this.isAddFormShown = false;
-    } else { // this.isAddFormShown === true
-      //-- hide the form
-      this.isShareFormShown = false;
-    }
-  }
-
-  /** Handles when a user requests that the share form be closed */
-  @api
-  handleShareCloseRequest(evt){
-    console.log('share form has requested to close');
-    this.isShareFormShown = false;
-  }
-
-  /**
-   * Handles when a user requests that the add form be closed
-   */
-  @api
-  handleAddCloseRequest(evt){
-    console.log('add form has requested to close');
-    this.isAddFormShown = false;
-
-    if (evt && evt.detail){
-      if (evt.detail.shouldRefresh === true) {
-        this.btnAddEligible = false;
-
-        firePubSubEvent(this.pageRef, 'enrollment', evt.detail);
-      }
-    }
-  }
-
-  //-- internal methods
-  /**
-   * Whether an assignmentEntry is already assigned to the current person.
-   * @param assignmentEntry - AssignmentEntry - The assignment entry given for the current person
-   * @return boolean - whether the assignment is currently assigned to the current user (true) or not (false)
-   */
-  static isCurrentlyAssigned(assignmentEntry){
-    //-- there are three statuses: Assigned, In Progress and Completed
-    //-- assume if there is any of those statuses, then it is assigned.
-    if (!assignmentEntry){
-      return false;
-    }
-    let status = assignmentEntry.Status;
-    let result = false;
-    if (status){
-      result = true;
-    }
     return result;
   }
 }

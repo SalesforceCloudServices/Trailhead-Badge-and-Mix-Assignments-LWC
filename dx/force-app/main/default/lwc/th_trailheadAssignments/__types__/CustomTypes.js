@@ -9,6 +9,14 @@
  */
 
 /**
+ * Represents a PageReference from within Lightning / Apex
+ * @typedef {Object} PageReference
+ * @property {string} type - the type of page we are currently on (ex: standard__namedPage)
+ * @property {Object} attributes - attributes about the page
+ * @property {Object} state - current set state within the pageReference
+ */
+
+/**
  * Describes an Assignment to a Trailhead Entry (either Module or Trail)
  * @typedef AssignmentEntry
  * @property {string} Id - Id of the user assignment
