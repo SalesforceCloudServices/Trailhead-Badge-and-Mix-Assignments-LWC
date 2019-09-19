@@ -15,6 +15,9 @@
             "c/th_paginator": [
                 "th_paginator/th_paginator.js"
             ],
+            "c/th_pubsub": [
+                "th_pubsub/th_pubsub.js"
+            ],
             "c/th_trailheadAssignment_entry": [
                 "th_trailheadAssignment_entry/th_trailheadAssignment_entry.js"
             ],
@@ -26,9 +29,6 @@
             ],
             "c/th_trailheadAssignments": [
                 "th_trailheadAssignments/th_trailheadAssignments.js"
-            ],
-            "c/th_pubsub": [
-                "th_pubsub/th_pubsub.js"
             ]
         }
     },
