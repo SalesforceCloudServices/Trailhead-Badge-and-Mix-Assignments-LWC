@@ -1,21 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
-    <assignments>
-        <name>myVariable_waitStartTimeAssignment</name>
-        <label>myVariable_waitStartTimeAssignment</label>
-        <locationX>0</locationX>
-        <locationY>0</locationY>
-        <assignmentItems>
-            <assignToReference>myVariable_waitStartTimeVariable</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>$Flow.CurrentDateTime</elementReference>
-            </value>
-        </assignmentItems>
-        <connector>
-            <targetReference>myDecision</targetReference>
-        </connector>
-    </assignments>
     <decisions>
         <processMetadataValues>
             <name>index</name>
@@ -73,12 +57,12 @@
         <processMetadataValues>
             <name>originalFormula</name>
             <value>
-                <stringValue>Today()+30</stringValue>
+                <stringValue>NOW() +30</stringValue>
             </value>
         </processMetadataValues>
-        <name>formula_2_myRule_1_A1_8888467458</name>
-        <dataType>Date</dataType>
-        <expression>Today()+30</expression>
+        <name>formula_2_myRule_1_A1_1135393643</name>
+        <dataType>DateTime</dataType>
+        <expression>NOW() +30</expression>
     </formulas>
     <interviewLabel>Assign_Lead_Trailmix-1_InterviewLabel</interviewLabel>
     <label>Assign Lead Trailmix</label>
@@ -116,7 +100,7 @@
             <processMetadataValues>
                 <name>dataType</name>
                 <value>
-                    <stringValue>Date</stringValue>
+                    <stringValue>DateTime</stringValue>
                 </value>
             </processMetadataValues>
             <processMetadataValues>
@@ -128,7 +112,7 @@
             <processMetadataValues>
                 <name>leftHandSideLabel</name>
                 <value>
-                    <stringValue>Due Date</stringValue>
+                    <stringValue>Due Datetime</stringValue>
                 </value>
             </processMetadataValues>
             <processMetadataValues>
@@ -143,9 +127,9 @@
                     <stringValue>Formula</stringValue>
                 </value>
             </processMetadataValues>
-            <field>trailheadapp__Due_At__c</field>
+            <field>trailheadapp__Due_Datetime__c</field>
             <value>
-                <elementReference>formula_2_myRule_1_A1_8888467458</elementReference>
+                <elementReference>formula_2_myRule_1_A1_1135393643</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -216,8 +200,8 @@
         </inputAssignments>
         <object>trailheadapp__Trailmix_Assignment__c</object>
     </recordCreates>
-    <startElementReference>myVariable_waitStartTimeAssignment</startElementReference>
-    <status>Obsolete</status>
+    <startElementReference>myDecision</startElementReference>
+    <status>Draft</status>
     <variables>
         <name>myVariable_current</name>
         <dataType>SObject</dataType>
@@ -233,15 +217,5 @@
         <isInput>true</isInput>
         <isOutput>false</isOutput>
         <objectType>Lead</objectType>
-    </variables>
-    <variables>
-        <name>myVariable_waitStartTimeVariable</name>
-        <dataType>DateTime</dataType>
-        <isCollection>false</isCollection>
-        <isInput>false</isInput>
-        <isOutput>false</isOutput>
-        <value>
-            <elementReference>$Flow.CurrentDateTime</elementReference>
-        </value>
     </variables>
 </Flow>
