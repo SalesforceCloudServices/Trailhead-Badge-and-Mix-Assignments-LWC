@@ -20,6 +20,11 @@
         <field>TH_Recommendation__c.Trailmix__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>trailheadapp__Trailmix_Assignment__c.trailheadapp__Due_Datetime__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <hasActivationRequired>false</hasActivationRequired>
     <label>Trailhead Badge and Mix Participant</label>
     <objectPermissions>
