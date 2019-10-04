@@ -4,12 +4,45 @@ public with sharing class TH_Report_to_TEs {
         TH_Assignments.TrailheadEntry[] results = new TH_Assignments.TrailheadEntry[]{};
         Reports.ReportResults bResults;
         Reports.ReportResults tResults;
+        
+        /** collection of ids for all the badges & trailmixes in the reports */
+        Set<Id> Badges = new Set<Id>();
+        Set<Id> Trailmixes = new Set<Id>();
        
        try{
             if(badgeReportId != null) bResults = Reports.ReportManager.runReport(badgeReportId, true);
             if(trailmixReportId != null) tResults = Reports.ReportManager.runReport(trailmixReportId, true);
-            System.debug(getfactDetails(bResults));
-            System.debug(tResults);
+            
+            if(bResults != null) {
+                for(Reports.ReportFact rf: bResults.getFactMap().values()){
+                    Reports.ReportFactWithDetails rfwd = (Reports.ReportFactWithDetails)rf;
+                    for(Reports.ReportDetailRow detailRow : rfwd.getRows()){
+                        for(Reports.ReportDataCell dataCell : detailRow.getDataCells()){
+                            if(dataCell.getValue() instanceOf Id ) {
+                                Id cellId = (Id)dataCell.getValue();
+                                if(cellId.getSObjectType() == Schema.trailheadapp__Badge__c.getSObjectType()) Badges.add(cellId);
+                            }
+                        }
+                    }
+                }
+            System.debug(Badges);
+            }
+            
+            if(tResults != null) {
+                for(Reports.ReportFact rf: tResults.getFactMap().values()){
+                    Reports.ReportFactWithDetails rfwd = (Reports.ReportFactWithDetails)rf;
+                    for(Reports.ReportDetailRow detailRow : rfwd.getRows()){
+                        for(Reports.ReportDataCell dataCell : detailRow.getDataCells()){
+                            if(dataCell.getValue() instanceOf Id ) {
+                                Id cellId = (Id)dataCell.getValue();
+                                if(cellId.getSObjectType() == Schema.trailheadapp__Trailmix__c.getSObjectType()) Trailmixes.add(cellId);
+                            }
+                        }
+                    }
+                }
+            System.debug(Trailmixes);     
+            }          
+            
         } catch (Exception ex) {
             System.debug(ex);
         }
@@ -17,6 +50,8 @@ public with sharing class TH_Report_to_TEs {
         return results;
     }
 
+
+    // Not Used    
     private static Reports.ReportFactWithDetails getfactDetails(Reports.ReportResults results){
         // https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_analytics_report_data.htm
         // Get the first down-grouping in the report
