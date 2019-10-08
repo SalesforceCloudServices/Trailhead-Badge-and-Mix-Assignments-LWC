@@ -35,8 +35,8 @@ global class TH_Recommendations {
         } else {
             recommendations = [Select Id, Badge__c, Trailmix__c, OwnerId From TH_Recommendation__c Where OwnerId=:userId];
         }
-        system.debug('** TH_Recommendation__c **');
-        system.debug(recommendations);
+        // system.debug('** TH_Recommendation__c **');
+        // system.debug(recommendations);
 
         //-- determine the ids of all the badges and trailmixes to be recommended
         for(TH_Recommendation__c thr : recommendations){
@@ -44,9 +44,9 @@ global class TH_Recommendations {
             if(thr.Trailmix__c <> null) Trailmixes.add(thr.Trailmix__c);
         }
 
-        system.debug('** Badges & Trailmixes **');
-        system.debug(Badges);
-        system.debug(Trailmixes);
+        // system.debug('** Badges & Trailmixes **');
+        // system.debug(Badges);
+        // system.debug(Trailmixes);
 
         /** Final list of all the trialhead entries we will return */
         results = TH_Assignments.determineEntriesByTrailheadId(badges, trailmixes, userId);

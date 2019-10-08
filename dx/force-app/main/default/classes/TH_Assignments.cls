@@ -338,6 +338,9 @@ global class TH_Assignments {
     public static TrailheadEntry[] determineEntriesByTrailheadId(
         Set<Id> badges, Set<id> trailmixes, Id userId
     ){
+        /** whether to include Completed trails and badges */
+        Boolean includeCompleted = false;
+        
         /** Final list of all the trialhead entries we will return */
         TrailheadEntry[] results = new TrailheadEntry[]{};
         
@@ -351,7 +354,6 @@ global class TH_Assignments {
         }
 
         //-- determine if there are any user assignments for those badges and trailmixes
-        //-- @TODO: replace ub with uBadge, ut with uTrail, etc.
         trailheadapp__User_Badge__c [] uBadges;
         trailheadapp__User_Badge__c uBadge;
         trailheadapp__User_Trailmix__c [] uTrails;     
@@ -362,12 +364,12 @@ global class TH_Assignments {
                 From trailheadapp__User_Badge__c 
                 Where trailheadapp__User__c =:userId and trailheadapp__Badge__c in :Badges
             ];
-            for (trailheadapp__User_Badge__c ub : uBadges ){
-                if (ub.trailheadapp__Status__c == ASSIGNMENT_STATUS_COMPLETED){
-                    Badges.remove(ub.trailheadapp__Badge__c);
+            for (trailheadapp__User_Badge__c assignedUserBadge : uBadges ){
+                if (!includeCompleted && assignedUserBadge.trailheadapp__Status__c == ASSIGNMENT_STATUS_COMPLETED){
+                    Badges.remove(assignedUserBadge.trailheadapp__Badge__c);
                 } else {
                     //-- it isn't completed but there is still an assignment
-                    badgeAssignmentMap.put(ub.trailheadapp__Badge__c, ub);
+                    badgeAssignmentMap.put(assignedUserBadge.trailheadapp__Badge__c, assignedUserBadge);
                 }
             }
         }
@@ -377,18 +379,18 @@ global class TH_Assignments {
                 From trailheadapp__User_Trailmix__c 
                 Where trailheadapp__User__c =:userId and trailheadapp__Trailmix__c in :Trailmixes
             ];
-            for (trailheadapp__User_Trailmix__c ut : uTrails ){
-                if (ut.trailheadapp__Status__c == ASSIGNMENT_STATUS_COMPLETED){
-                    Trailmixes.remove(ut.trailheadapp__Trailmix__c);
+            for (trailheadapp__User_Trailmix__c assignedUserTrail : uTrails ){
+                if (!includeCompleted && assignedUserTrail.trailheadapp__Status__c == ASSIGNMENT_STATUS_COMPLETED){
+                    Trailmixes.remove(assignedUserTrail.trailheadapp__Trailmix__c);
                 } else {
                     //-- it isn't completed but there is still an assignment
-                    trailmixAssignmentMap.put(ut.trailheadapp__Trailmix__c, ut);
+                    trailmixAssignmentMap.put(assignedUserTrail.trailheadapp__Trailmix__c, assignedUserTrail);
                 }
             }
         }
-        system.debug('** Badges & Trailmixes **');
-        system.debug(Badges);
-        system.debug(Trailmixes);
+        // system.debug('** Badges & Trailmixes **');
+        // system.debug(Badges);
+        // system.debug(Trailmixes);
 
         //-- determine the underlying badges
         
@@ -400,9 +402,9 @@ global class TH_Assignments {
         if(Trailmixes.size() > 0){
             thTrails = [Select Id, Name,trailheadapp__URL__c From trailheadapp__Trailmix__c Where Id in :Trailmixes];
         }
-        system.debug('** thBadges & thTrails **');
-        system.debug(thBadges);
-        system.debug(thTrails);
+        // system.debug('** thBadges & thTrails **');
+        // system.debug(thBadges);
+        // system.debug(thTrails);
         
         //-- generate the entries
         
