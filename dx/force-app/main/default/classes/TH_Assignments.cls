@@ -277,7 +277,7 @@ global class TH_Assignments {
         //-- it would just cause confusion to have multiple shadow versions
         //-- making it harder to read and harder to test
 
-        Trailheadapp__User_Trailmix__c result = null;
+        SObject result = null;
         Trailheadapp__Trailmix__c trailmix = null;
         String externalId = null;
         
@@ -310,6 +310,15 @@ global class TH_Assignments {
         //-- assume the badge exists or has been caught before
         // System.debug('Badge:'); System.debug(badge);
 
+        result = new trailheadapp__Trailmix_Assignment__c(
+            trailheadapp__User__c = userId,
+            trailheadapp__Trailmix__c = trailmix.Id,
+            trailheadapp__Due_Datetime__c = dueDate,
+            // trailheadapp__External_Id__c = externalId, //-- no field... :(
+            trailheadapp__Status__c = DEFAULT_STATUS
+        );
+
+        /*
         result = new Trailheadapp__User_Trailmix__c(
             trailheadapp__User__c = userId,
             trailheadapp__Trailmix__c = trailmix.Id,
@@ -317,6 +326,7 @@ global class TH_Assignments {
             trailheadapp__External_Id__c = externalId,
             trailheadapp__Status__c = DEFAULT_STATUS
         );
+        */
 
         try {
             insert result;
