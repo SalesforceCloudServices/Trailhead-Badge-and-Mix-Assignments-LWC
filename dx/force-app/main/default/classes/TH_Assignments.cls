@@ -9,6 +9,12 @@ global class TH_Assignments {
     
     /** format for external ids */
     public static final String FORMAT_EXTERNAL_ID = '{0}-{1}';
+
+    /** represents a completed trailhead assignment status */
+    public static final String ASSIGNMENT_STATUS_COMPLETED = 'Completed';
+
+    /** represents an undefined status */
+    public static final String ASSIGNMENT_STATUS_UNDEFINED = '';
     
     //-- #  #   #   #   #   #   #   #   #   #   #   #   #   #   #   #   #
     //-- internal result classes
@@ -319,6 +325,136 @@ global class TH_Assignments {
         }
 
         return true;
+    }
+
+
+    /**
+     * Determines a list of TrailheadEntries for a specific user.
+     * @param badges (Set<Id>) - collection of Badges (by their ids) to retrieve
+     * @param trailmixes (Set<Id>) - collection of TrailMixes (by their ids) to retrieve.
+     * @param userId (Id) - Id of the user to consider when determining if assignments already exist.
+     * @returns TrailheadEntry[] - collection of trailhead entries
+     */
+    public static TrailheadEntry[] determineEntriesByTrailheadId(
+        Set<Id> badges, Set<id> trailmixes, Id userId
+    ){
+        /** Final list of all the trialhead entries we will return */
+        TrailheadEntry[] results = new TrailheadEntry[]{};
+        
+        /** collection of badges we will recommend that the user has an assignment to */
+        Map<Id,trailheadapp__User_Badge__c> badgeAssignmentMap = new Map<Id,trailheadapp__User_Badge__c>();
+        /** collection of trailmixes we will recommend that the user has an assignment to */
+        Map<Id,trailheadapp__User_Trailmix__c> trailmixAssignmentMap = new Map<Id,trailheadapp__User_Trailmix__c>();
+
+        if (userId == null) {
+            userId = UserInfo.getuserId();
+        }
+
+        //-- determine if there are any user assignments for those badges and trailmixes
+        //-- @TODO: replace ub with uBadge, ut with uTrail, etc.
+        trailheadapp__User_Badge__c [] uBadges;
+        trailheadapp__User_Badge__c uBadge;
+        trailheadapp__User_Trailmix__c [] uTrails;     
+        trailheadapp__User_Trailmix__c uTrail;
+        if (Badges.size() > 0){
+            uBadges = [
+                Select Id, trailheadapp__Due_Date__c, trailheadapp__Status__c, trailheadapp__Badge__c 
+                From trailheadapp__User_Badge__c 
+                Where trailheadapp__User__c =:userId and trailheadapp__Badge__c in :Badges
+            ];
+            for (trailheadapp__User_Badge__c ub : uBadges ){
+                if (ub.trailheadapp__Status__c == ASSIGNMENT_STATUS_COMPLETED){
+                    Badges.remove(ub.trailheadapp__Badge__c);
+                } else {
+                    //-- it isn't completed but there is still an assignment
+                    badgeAssignmentMap.put(ub.trailheadapp__Badge__c, ub);
+                }
+            }
+        }
+        if (Trailmixes.size() > 0){
+            uTrails = [
+                Select Id, trailheadapp__Due_At__c, trailheadapp__Status__c, trailheadapp__Trailmix__c
+                From trailheadapp__User_Trailmix__c 
+                Where trailheadapp__User__c =:userId and trailheadapp__Trailmix__c in :Trailmixes
+            ];
+            for (trailheadapp__User_Trailmix__c ut : uTrails ){
+                if (ut.trailheadapp__Status__c == ASSIGNMENT_STATUS_COMPLETED){
+                    Trailmixes.remove(ut.trailheadapp__Trailmix__c);
+                } else {
+                    //-- it isn't completed but there is still an assignment
+                    trailmixAssignmentMap.put(ut.trailheadapp__Trailmix__c, ut);
+                }
+            }
+        }
+        system.debug('** Badges & Trailmixes **');
+        system.debug(Badges);
+        system.debug(Trailmixes);
+
+        //-- determine the underlying badges
+        
+        trailheadapp__Badge__c [] thBadges;
+        trailheadapp__Trailmix__c [] thTrails;
+        if (Badges.size() > 0){
+            thBadges = [Select Id, Name,trailheadapp__Icon__c, trailheadapp__URL__c From trailheadapp__Badge__c Where Id in :Badges];
+        }
+        if(Trailmixes.size() > 0){
+            thTrails = [Select Id, Name,trailheadapp__URL__c From trailheadapp__Trailmix__c Where Id in :Trailmixes];
+        }
+        system.debug('** thBadges & thTrails **');
+        system.debug(thBadges);
+        system.debug(thTrails);
+        
+        //-- generate the entries
+        
+        if(thBadges != null){
+            for (trailheadapp__Badge__c b : thBadges){
+                DateTime dueDate = null;
+                String assignmentStatus = ASSIGNMENT_STATUS_UNDEFINED;
+
+                if (badgeAssignmentMap.containsKey(b.Id)){
+                    uBadge = badgeAssignmentMap.get(b.Id);
+                    dueDate = uBadge.trailheadapp__Due_Date__c;
+                    assignmentStatus = uBadge.trailheadapp__Status__c;
+                }
+                //-- badgeTrailmixAssignmentMap
+                TrailheadEntry newEntry = new TrailheadEntry (
+                    (String)b.Id,
+                    b.Name,
+                    assignmentStatus,
+                    dueDate,
+                    b.trailheadapp__URL__c,
+                    b.trailheadapp__Icon__c,
+                    Label.th_TrailheadTypeBadge
+                );
+                results.add(newEntry);
+            }
+        }
+        if(thTrails != null){
+            for (trailheadapp__Trailmix__c t : thTrails){
+                DateTime dueDate = null;
+                String assignmentStatus = ASSIGNMENT_STATUS_UNDEFINED;
+
+                if (trailmixAssignmentMap.containsKey(t.Id)){
+                    uTrail = trailmixAssignmentMap.get(t.Id);
+                    dueDate = uTrail.trailheadapp__Due_At__c;
+                    assignmentStatus = uBadge.trailheadapp__Status__c;
+                }
+
+                TrailheadEntry newEntry = new TrailheadEntry(
+                    (String)t.Id,
+                    t.Name,
+                    assignmentStatus,
+                    dueDate,
+                    t.trailheadapp__URL__c,
+                    null,
+                    Label.th_TrailheadTypeTrailmix
+                );
+                results.add(newEntry);
+            }
+        }
+
+        //-- return the results
+        return results;
     }
 
 
