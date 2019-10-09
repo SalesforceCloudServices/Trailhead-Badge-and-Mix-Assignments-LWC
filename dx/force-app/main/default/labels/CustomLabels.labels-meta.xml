@@ -12,7 +12,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Minimum number of characters before a search is perfomed</shortDescription>
-        <value>3</value>
+        <value>1</value>
     </labels>
     <labels>
         <fullName>th_TrailheadShareCompleteMsg</fullName>

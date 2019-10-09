@@ -118,4 +118,3 @@ export default class Th_overlayAddAssign extends LightningElement {
     this.dispatchEvent(eventClose);
   }
 }
-
