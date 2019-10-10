@@ -1,18 +1,27 @@
 public with sharing class TH_Report_to_TEs {
     @AuraEnabled(cacheable=false)
-    public static TH_Assignments.TrailheadEntry[] getReportEntries(Id badgeReportId, Id trailmixReportId) {
+    public static TH_Assignments.TrailheadEntry[] getReportEntries(string badgeReportName, string trailmixReportName) {
+        /** varible setup **/
         TH_Assignments.TrailheadEntry[] results = new TH_Assignments.TrailheadEntry[]{};
+        Id badgeReportId=null;
+        Id trailmixReportId=null;
         Reports.ReportResults bResults;
         Reports.ReportResults tResults;
-        
-        /** collection of ids for all the badges & trailmixes in the reports */
         Set<Id> Badges = new Set<Id>();
         Set<Id> Trailmixes = new Set<Id>();
        
        try{
+            /** Query for Report Ids **/
+            for(Report r : [SELECT  Id,  DeveloperName FROM Report WHERE DeveloperName =: badgeReportName or DeveloperName =: trailmixReportName ]){
+                if (r.DeveloperName == badgeReportName) badgeReportId = r.id;
+                if (r.DeveloperName == trailmixReportName) trailmixReportId = r.id;
+            }
+            
+            /** Run Reports **/
             if(badgeReportId != null) bResults = Reports.ReportManager.runReport(badgeReportId, true);
             if(trailmixReportId != null) tResults = Reports.ReportManager.runReport(trailmixReportId, true);
             
+            /** Get Badge Ids **/
             if(bResults != null) {
                 for(Reports.ReportFact rf: bResults.getFactMap().values()){
                     Reports.ReportFactWithDetails rfwd = (Reports.ReportFactWithDetails)rf;
@@ -27,7 +36,7 @@ public with sharing class TH_Report_to_TEs {
                 }
             System.debug(Badges);
             }
-            
+            /** Get Trailmix Ids **/
             if(tResults != null) {
                 for(Reports.ReportFact rf: tResults.getFactMap().values()){
                     Reports.ReportFactWithDetails rfwd = (Reports.ReportFactWithDetails)rf;
@@ -41,8 +50,11 @@ public with sharing class TH_Report_to_TEs {
                     }
                 }
             System.debug(Trailmixes);     
-            }          
-            
+            }
+
+            results = TH_Assignments.determineEntriesByTrailheadId(Badges, Trailmixes, UserInfo.getUserId());         
+            System.debug(results);
+
         } catch (Exception ex) {
             System.debug(ex);
         }
@@ -51,27 +63,5 @@ public with sharing class TH_Report_to_TEs {
     }
 
 
-    // Not Used    
-    private static Reports.ReportFactWithDetails getfactDetails(Reports.ReportResults results){
-        // https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_analytics_report_data.htm
-        // Get the first down-grouping in the report
-        Reports.Dimension dim = results.getGroupingsDown();
-        Reports.GroupingValue groupingVal = dim.getGroupings()[0];
-        System.debug('Key: ' + groupingVal.getKey());
-        System.debug('Label: ' + groupingVal.getLabel());
-        System.debug('Value: ' + groupingVal.getValue());
-
-        // Construct a fact map key, using the grouping key value
-        String factMapKey = groupingVal.getKey() + '!T';
-
-        // Get the report metadata
-        Reports.ReportMetadata rm = results.getReportMetadata();
-        // Get detail columns
-        System.debug('Detail columns: ' + rm.getDetailColumns());
-        System.debug('Index of ' + rm.getDetailColumns().indexOf('CUST_NAME'));
-        
-
-        // Get the fact map from the report results
-        return (Reports.ReportFactWithDetails)results.getFactMap().get(factMapKey);
-    }
+    
 }

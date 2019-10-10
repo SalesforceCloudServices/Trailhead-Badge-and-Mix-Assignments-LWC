@@ -449,7 +449,7 @@ global class TH_Assignments {
                 if (trailmixAssignmentMap.containsKey(t.Id)){
                     uTrail = trailmixAssignmentMap.get(t.Id);
                     dueDate = uTrail.trailheadapp__Due_At__c;
-                    assignmentStatus = uBadge.trailheadapp__Status__c;
+                    assignmentStatus = uTrail.trailheadapp__Status__c;
                 }
 
                 TrailheadEntry newEntry = new TrailheadEntry(
