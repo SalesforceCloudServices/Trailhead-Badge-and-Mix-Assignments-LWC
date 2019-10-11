@@ -34,7 +34,7 @@ public with sharing class TH_Report_to_TEs {
                         }
                     }
                 }
-            System.debug(Badges);
+            System.debug('Badges Found: ' + Badges.size());
             }
             /** Get Trailmix Ids **/
             if(tResults != null) {
@@ -49,11 +49,12 @@ public with sharing class TH_Report_to_TEs {
                         }
                     }
                 }
-            System.debug(Trailmixes);     
+            System.debug('Trailmixes Found: ' + Trailmixes.size());     
             }
 
+            /** Use helper to turn Id lists into TEs **/
             results = TH_Assignments.determineEntriesByTrailheadId(Badges, Trailmixes, UserInfo.getUserId());         
-            System.debug(results);
+            System.debug('Results: ' + results);
 
         } catch (Exception ex) {
             System.debug(ex);
@@ -61,7 +62,5 @@ public with sharing class TH_Report_to_TEs {
 
         return results;
     }
-
-
     
 }

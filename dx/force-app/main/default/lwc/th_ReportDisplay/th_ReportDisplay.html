@@ -1,0 +1,50 @@
+<template>
+    <lightning-card icon-name=custom:custom78 title={compTitle}>
+        
+        <template if:true={hasAnyTEs}>
+            <div if:true={paginatedTrailEntries} class='slds-clearfix'>
+                <template for:each={paginatedTrailEntries} 
+                    for:item="te"
+                >
+                    <div key={te.Id} class='assignment slds-float_left'>
+                        <c-th_trailhead-assignment_entry 
+                            assignment-entry={te}
+                            upcoming-event-window={upcomingEventWindow}
+                            btn-add-eligible={btnAddEligible}
+                            btn-share-eligible={btnShareEligible}
+                        ></c-th_trailhead-assignment_entry>
+                    </div>
+                </template>
+            </div>
+
+            <!-- pagination - can be in separate component -->
+            
+            <template if:true={shouldShowPagination}>
+                <div class='slds-clearfix slds-p-around_small'>
+                    <template if:true={hasNext}>
+                        <div class='slds-float_right'>
+                            <lightning-button
+                                label='Next' title='Show Next'
+                                variant='brand'
+                                onclick={next}
+                            ></lightning-button>
+                        </div>
+                    </template>
+                    <template if:true={hasPrevious}>
+                        <div class='slds-float_right'>
+                            <lightning-button
+                                label='Previous' title='Show Previous'
+                                variant='brand'
+                                onclick={previous}
+                            ></lightning-button>
+                        </div>
+                    </template>
+                </div>
+            </template>
+        </template>
+
+        <div slot='footer' class='center-text'>
+            <a href={trailheadLinkAddress} target='_blank'>{trailheadLinkLabel}</a>
+        </div>
+    </lightning-card>
+</template>
