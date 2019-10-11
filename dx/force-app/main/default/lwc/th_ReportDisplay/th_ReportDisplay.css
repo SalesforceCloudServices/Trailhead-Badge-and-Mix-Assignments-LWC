@@ -1,0 +1,21 @@
+.center-text {
+    text-align:center;
+}
+
+.assignment {
+    /**
+        note the width is fixed, to ensure an even 'grid' feel.
+        min-width/max-width also will work,
+        but will produce a 'staggered' list of items.
+        
+        Normally the aura:flexipageRegionInfo component should help
+        but it seems it won't meet the needs in all cases,
+        and only "works" when sent from an aura component.
+        (Testing on various devices actually found
+         it did not always work even then.)
+    **/
+    /** @TODO: review auto. previously set to `width: 330px;` **/
+    width: 100%;
+    min-height: 70px;
+    padding-right: 10px;
+}
