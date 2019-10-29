@@ -18,10 +18,10 @@ If you installed previous versions of this package you have two options to updat
 # What been updates since the last version (TDX19)
 * All components exposed to Communities
 * New Add button: users can click the add button next to a badge/trailmix to add it to their list of assignments 
-![Screenshot of Add Button](docs/images/Add_Button.png) <!-- .element height="50%" width="50%" -->
- <img src="docs/images/Add_Button.png" width="207" height="135">
-* New Share button: users can create a chatter post and @ mention some
+* New Share button: users can share learning by posting to chatter and @ mentioning someone
 * New Report Display LWC: it can consume any Report that has badges or trailmixes and display them.  Basically it gives and Admin the power to create reports that have badges or trailmixes and then use the LWC to display them anywhere.
+
+ <img src="docs/images/Add_Button.png" width="150" height="98">   <img src="docs/images/Share_Button.png" width="150" height="98">
 
 Looking for the older version see here: {TBD}
 
@@ -33,7 +33,7 @@ Looking for the older version see here: {TBD}
 * <b>Aura Wrapper</b> for the Assignment Lightning Web Component so it can be used with Lightning Out, Visualforce Pages and Flow
 * <b>Apex Classes</b> to retrieve Trailhead Assignments/Recommendations/Reports and test classes
 * <b>Custom Labels</b> to customize and integrate Trailhead Assignments / Recommendations LWCs with your myTrailhead Instance
-
+<img src="docs/images/Share_Button.png" width="300" height="195">
 
 ## Assignment Component
 
@@ -42,8 +42,9 @@ Looking for the older version see here: {TBD}
      * Badges or Trailmixes (Badge,TrailMix,Both) - type of entries to show
      * Page Size (Integer) - the number of records to show per page
      * Warning # days until due date (Integer) - Items within this many days will have orange due dates
-     * Show Add Button? - Checkbox to show or not show add button
      * Show Share Button? - Checkbox to show or not show share button
+
+![Screenshot of Assignment Component](docs/images/AssignedLearning.png)
 
 ## Recommendation Component
 * [th\_contextualRecommend](dx/force-app/main/default/lwc/th_contextualRecommend) - the Lightning Web Component that shows the list of recommendations stored in the TH_Recommendation__c object. On a lightning record page it will show recommendations specific to that record, on a home or app page it will show all recommendations. If there are no recommendations the component will not render. 
@@ -52,6 +53,8 @@ Looking for the older version see here: {TBD}
      * Warning # days until due date (Integer) - Items within this many days will have orange due dates
      * Show Add Button? - Checkbox to show or not show add button
      * Show Share Button? - Checkbox to show or not show share button
+
+![Screenshot of Recommendation Component](docs/images/RecommendedLearning.png)
 
 ## Report Display Component
 * [th\_ReportDisplay](dx/force-app/main/default/lwc/th_ReportDisplay) - the Lightning Web Component that shows the list of ad-hoq badges and/or trailmixes based on a report. Administrators can create a report, for example new badges created this week, and then input the report's developer name into the compoment to have it display the badges or trailmixes on the report.  To find a report's developer name run the report, click edit, click the down arrow next to the save button, click Properties and copy the "Report Unique Name" field. 
@@ -64,10 +67,15 @@ Looking for the older version see here: {TBD}
      * Show Add Button? - Checkbox to show or not show add button
      * Show Share Button? - Checkbox to show or not show share button
 
+![Screenshot of Report Display Component](docs/images/NewHotLearning.png)
+
 ## Private components
 
 * [th\_trailheadAssignment\_entry](dx/force-app/main/default/lwc/th_trailheadAssignment_entry/) - Private LWC component that represents a single badge or trailmix
 * [th\_paginator\_entry](dx/force-app/main/default/lwc/th_paginator_entry/) - Private LWC component that paginates a list of th_trailheadAssignment_entry's
+* [th\_trailheadAssignment\_entryAdd](dx/force-app/main/default/lwc/th_trailheadAssignment_entryAdd/) - Private LWC component that allows a user to assign learning to themselves
+* [th\_trailheadAssignment\_entryShare](dx/force-app/main/default/lwc/th_trailheadAssignment_entryShare/) - Private LWC component that allows a user to share learning to others through chatter
+
 
 ## Component Breakdown
 Both the assignment and recommendation component leverage the private components
