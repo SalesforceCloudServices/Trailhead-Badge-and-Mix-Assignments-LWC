@@ -12,8 +12,8 @@ https://login.salesforce.com/packaging/installPackage.apexp?p0=04t2E000003kUGL
 As a prerequisite be sure to have installed the latest version of the [Trail Tracker app](https://appexchange.salesforce.com/appxListingDetail?listingId=a0N3A00000EFpAtUAL) first. 
 
 If you installed previous versions of this package you have two options to update: 
- 1) unistall and reinstall - completely remove the old package from your org by uninstalling the package and deleting it from Setup > Installed Packages.  Not this will require you to remove all references to the LWCs, processes and flows first.
- 2) Use DX to push updates - If you have DX installed and configured you can dowloand the source code found in the DX folder and push the APEX and LWCs folder to your org to update just the APEX and LWCs. Note this may break any pages where you had the LWCs, so you may need to make some updates after the push.
+ 1) Unistall and reinstall - completely remove the old package from your org by uninstalling the package and deleting it from Setup > Installed Packages.  Not this will require you to remove all references to the LWCs, processes and flows first.
+ 2) Use DX to push updates - If you have DX installed and configured you can dowloand the source code found in the DX folder and push the eniter APEX and LWCs folder to your org to update just the APEX and LWCs. Note this may break any pages where you had the LWCs, so you may need to make some updates after the push.
 
 # What been updates since the last version (TDX19)
 * All components exposed to Communities
