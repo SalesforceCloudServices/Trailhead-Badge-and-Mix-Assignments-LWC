@@ -20,12 +20,12 @@ If you installed previous versions of this package you have two options to updat
 * New Add button: users can click the add button next to a badge/trailmix to add it to their list of assignments 
 * New Share button: users can share learning by posting to chatter and @ mentioning someone
 * New Report Display LWC: it can consume any Report that has badges or trailmixes and display them.  Basically it gives and Admin the power to create reports that have badges or trailmixes and then use the LWC to display them anywhere.
-<p align="center">
+<div align="center">
 <table>
  <tr><td>New Add Button:</td><td>New Share Button:</td></tr>
  <tr><td><img src="docs/images/Add_Button.png" width="300" height="195"></td><td><img src="docs/images/Share_Button.png" width="300" height="260"> </td></tr>
 </table> 
-</p> 
+</div> 
 Looking for the older version see here: {TBD}
 
 # What is included
@@ -40,7 +40,7 @@ Looking for the older version see here: {TBD}
 
 ## Assignment Component
 
-* [th\_trailheadAssignments](dx/force-app/main/default/lwc/th_trailheadAssignments) - the Lightning Web Component that shows the list of assignments.
+[th\_trailheadAssignments](dx/force-app/main/default/lwc/th_trailheadAssignments) - the Lightning Web Component that shows the list of assignments.
   * supports the following design attributes:
      * Badges or Trailmixes (Badge,TrailMix,Both) - type of entries to show
      * Page Size (Integer) - the number of records to show per page
@@ -49,8 +49,18 @@ Looking for the older version see here: {TBD}
 
 ![Screenshot of Assignment Component](docs/images/AssignedLearning.png)
 
+<table>
+ <tr><td>[th\_trailheadAssignments](dx/force-app/main/default/lwc/th_trailheadAssignments) - the Lightning Web Component that shows the list of assignments.
+  * supports the following design attributes:
+     * Badges or Trailmixes (Badge,TrailMix,Both) - type of entries to show
+     * Page Size (Integer) - the number of records to show per page
+     * Warning # days until due date (Integer) - Items within this many days will have orange due dates
+  * Show Share Button? - Checkbox to show or not show share button</td> <td>
+![Screenshot of Assignment Component](docs/images/AssignedLearning.png) </td></tr>
+</table> 
+
 ## Recommendation Component
-* [th\_contextualRecommend](dx/force-app/main/default/lwc/th_contextualRecommend) - the Lightning Web Component that shows the list of recommendations stored in the TH_Recommendation__c object. On a lightning record page it will show recommendations specific to that record, on a home or app page it will show all recommendations. If there are no recommendations the component will not render. 
+[th\_contextualRecommend](dx/force-app/main/default/lwc/th_contextualRecommend) - the Lightning Web Component that shows the list of recommendations stored in the TH_Recommendation__c object. On a lightning record page it will show recommendations specific to that record, on a home or app page it will show all recommendations. If there are no recommendations the component will not render. 
   * supports the following design attributes:
      * Page Size (Integer) - the number of records to show per page
      * Warning # days until due date (Integer) - Items within this many days will have orange due dates
@@ -60,7 +70,7 @@ Looking for the older version see here: {TBD}
 ![Screenshot of Recommendation Component](docs/images/RecommendedLearning.png)
 
 ## Report Display Component
-* [th\_ReportDisplay](dx/force-app/main/default/lwc/th_ReportDisplay) - the Lightning Web Component that shows the list of ad-hoq badges and/or trailmixes based on a report. Administrators can create a report, for example new badges created this week, and then input the report's developer name into the compoment to have it display the badges or trailmixes on the report.  To find a report's developer name run the report, click edit, click the down arrow next to the save button, click Properties and copy the "Report Unique Name" field. 
+[th\_ReportDisplay](dx/force-app/main/default/lwc/th_ReportDisplay) - the Lightning Web Component that shows the list of ad-hoq badges and/or trailmixes based on a report. Administrators can create a report, for example new badges created this week, and then input the report's developer name into the compoment to have it display the badges or trailmixes on the report.  To find a report's developer name run the report, click edit, click the down arrow next to the save button, click Properties and copy the "Report Unique Name" field. 
   * supports the following design attributes:
      * Component Title - Display Title of Compoment
      * Badge Report Developer Name - API name of badge report (see above paragraph for details)
