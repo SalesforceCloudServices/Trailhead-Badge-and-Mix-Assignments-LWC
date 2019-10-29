@@ -21,7 +21,7 @@ If you installed previous versions of this package you have two options to updat
 * New Share button: users can share learning by posting to chatter and @ mentioning someone
 * New Report Display LWC: it can consume any Report that has badges or trailmixes and display them.  Basically it gives and Admin the power to create reports that have badges or trailmixes and then use the LWC to display them anywhere.
 
- <img src="docs/images/Add_Button.png" width="150" height="98">   <img src="docs/images/Share_Button.png" width="150" height="98">
+<p align="center"> <img src="docs/images/Add_Button.png" width="207" height="135">   <img src="docs/images/Share_Button.png" width="156" height="135"> </p>
 
 Looking for the older version see here: {TBD}
 
@@ -33,7 +33,7 @@ Looking for the older version see here: {TBD}
 * <b>Aura Wrapper</b> for the Assignment Lightning Web Component so it can be used with Lightning Out, Visualforce Pages and Flow
 * <b>Apex Classes</b> to retrieve Trailhead Assignments/Recommendations/Reports and test classes
 * <b>Custom Labels</b> to customize and integrate Trailhead Assignments / Recommendations LWCs with your myTrailhead Instance
-<img src="docs/images/Share_Button.png" width="300" height="195">
+
 
 ## Assignment Component
 
