@@ -15,7 +15,7 @@ If you installed previous versions of this package you have two options to updat
  1) Unistall and reinstall - completely remove the old package from your org by uninstalling the package and deleting it from Setup > Installed Packages.  Not this will require you to remove all references to the LWCs, processes and flows first.
  2) Use DX to push updates - If you have DX installed and configured you can dowloand the source code found in the DX folder and push the eniter APEX and LWCs folder to your org to update just the APEX and LWCs. Note this may break any pages where you had the LWCs, so you may need to make some updates after the push.
 
-# What been updates since the last version (TDX19)
+## Whats been updated since the last version (TDX19)
 * All components exposed to Communities
 * New Add button: users can click the add button next to a badge/trailmix to add it to their list of assignments 
 * New Share button: users can share learning by posting to chatter and @ mentioning someone
@@ -80,7 +80,7 @@ Looking for the older version see here: {TBD}
 
 
 ## Component Breakdown
-Both the assignment and recommendation component leverage the private components
+The assignment, recommendation and report component all leverage the private components
 
 ![Screenshot of Home Page Component](docs/images/LWC_Breakdown2.png)
 
