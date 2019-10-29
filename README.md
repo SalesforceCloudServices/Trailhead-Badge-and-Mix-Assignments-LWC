@@ -21,8 +21,11 @@ If you installed previous versions of this package you have two options to updat
 * New Share button: users can share learning by posting to chatter and @ mentioning someone
 * New Report Display LWC: it can consume any Report that has badges or trailmixes and display them.  Basically it gives and Admin the power to create reports that have badges or trailmixes and then use the LWC to display them anywhere.
 
-<p align="center" vertical-align="middle"> New Add Button: <img src="docs/images/Add_Button.png" width="207" height="135">     New Share Button:  <img src="docs/images/Share_Button.png" width="207" height="180"> </p>
-
+<table align="center">
+ <tr><td>New Add Button:</td><td>New Share Button:</td></tr>
+ <tr><td><img src="docs/images/Add_Button.png" width="207" height="135"></td><td><img src="docs/images/Share_Button.png" width="207" height="180"> </td></tr>
+</table> 
+ 
 Looking for the older version see here: {TBD}
 
 # What is included
