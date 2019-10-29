@@ -1,23 +1,35 @@
-# Overview DF19
+# Overview DF19 Edition
 This repository provides a number of Trail Tracker customizations examples to show developers and admins how they can extend Trailhead and myTrailhead. The code within is provided as an example of what can be done and is not actively supported.
 
 If you want to install this repository as a package in an org use one of the following URLs: 
 
 Sandbox (Recommended):
-https://test.salesforce.com/packaging/installPackage.apexp?p0=04t2E000003jw7j
+https://test.salesforce.com/packaging/installPackage.apexp?p0=04t2E000003kUGL
 
 Developer Edition or Production:
-https://login.salesforce.com/packaging/installPackage.apexp?p0=04t2E000003jw7j
+https://login.salesforce.com/packaging/installPackage.apexp?p0=04t2E000003kUGL
 
-As a prerequisite be sure to have installed the latest version of the [Trail Tracker app](https://appexchange.salesforce.com/appxListingDetail?listingId=a0N3A00000EFpAtUAL) first. If you installed previous versions of this package, completely remove the from your org by uninstalling the package AND deleting it from Setup > Installed Packages.
+As a prerequisite be sure to have installed the latest version of the [Trail Tracker app](https://appexchange.salesforce.com/appxListingDetail?listingId=a0N3A00000EFpAtUAL) first. 
+
+If you installed previous versions of this package you have two options to update: 
+ 1) unistall and reinstall - completely remove the old package from your org by uninstalling the package and deleting it from Setup > Installed Packages.  Not this will require you to remove all references to the LWCs, processes and flows first.
+ 2) Use DX to push updates - If you have DX installed and configured you can dowloand the source code found in the DX folder and push the APEX and LWCs folder to your org to update just the APEX and LWCs. Note this may break any pages where you had the LWCs, so you may need to make some updates after the push.
+
+# What been updates since the last version (TDX19)
+* All components exposed to Communities
+* New Add button: users can click the add button next to a badge/trailmix to add it to their list of assignments or 
+* New Share button: users can create a chatter post and @ mention some
+* New Report Display LWC: it can consume any Report that has badges or trailmixes and display them.  Basically it gives and Admin the power to create reports that have badges or trailmixes and then use the LWC to display them anywhere.
+
+Looking for the older version see here: {TBD}
 
 # What is included
-* <b>Lightning Web Components</b> to show Assignments and Recommendations for Badges and Trailmixes
+* <b>Lightning Web Components</b> to show Assignments, Recommendations, and Adhoq lists (reports) of Badges and Trailmixes
 * <b>Processes</b> for creating new assignments and recommendations 
 * <b>Login Flow</b> with the Assignments Lightning Web Component 
 * <b>Custom Object</b> to persist Recommendations
 * <b>Aura Wrapper</b> for the Assignment Lightning Web Component so it can be used with Lightning Out, Visualforce Pages and Flow
-* <b>Apex Classes</b> to retrieve Trailhead Assignments / Recommendations and test classes
+* <b>Apex Classes</b> to retrieve Trailhead Assignments/Recommendations/Reports and test classes
 * <b>Custom Labels</b> to customize and integrate Trailhead Assignments / Recommendations LWCs with your myTrailhead Instance
 
 
@@ -28,30 +40,37 @@ As a prerequisite be sure to have installed the latest version of the [Trail Tra
      * Badges or Trailmixes (Badge,TrailMix,Both) - type of entries to show
      * Page Size (Integer) - the number of records to show per page
      * Warning # days until due date (Integer) - Items within this many days will have orange due dates
-  * [HTML - th\_trailheadAssignments](dx/force-app/main/default/lwc/th_trailheadAssignments/th_trailheadAssignments.html)
-  * [JavaScript - th\_trailheadAssignments](dx/force-app/main/default/lwc/th_trailheadAssignments/th_trailheadAssignments.js)
-  * [Metadata - th\_trailheadAssignments](dx/force-app/main/default/lwc/th_trailheadAssignments/th_trailheadAssignments.js-meta.xml)
-  * [StyleSheets - th\_trailheadAssignments](dx/force-app/main/default/lwc/th_trailheadAssignments/th_trailheadAssignments.css)
+     * Show Add Button? - Checkbox to show or not show add button
+     * Show Share Button? - Checkbox to show or not show share button
 
 ## Recommendation Component
 * [th\_contextualRecommend](dx/force-app/main/default/lwc/th_contextualRecommend) - the Lightning Web Component that shows the list of recommendations stored in the TH_Recommendation__c object. On a lightning record page it will show recommendations specific to that record, on a home or app page it will show all recommendations. If there are no recommendations the component will not render. 
   * supports the following design attributes:
      * Page Size (Integer) - the number of records to show per page
      * Warning # days until due date (Integer) - Items within this many days will have orange due dates
+     * Show Add Button? - Checkbox to show or not show add button
+     * Show Share Button? - Checkbox to show or not show share button
+
+## Report Display Component
+* [th\_ReportDisplay](dx/force-app/main/default/lwc/th_ReportDisplay) - the Lightning Web Component that shows the list of ad-hoq badges and/or trailmixes based on a report. Administrators can create a report, for example new badges created this week, and then input the report's developer name into the compoment to have it display the badges or trailmixes on the report.  To find a report's developer name run the report, click edit, click the down arrow next to the save button, click Properties and copy the "Report Unique Name" field. 
+  * supports the following design attributes:
+     * Component Title - Display Title of Compoment
+     * Badge Report Developer Name - API name of badge report (see above paragraph for details)
+     * Trailmix Report Developer Name - API name of trailmix report (see above paragraph for details)
+     * Page Size (Integer) - the number of records to show per page
+     * Warning # days until due date (Integer) - Items within this many days will have orange due dates
+     * Show Add Button? - Checkbox to show or not show add button
+     * Show Share Button? - Checkbox to show or not show share button
 
 ## Private components
 
 * [th\_trailheadAssignment\_entry](dx/force-app/main/default/lwc/th_trailheadAssignment_entry/) - Private LWC component that represents a single badge or trailmix
-  * [HTML - th\_trailheadAssignment\_entry](dx/force-app/main/default/lwc/th_trailheadAssignment_entry/th_trailheadAssignment_entry.html)
-  * [JavaScript - th\_trailheadAssignment\_entry](dx/force-app/main/default/lwc/th_trailheadAssignment_entry/th_trailheadAssignment_entry.js)
-  * [Metadata - th\_trailheadAssignment\_entry](dx/force-app/main/default/lwc/th_trailheadAssignment_entry/th_trailheadAssignment_entry.js-meta.xml)
-
 * [th\_paginator\_entry](dx/force-app/main/default/lwc/th_paginator_entry/) - Private LWC component that paginates a list of th_trailheadAssignment_entry's
 
 ## Component Breakdown
 Both the assignment and recommendation component leverage the private components
 
-![Screenshot of Home Page Component](docs/images/LWC_Breakdown.png)
+![Screenshot of Home Page Component](docs/images/LWC_Breakdown2.png)
 
 ## Processes & Flows
 The following Process and flows are included:
