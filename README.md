@@ -18,7 +18,7 @@ If you installed previous versions of this package you have two options to updat
 # What been updates since the last version (TDX19)
 * All components exposed to Communities
 * New Add button: users can click the add button next to a badge/trailmix to add it to their list of assignments 
-![Screenshot of Add Button](docs/images/Add_Button.png)<!-- .element height="50%" width="50%" -->
+![Screenshot of Add Button](docs/images/Add_Button.png){:height="50%" width="50%"}
 * New Share button: users can create a chatter post and @ mention some
 * New Report Display LWC: it can consume any Report that has badges or trailmixes and display them.  Basically it gives and Admin the power to create reports that have badges or trailmixes and then use the LWC to display them anywhere.
 
