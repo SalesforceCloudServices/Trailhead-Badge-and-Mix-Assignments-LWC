@@ -20,12 +20,12 @@ If you installed previous versions of this package you have two options to updat
 * New Add button: users can click the add button next to a badge/trailmix to add it to their list of assignments 
 * New Share button: users can share learning by posting to chatter and @ mentioning someone
 * New Report Display LWC: it can consume any Report that has badges or trailmixes and display them.  Basically it gives and Admin the power to create reports that have badges or trailmixes and then use the LWC to display them anywhere.
-
-<table align="center">
+<p align="center">
+<table>
  <tr><td>New Add Button:</td><td>New Share Button:</td></tr>
- <tr><td><img src="docs/images/Add_Button.png" width="207" height="135"></td><td><img src="docs/images/Share_Button.png" width="207" height="180"> </td></tr>
+ <tr><td><img src="docs/images/Add_Button.png" width="300" height="195"></td><td><img src="docs/images/Share_Button.png" width="300" height="260"> </td></tr>
 </table> 
- 
+</p> 
 Looking for the older version see here: {TBD}
 
 # What is included
