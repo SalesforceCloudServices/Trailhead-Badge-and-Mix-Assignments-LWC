@@ -49,15 +49,15 @@ Looking for the older version see here: {TBD}
 
 ![Screenshot of Assignment Component](docs/images/AssignedLearning.png)
 
-<table>
- <tr><td>[th\_trailheadAssignments](dx/force-app/main/default/lwc/th_trailheadAssignments) - the Lightning Web Component that shows the list of assignments.
+
+|[th\_trailheadAssignments](dx/force-app/main/default/lwc/th_trailheadAssignments) - the Lightning Web Component that shows the list of assignments.
   * supports the following design attributes:
      * Badges or Trailmixes (Badge,TrailMix,Both) - type of entries to show
      * Page Size (Integer) - the number of records to show per page
      * Warning # days until due date (Integer) - Items within this many days will have orange due dates
-  * Show Share Button? - Checkbox to show or not show share button</td> <td>
-![Screenshot of Assignment Component](docs/images/AssignedLearning.png) </td></tr>
-</table> 
+  * Show Share Button? - Checkbox to show or not show share button|![Screenshot of Assignment Component](docs/images/AssignedLearning.png)|
+|:----|:----:|
+
 
 ## Recommendation Component
 [th\_contextualRecommend](dx/force-app/main/default/lwc/th_contextualRecommend) - the Lightning Web Component that shows the list of recommendations stored in the TH_Recommendation__c object. On a lightning record page it will show recommendations specific to that record, on a home or app page it will show all recommendations. If there are no recommendations the component will not render. 
