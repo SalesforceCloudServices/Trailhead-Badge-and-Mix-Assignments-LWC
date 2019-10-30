@@ -5,21 +5,20 @@ If you want to install this repository as a package in an org use one of the fol
 
 Sandbox (Recommended):
 https://test.salesforce.com/packaging/installPackage.apexp?p0=04t2E000003kUGL
-
 Developer Edition or Production:
 https://login.salesforce.com/packaging/installPackage.apexp?p0=04t2E000003kUGL
 
 As a prerequisite be sure to have installed the latest version of the [Trail Tracker app](https://appexchange.salesforce.com/appxListingDetail?listingId=a0N3A00000EFpAtUAL) first. 
 
-If you installed previous versions of this package you have two options to update: 
+If you installed previous versions of this package you have two options to upgrade: 
  1) Unistall and reinstall - completely remove the old package from your org by uninstalling the package and deleting it from Setup > Installed Packages.  Not this will require you to remove all references to the LWCs, processes and flows first.
- 2) Use DX to push updates - If you have DX installed and configured you can dowloand the source code found in the DX folder and push the eniter APEX and LWCs folder to your org to update just the APEX and LWCs. Note this may break any pages where you had the LWCs, so you may need to make some updates after the push.
+ 2) Use DX to push updates - If you have DX installed and configured you can dowloand the source code found in the DX folder and push the enite APEX and LWCs folder to your org to update just the APEX and LWCs. Note this may break any pages where you had the LWCs..
 
 ## Whats been updated since the last version (TDX19)
 * All components exposed to Communities
-* New Add button: users can click the add button next to a badge/trailmix to add it to their list of assignments 
-* New Share button: users can share learning by posting to chatter and @ mentioning someone
-* New Report Display LWC: it can consume any Report that has badges or trailmixes and display them.  Basically it gives and Admin the power to create reports that have badges or trailmixes and then use the LWC to display them anywhere.
+* New <b>Add</b> button: users can click the add button next to a badge/trailmix to add it to their list of assignments 
+* New <b>Share</b> button: users can share learning by posting to chatter and @ mentioning someone
+* New <b>Report Display</b> LWC: it can consume any Report that has badges or trailmixes and display them.  It gives Admins the ability to display Ad-hoq lists of Badges and Trailmixes. Admins can create reports that have badges or trailmixes and then use the LWC to display them anywhere.
 <div align="center">
 <table>
  <tr><td>New Add Button:</td><td>New Share Button:</td></tr>
