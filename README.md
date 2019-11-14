@@ -124,13 +124,34 @@ To allow the component to be easier to extend, we have created three Custom Labe
     <tr>
         <td>th_trailhead_link_label</td>
         <td>Label for the 'Trailhead' link at the bottom of the Trailhead Assignments component</td>
-        <td>Traihead</td>
+        <td>Trailhead</td>
     </tr>
     <tr>
         <td>th_trailhead_trail_icon</td>
         <td>Icon to show when Trailmixes are assigned (as they have no icon)</td>
         <td><a href="https://trailhead-web.s3.amazonaws.com/uploads/users/5396019/photos/thumb_030804d3576dab0cdc2a558055816208e421312a9d1495117d57928ef380d7f2.png?updatedAt=20180906113753">https://trailhead-web.s3.amazonaws.com/...</a></td>
-    </tr></table>
+    </tr>
+    <tr>
+        <td>th_TrailheadShareCompleteMsg</td>
+        <td>Message to share for completed trailhead items</td>
+        <td>Hey, I completed this. Why don't you give it a try?</td>
+    </tr>
+    <tr>
+        <td>th_TrailheadShareIncompleteMsg</td>
+        <td>Message to share for in-progress trailhead items</td>
+        <td>Hey, check out this Trailhead learning.</td>
+    </tr>
+    <tr>
+        <td>th_TrailheadMinCharSearchThreshold</td>
+        <td>Minimum number of characters before a search is perfomed</td>
+        <td>3</td>
+    </tr>
+    <tr>
+        <td>th_TrailheadInputSearchDelay</td>
+        <td>Number of milliseconds to wait before perfoming a user search</td>
+        <td>800</td>
+    </tr>
+</table>
     
      * To test the search, either add more users, or set the [th_TrailheadMinCharSearchThreshold](https://trail-assignments-lwc-dev-ed.my.salesforce.com/one/one.app#/alohaRedirect/1012E00000AjFqn?isdtp=p1) custom label.  (This seems to cache pretty hard, manually setting might be necessary)
      * Custom Labels used: [th_TrailheadMinCharSearchThreshold](https://trail-assignments-lwc-dev-ed.my.salesforce.com/one/one.app#/alohaRedirect/1012E00000AjFqn?isdtp=p1), [th_TrailheadInputSearchDelay](https://trail-assignments-lwc-dev-ed.my.salesforce.com/one/one.app#/alohaRedirect/1012E00000AjFqs?isdtp=p1)
