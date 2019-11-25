@@ -97,7 +97,7 @@
                     </value>
                 </processMetadataValues>
                 <leftValueReference>myVariable_current.trailheadapp__Status__c</leftValueReference>
-                <operator>EqualTo</operator>
+                <operator>NotEqualTo</operator>
                 <rightValue>
                     <stringValue>Completed</stringValue>
                 </rightValue>
@@ -109,7 +109,7 @@
         </rules>
     </decisions>
     <description>Chatters the user when a new Trailmix has been assigned</description>
-    <interviewLabel>Assigned_Trailmix_Chatter_Post-1_InterviewLabel</interviewLabel>
+    <interviewLabel>Assigned_Trailmix_Chatter_Post-2_InterviewLabel</interviewLabel>
     <label>Assigned Trailmix Chatter Post</label>
     <processMetadataValues>
         <name>ObjectType</name>
@@ -137,7 +137,7 @@
     </processMetadataValues>
     <processType>Workflow</processType>
     <startElementReference>myVariable_waitStartTimeAssignment</startElementReference>
-    <status>Active</status>
+    <status>Obsolete</status>
     <variables>
         <name>myVariable_current</name>
         <dataType>SObject</dataType>

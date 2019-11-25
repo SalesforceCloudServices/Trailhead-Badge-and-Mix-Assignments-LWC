@@ -6,14 +6,32 @@
             "c/th_contextualRecommend": [
                 "th_contextualRecommend/th_contextualRecommend.js"
             ],
+            "c/th_overlayAddAssign": [
+                "th_overlayAddAssign/th_overlayAddAssign.js"
+            ],
+            "c/th_overlayShare": [
+                "th_overlayShare/th_overlayShare.js"
+            ],
             "c/th_paginator": [
                 "th_paginator/th_paginator.js"
+            ],
+            "c/th_pubsub": [
+                "th_pubsub/th_pubsub.js"
             ],
             "c/th_trailheadAssignment_entry": [
                 "th_trailheadAssignment_entry/th_trailheadAssignment_entry.js"
             ],
+            "c/th_trailheadAssignment_entryAdd": [
+                "th_trailheadAssignment_entryAdd/th_trailheadAssignment_entryAdd.js"
+            ],
+            "c/th_trailheadAssignment_entryShare": [
+                "th_trailheadAssignment_entryShare/th_trailheadAssignment_entryShare.js"
+            ],
             "c/th_trailheadAssignments": [
                 "th_trailheadAssignments/th_trailheadAssignments.js"
+            ],
+            "c/th_ReportDisplay": [
+                "th_ReportDisplay/th_ReportDisplay.js"
             ]
         }
     },

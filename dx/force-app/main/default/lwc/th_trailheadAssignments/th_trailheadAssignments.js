@@ -1,8 +1,15 @@
-/**
- * Component to list the trailhead assignments for a given user.
- **/
+//-- include custom javascript types for tooltip / vscode intellisense
+// require('./__types__/CustomTypes')
+
+
 import { LightningElement, track, api, wire } from 'lwc';
 
+//-- pubsub to support enrolling in one component visually notifies the other components to refresh
+import { registerListener as registerPubSubListener, unregisterAllListeners as unregisterAllPubSubListeners } from 'c/th_pubsub';
+//-- support page reference within the pubsub
+import { CurrentPageReference } from 'lightning/navigation';
+
+//-- allow the wire to refresh the request with the latest values
 import {refreshApex} from '@salesforce/apex';
 
 // import getAssignmentCountApex from '@salesforce/apex/TH_Assignments.getAssignmentCount';
@@ -20,6 +27,10 @@ import TYPE_BADGE from '@salesforce/label/c.th_TrailheadTypeBadge';
 import TYPE_TRAILMIX from '@salesforce/label/c.th_TrailheadTypeTrailmix';
 import TYPE_BOTH from '@salesforce/label/c.th_TrailheadTypeBoth';
 
+
+
+//-- constants
+
 //-- icons to show based on type of items to show
 const ICON_BADGE = 'custom:custom48';
 const ICON_TRAILMIX = 'custom:custom78';
@@ -35,60 +46,231 @@ const FILTER_DATE_ALL = 355; //-- assumes it is in the next year
 const FILTER_DATE_OVERDUE = 0;
 // const FILTER_DATE_OVERDUE_AND_UPCOMING = 0; -- NA - based on due date of record
 
+/** The event to dispatch when a new enrollment has been requested */
+const EVENT_ENROLLMENT = 'enrollment';
+
+/**
+ * Component to list the trailhead assignments for a given user.
+ **/
 export default class Tl_trailheadAssignments extends LightningElement {
+  
+  /** @type {PageReference} track the current page for pubsub page reference checks */
+  @wire(CurrentPageReference) pageRef;
+  
   //-- properties (see - meta.xml)
+  /** @type {string} - Should we include badges or trailmixes or both */
   @api badgesOrTrailmixes;
+  /** @type {number} - Number of records per page in results */
   @api paginationSize;
+  /** @type {number} - Events occurring within this many days are considered upcoming */
   @api upcomingEventWindow;
+  /** @type {string} - Which types of assignments to show (ex: All, Overdue, Overdue+Upcoming) */
   @api dueDateFilter;
 
-  @track error;
+  /** @type {boolean} Whether to show the Share button on entries of the list. */
+  @api btnShareEligible;
+
+
 
   //-- private attributes
+
+  /** @type {Error} - the last error encountered (for debugging) */
+  @track error;
 
   //-- note: the collections are required for refreshApex
   //-- see here for more information
   //-- https://developer.salesforce.com/docs/component-library/documentation/lwc/apex#data_apex__refresh_cache
 
-  //-- collection of all the assignments (used for apexRefresh)
+  /** @type {AssignmentEntry[]} - collection of all the assignments (used for apexRefresh) **/
   @track assignedTrailEntries = {};
-
-  //-- paginator that determines which pages, etc.
-  @track recordPaginator;
 
   //-- @TODO: investigate way to directly link to paginator instead
   //-- note that changes are only tracked at the paginator level
   //-- so paginator.hasNext and paginator.hasPrevious within getters / setters
   //-- work initially but won't work afterwards, because paginator doesn't change.
 
-  /** Whether there are any assignments */
-  @track hasAnyAssignments;
-  // get hasAnyAssignments(){}
+  /** @type {Paginator} - Paginator that determines which pages etc. **/
+  @track recordPaginator;
 
-  /** whether there is a previous page */
-  // @track hasPrevious;
+
+
+  //-- NOTE: the following COULD be getters/setters
+  //-- but they would be continually re-evaluated.
+  //-- instead of getting calculated only on data load, and cached thereafter.
+
+  /** @type {boolean} - Whether there are any assignments (true) or not (false) **/
+  @track hasAnyAssignments;
+  /** @type {string} - The icon to use for the section **/
+  @track sectionIcon;
+  /** @type {string} - The Title to use for this section **/
+  @track sectionTitle;
+
+
+  
+  //-- wires
+
+  /**
+   * Determines the trail entries
+   */
+  @wire(getAllAssignedTrailEntriesApex, {
+    whichType:'$badgesOrTrailmixes'
+  })
+  captureGetAssignedTrailEntries(results) {
+    let { error, data } = results;
+    if (error) {
+      // eslint-disable-next-line no-console
+      console.error('error occurred captureGetAssignedTrailEntries:getAssignedTrailEntriesApex', JSON.stringify(error));
+      this.error = error;
+    } else if (data) {
+      this.assignedTrailEntries = results;
+
+      //let dueDateFilter = 'All';
+      //let dueDateFilter = 'Overdue';
+      let filteredRecords = this.filterDueDate(data, this.dueDateFilter);
+
+      this.hasAnyAssignments = filteredRecords.length > 0;
+
+      this.recordPaginator = new Paginator(filteredRecords, this.paginationSize);
+
+      let {badgeAssignmentCount, trailmixAssignmentCount} = this.determineAssignmentCounts(filteredRecords);
+
+      //-- section icon is pre-set, now we only care about the assignments
+      this.sectionTitle = this.determineSectionTitle(
+        this.badgesOrTrailmixes,
+        badgeAssignmentCount,
+        trailmixAssignmentCount
+      );
+    }
+  }
+
+
+
+  //-- getters / setters
+
+  /**
+   * whether there is a previous page
+   * @returns {boolean}
+   **/
   @api get hasPrevious() {
     return this.recordPaginator.hasPrevious;
   }
-  /** whether there is a next page */
-  // @track hasNext;
+  // @track hasPrevious;
+
+  /**
+   * whether there is a next page
+   * @returns {boolean}
+   **/
   @api get hasNext(){
     return this.recordPaginator.hasNext;
   }
-  //-- 'current page' of the assignments
-  // @track paginatedTrailEntries = {};
+  // @track hasNext;
+
+  /**
+   * The 'current page' of the assignments.
+   * @returns {AssignmentEntry[]}
+   */
   @api get paginatedTrailEntries(){
     return this.recordPaginator.paginatedValues;
   }
+  // @track paginatedTrailEntries = {};
+  
+  /**
+   * Provide a link to Trailhead using the custom label
+   * @type {string}
+   */
+  @api
+  get trailheadLinkLabel(){
+    return TRAILHEAD_LINK_LABEL;
+  }
+  /**
+   * Provide a link to Trailhead using the custom label
+   * @type {string}
+   **/
+  @api
+  get trailheadLinkAddress(){
+    return TRAILHEAD_LINK_ADDRESS;
+  }
+  
+  /**
+   * whether any pagination buttons should be shown
+   * @type {boolean}
+   */
+  @api
+  get shouldShowPagination(){
+    return (
+      this.hasNext || this.hasPrevious
+    );
+  }
 
-  //-- NOTE: the sectionIcon and title COULD be getters/setters
-  //-- but they would be continually re-evaluated.
-  //-- saving calculations is preferred here as it only gets set on load.
+  /**
+   * Determines the icon to show for the section
+   * @param {string} badgesOrTrailmixes - (Badge|TrailMix|Both)
+   * @visibility private
+   * @returns {string}
+   */
+  @api
+  determineSectionIcon(badgesOrTrailmixes){
+    let sectionIcon = '';
+    if(badgesOrTrailmixes===TYPE_BOTH){
+      sectionIcon = ICON_BOTH;
+    } else if(badgesOrTrailmixes===TYPE_TRAILMIX){
+      sectionIcon = ICON_TRAILMIX;
+    } else { //-- assume TYPE_BADGE
+      sectionIcon = ICON_BADGE;
+    }
+    return sectionIcon;
+  }
 
-  //-- the icon to use for the section
-  @track sectionIcon;
-  //-- the title to use for the section
-  @track sectionTitle;
+  /**
+   * Determines the title to show for the section
+   * @private
+   * @param {string} badgesOrTrailmixes - (Badge|TrailMix|Both)
+   * @param {integer} badgeAssignmentCount - # of badges assigned
+   * @param {integer} trailmixAssignmentCount - # of trailmixes assigned
+   * @returns {string}
+   */
+  @api
+  determineSectionTitle(badgesOrTrailmixes, badgeAssignmentCount, trailmixAssignmentCount){
+    let sectionTitle = '';
+    if(badgesOrTrailmixes===TYPE_TRAILMIX){
+      sectionTitle = `Assigned Trailmixes (${trailmixAssignmentCount})`;
+    } else if(badgesOrTrailmixes===TYPE_BADGE){
+      sectionTitle = `Assigned Badges (${badgeAssignmentCount})`;
+    } else {//-- assume TYPE_BADGE
+      sectionTitle = `Assigned Badges (${badgeAssignmentCount}) & Trailmixes (${trailmixAssignmentCount})`;
+    }
+    return sectionTitle;
+  }
+
+  /**
+   * Determines the assignment breakdown of a list of assignments
+   * @private
+   * @param {array} assignmentList 
+   * @return {BadgeAssignmentCount}
+   */
+  @api
+  determineAssignmentCounts(assignmentList){
+    const results = {
+      badgeAssignmentCount: 0,
+      trailmixAssignmentCount: 0
+    };
+
+    if (assignmentList){
+      assignmentList.forEach(assignment => {
+        if (assignment.EntryType === TYPE_TRAILMIX){
+          results.trailmixAssignmentCount++;
+        } else if (assignment.EntryType === TYPE_BADGE){
+          results.badgeAssignmentCount++;
+        }
+      });
+    }
+
+    return results;
+  }
+
+
+
+  //-- methods
 
   /**
    * Called when the component is initially created
@@ -98,6 +280,16 @@ export default class Tl_trailheadAssignments extends LightningElement {
     this.sectionTitle = this.determineSectionTitle(this.badgesOrTrailmixes,0,0);
 
     this.recordPaginator = new Paginator(null, this.paginationSize);
+
+    registerPubSubListener(EVENT_ENROLLMENT, this.refreshAssignments, this);
+  }
+
+  /**
+   * Called when the component is removed from the page
+   */
+  disconnectedCallback(){
+    //-- unsubscribe from listeners
+    unregisterAllPubSubListeners(this);
   }
 
   /**
@@ -126,128 +318,8 @@ export default class Tl_trailheadAssignments extends LightningElement {
   }
 
   /**
-   * Determines the trail entries
-   */
-  @wire(getAllAssignedTrailEntriesApex, {
-    whichType:'$badgesOrTrailmixes'
-  })
-  captureGetAssignedTrailEntries(results) {
-    let { error, data } = results;
-    if (error) {
-      //-- @TODO: handle error
-      console.error('error occurred captureGetAssignedTrailEntries:getAssignedTrailEntriesApex', JSON.stringify(error));
-      this.error = error;
-    } else if (data) {
-      this.assignedTrailEntries = results;
-
-      //let dueDateFilter = 'All';
-      //let dueDateFilter = 'Overdue';
-      let filteredRecords = this.filterDueDate(data, this.dueDateFilter);
-
-      this.hasAnyAssignments = filteredRecords.length > 0;
-
-      this.recordPaginator = new Paginator(filteredRecords, this.paginationSize);
-
-      let {badgeAssignmentCount, trailmixAssignmentCount} = this.determineAssignmentCounts(filteredRecords);
-      //-- section icon is pre-set, now we only care about the assignments
-      this.sectionTitle = this.determineSectionTitle(
-        this.badgesOrTrailmixes,
-        badgeAssignmentCount,
-        trailmixAssignmentCount
-      );
-    }
-  }
-
-  
-  /** Provide a link to Trailhead using the custom label */
-  @api
-  get trailheadLinkLabel(){
-    return TRAILHEAD_LINK_LABEL;
-  }
-  /** Provide a link to Trailhead using the custom label */
-  @api
-  get trailheadLinkAddress(){
-    return TRAILHEAD_LINK_ADDRESS;
-  }
-  
-  /** whether any pagination buttons should be shown */
-  @api
-  get shouldShowPagination(){
-    return (
-      this.hasNext || this.hasPrevious
-    );
-  }
-
-  //-- methods
-
-  /**
-   * Determines the icon to show for the section
-   * @param {string} badgesOrTrailmixes - (Badge|TrailMix|Both)
-   * @visibility private
-   * @returns String
-   */
-  @api
-  determineSectionIcon(badgesOrTrailmixes){
-    let sectionIcon = '';
-		if(badgesOrTrailmixes===TYPE_BOTH){
-			sectionIcon = ICON_BOTH;
-		} else if(badgesOrTrailmixes===TYPE_TRAILMIX){
-			sectionIcon = ICON_TRAILMIX;
-		} else { //-- assume TYPE_BADGE
-			sectionIcon = ICON_BADGE;
-    }
-    return sectionIcon;
-  }
-
-  /**
-   * Determines the title to show for the section
-   * @param {string} badgesOrTrailmixes - (Badge|TrailMix|Both)
-   * @param {integer} badgeAssignmentCount - # of badges assigned
-   * @param {integer} trailmixAssignmentCount - # of trailmixes assigned
-   * @visibility private
-   * @returns String
-   */
-  @api
-  determineSectionTitle(badgesOrTrailmixes, badgeAssignmentCount, trailmixAssignmentCount){
-    let sectionTitle = '';
-    if(badgesOrTrailmixes===TYPE_TRAILMIX){
-      sectionTitle = `Assigned Trailmixes (${trailmixAssignmentCount})`;
-		} else if(badgesOrTrailmixes===TYPE_BADGE){
-      sectionTitle = `Assigned Badges (${badgeAssignmentCount})`;
-		} else {//-- assume TYPE_BADGE
-      sectionTitle = `Assigned Badges (${badgeAssignmentCount}) & Trailmixes (${trailmixAssignmentCount})`;
-    }
-    return sectionTitle;
-  }
-
-  /**
-   * Determines the assignment breakdown of a list of assignments
-   * @visibility private
-   * @param {array} assignmentList 
-   * @return {badgeAssignmentCount:integer, trailmixAssignmentCount:integer}
-   */
-  @api
-  determineAssignmentCounts(assignmentList){
-    const results = {
-      badgeAssignmentCount: 0,
-      trailmixAssignmentCount: 0
-    };
-
-    if (assignmentList){
-      assignmentList.forEach(assignment => {
-        if (assignment.EntryType === TYPE_TRAILMIX){
-          results.trailmixAssignmentCount++;
-        } else if (assignment.EntryType === TYPE_BADGE){
-          results.badgeAssignmentCount++;
-        }
-      });
-    }
-
-    return results;
-  }
-
-  /**
    * Filters the list of assignments based on the filter selected.
+   * @private
    * @param {array} listOfRecords - collection of assignments
    * @param {String} dueDateFilter - type of filter to apply
    */

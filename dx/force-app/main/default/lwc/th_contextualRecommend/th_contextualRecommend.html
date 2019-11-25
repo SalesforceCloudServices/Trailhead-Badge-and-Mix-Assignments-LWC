@@ -9,7 +9,7 @@
     <!-- card -->
     <template if:true={hasAnyRecommends}>
  
-    <lightning-card icon-name=custom:custom78 title="Recommended Badges & Trails">
+    <lightning-card icon-name=custom:custom78 title="Recommended Learning">
         <lightning-button-icon class='action-refresh' slot='actions'
             icon-name="utility:refresh"
             variant="neutral" alternative-text="Refresh"
@@ -24,6 +24,8 @@
                         <c-th_trailhead-assignment_entry 
                             assignment-entry={recommed}
                             upcoming-event-window={upcomingEventWindow}
+                            btn-add-eligible={btnAddEligible}
+                            btn-share-eligible={btnShareEligible}
                         ></c-th_trailhead-assignment_entry>
                     </div>
                 </template>

@@ -40,5 +40,13 @@ public class TH_AssignmentsTest {
          entries = TH_Assignments.getAllAssignedTrailEntries(Label.th_TrailheadTypeTrailmix);
          entries = TH_Recommendations.getRecommendedEntries(null);
 
+         TH_Assignments.addTrailheadModuleAssignment(badge.id,DateTime.Now(),UserInfo.getUserId() );
+         TH_Assignments.addTrailmixAssignment(mix.id,DateTime.Now(),UserInfo.getUserId() );
+
      }
+    
+    @isTest(SeeAllData=true)
+    public static void Test_TH_Report_to_TEs(){
+        TH_Report_to_TEs.getReportEntries('New_Badges_Last_90_Days', 'Assigned_Trailmixes11121');
+    }
 }

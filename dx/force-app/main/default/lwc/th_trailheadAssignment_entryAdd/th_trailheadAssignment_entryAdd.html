@@ -1,0 +1,31 @@
+<template>
+    <lightning-card>
+        <div slot="actions"></div>
+        <div aria-labelledby="my-form">
+            <form class="slds-form_stacked">
+                <lightning-layout multiple-rows="true">
+                    <lightning-layout-item padding="around-small" size="12">
+                        <div>
+                            <lightning-input
+                                name="dueDate" type="datetime"
+                                label="Due Date"
+                                class="input-dueDate"
+                            ></lightning-input>
+                        </div>
+                    </lightning-layout-item>
+                </lightning-layout>
+            </form>
+        </div>
+        <div slot="footer">
+            <lightning-button
+                label="OK"
+                class="slds-p-right_large" 
+                onclick={onOkButtonClick}
+            ></lightning-button>
+            <lightning-button
+                label="Close"
+                onclick={onCloseButtonClick}
+            ></lightning-button>
+        </div>
+    </lightning-card>
+</template>

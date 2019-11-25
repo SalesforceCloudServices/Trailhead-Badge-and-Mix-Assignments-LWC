@@ -1,0 +1,64 @@
+<template>
+    <lightning-card>
+        <div slot="actions"></div>
+        <div aria-labelledby="my-form">
+            <form class="slds-form_stacked">
+                <lightning-layout multiple-rows="true">
+                    <lightning-layout-item padding="around-small" size="12">
+                        <!-- use onkeyup to capture when the user presses return
+                            
+                        -->
+                        <div>
+                            <lightning-input
+                                name="userSearch" type="search"
+                                label="User to notify"
+                                value={targetUserSearch}
+                                onchange={handleSearchKeyUp}
+                            ></lightning-input>
+                            <!--
+                            button in case the timeout won't work...
+                            <lightning-button-icon
+                                icon-name="utility:search" alternative-text="search"
+                            ></lightning-button-icon>
+                            -->
+                        </div>
+                        <div if:true={isCurrentlySearching}>
+                            <lightning-spinner alternative-text="Searching..." size="small"></lightning-spinner>
+                        </div>
+                        <div if:true={isUserSelected}>
+                            User found: {targetUserOption.label}
+                        </div>
+                        <div if:true={userOptionsAvailable}>
+                            <lightning-combobox
+                                name="userSelect"
+                                label="User Select"
+                                value={targetUserId}
+                                options={targetUserOptions}
+                                onchange={handleTargetUserChanged}
+                            ></lightning-combobox>
+                        </div>
+                    </lightning-layout-item>
+                    <lightning-layout-item padding="around-small" size="12" if:true={isUserSelected}>
+                        <lightning-textarea
+                            name="message"
+                            class="input-message"
+                            label="message"
+                            value={message}
+                        ></lightning-textarea>
+                    </lightning-layout-item>
+                </lightning-layout>
+            </form>
+        </div>
+        <div slot="footer">
+            <lightning-button
+                label="OK"
+                class="slds-p-right_large" 
+                onclick={onOkButtonClick}
+            ></lightning-button>
+            <lightning-button
+                label="Close"
+                onclick={onCloseButtonClick}
+            ></lightning-button>
+        </div>
+    </lightning-card>
+</template>

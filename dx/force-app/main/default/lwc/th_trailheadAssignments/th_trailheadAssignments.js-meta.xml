@@ -8,9 +8,11 @@
         <target>lightning__AppPage</target>
         <target>lightning__HomePage</target>
         <target>lightning__RecordPage</target>
+        <target>lightningCommunity__Page</target>
+        <target>lightningCommunity__Default</target>
     </targets>
     <targetConfigs>
-        <targetConfig targets="lightning__AppPage, lightning__HomePage, lightning__RecordPage">
+        <targetConfig targets="lightning__AppPage, lightning__HomePage, lightning__RecordPage,lightningCommunity__Default">
             <!-- whether to include badges or trailmixes within the results -->
             <property name="badgesOrTrailmixes" type="String"
                 label="Badges or Trailmixes"
@@ -42,6 +44,13 @@
                 label="What assignments to show?"
                 default="All"
                 datasource="All,Overdue,Overdue+Upcoming"
+            />
+            <!-- whether to show the 'Share' button on entries of the list -->
+            <property name="btnShareEligible" type="Boolean"
+                label="Show Share button?"
+                description="Whether to show the 'Share' button on the entries of the list"
+                default="true"
+                required="false"
             />
         </targetConfig>
     </targetConfigs>

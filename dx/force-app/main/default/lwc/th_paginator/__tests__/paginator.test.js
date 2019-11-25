@@ -1,5 +1,5 @@
 /** JEST Test for th_paginator/__tests__/th_paginator **/
-import { createElement } from 'lwc';
+// import { createElement } from 'lwc';
 import Paginator from 'c/th_paginator';
 
 describe('c-th_paginator', () => {

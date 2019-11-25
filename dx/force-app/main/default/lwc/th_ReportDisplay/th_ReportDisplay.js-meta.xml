@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata" fqn="th_trailheadRecommends">
+    <masterLabel>TH Report Display Badge and Trailmix</masterLabel>
+    <description>Component that displays badges or trailmixes based on a Report</description>
+    <apiVersion>45.0</apiVersion>
+    <isExposed>true</isExposed>
+    <targets>
+        <target>lightning__RecordPage</target>
+        <target>lightning__AppPage</target>
+        <target>lightning__HomePage</target>
+        <target>lightningCommunity__Page</target>
+        <target>lightningCommunity__Default</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__RecordPage,lightning__AppPage,lightning__HomePage,lightningCommunity__Default">       
+            <!-- Component Title Display Title -->
+            <property name="compTitle" type="String"
+                label="Component Title"
+                description="Title of Component to be displayed"
+                default="Learning"
+                required="true"
+            />
+            <!-- Badge Report -->
+            <property name="badgeRepDevName" type="String"
+                label="Badge Report Developer Name"
+                description="Developer Name of Badge Report"
+                required="false"
+            />
+            <!-- Trailmix Report -->
+            <property name="trailmixRepDevName" type="String"
+                label="Trailmix Report Developer Name"
+                description="Developer Name of Trailmix Report"
+                required="false"
+            />
+            <!-- pagination size for the results -->
+            <property name="paginationSize" type="Integer"
+                label="Page Size"
+                description="Page size for the results"
+                default="5"
+                min="2"
+                max="10"
+                required="true"
+            />
+            <!-- number of days until due date to indicate it is upcoming -->
+            <property name="upcomingEventWindow" type="Integer"
+                label="Events Due in X Days Marked as Upcoming"
+                description="If events are due within this many days they are marked as Upcoming"
+                default="7"
+                min="2"
+                max="355"
+                required="true"
+            />
+            <!-- whether to show the 'Add' button on entries of the list -->
+            <property name="btnAddEligible" type="Boolean"
+                label="Show Add button?"
+                description="Whether to show the 'Add' button on the entries of the list"
+                default="true"
+                required="false"
+            />
+            <!-- whether to show the 'Share' button on entries of the list -->
+            <property name="btnShareEligible" type="Boolean"
+                label="Show Share button?"
+                description="Whether to show the 'Share' button on the entries of the list"
+                default="true"
+                required="false"
+            />
+            
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

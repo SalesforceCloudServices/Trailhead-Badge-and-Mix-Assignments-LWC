@@ -9,3 +9,4 @@ ant/**
 /ant
 /dx/.vscode
 /dx/node_modules
+/dx/packageLists

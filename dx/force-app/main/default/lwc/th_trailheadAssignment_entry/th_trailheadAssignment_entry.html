@@ -3,7 +3,7 @@
         <lightning-layout-item padding='horizontal-small' flexibility='no-shrink'>
             <img src={iconURL} class='entry-icon' />
         </lightning-layout-item>
-        <lightning-layout-item padding='horizontal-small'>
+        <lightning-layout-item padding='horizontal-small' flexibility="auto, grow">
             <div>
                 <a href={assignmentEntry.URL} target='_blank'>{assignmentEntry.Name}</a>
                 <template if:true={hasDueDate}>
@@ -16,5 +16,29 @@
                 </template>
             </div>
         </lightning-layout-item>
+        <lightning-layout-item>
+            <template if:true={showAddBtn}>
+                <lightning-button-icon icon-name="utility:add"  alternative-text="Enroll"
+                    onclick={handleAddClick}
+                ></lightning-button-icon>
+            </template>
+            <template if:true={showShareBtn}>
+                <lightning-button-icon icon-name="utility:internal_share"  alternative-text="Share"
+                    onclick={handleShareClick}
+                ></lightning-button-icon>
+            </template>
+        </lightning-layout-item>
     </lightning-layout>
+    <div class='action-form' if:true={isShareFormShown}>
+        <c-th_trailhead-assignment_entry-share
+            trailhead-entry={assignmentEntry}
+            oncloserequest={handleShareCloseRequest}
+        ></c-th_trailhead-assignment_entry-share>
+    </div>
+    <div class='action-form' if:true={isAddFormShown}>
+        <c-th_trailhead-assignment_entry-add
+            trailhead-entry={assignmentEntry}
+            oncloserequest={handleAddCloseRequest}
+        ></c-th_trailhead-assignment_entry-add>
+    </div>
 </template>
