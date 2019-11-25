@@ -27,7 +27,7 @@ Caveat: So far only Badges and Trailmixes are supported, if you want to add trai
  <tr><td><img src="docs/images/Add_Button.png" width="300" height="195"></td><td><img src="docs/images/Share_Button.png" width="300" height="260"> </td></tr>
 </table> 
 </div> 
-Looking for the older version see here: {TBD}
+Looking for the older version see here: https://github.com/SalesforceCloudServices/Trailhead-Badge-and-Mix-Assignments-LWC/tree/TDX19-(Old)
 
 # What is included
 * <b>Lightning Web Components</b> to show Assignments, Recommendations, and Adhoq lists (reports) of Badges and Trailmixes
