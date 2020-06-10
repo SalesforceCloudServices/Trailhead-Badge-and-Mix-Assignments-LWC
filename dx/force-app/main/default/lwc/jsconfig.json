@@ -3,6 +3,9 @@
         "experimentalDecorators": true,
         "baseUrl": ".",
         "paths": {
+            "c/th_ReportDisplay": [
+                "th_ReportDisplay/th_ReportDisplay.js"
+            ],
             "c/th_contextualRecommend": [
                 "th_contextualRecommend/th_contextualRecommend.js"
             ],
@@ -29,9 +32,6 @@
             ],
             "c/th_trailheadAssignments": [
                 "th_trailheadAssignments/th_trailheadAssignments.js"
-            ],
-            "c/th_ReportDisplay": [
-                "th_ReportDisplay/th_ReportDisplay.js"
             ]
         }
     },
