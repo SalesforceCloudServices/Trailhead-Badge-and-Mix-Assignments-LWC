@@ -281,7 +281,9 @@ export default class Tl_trailheadAssignments extends LightningElement {
 
     this.recordPaginator = new Paginator(null, this.paginationSize);
 
-    registerPubSubListener(EVENT_ENROLLMENT, this.refreshAssignments, this);
+    if (this.pageRef) {
+      registerPubSubListener(EVENT_ENROLLMENT, this.refreshAssignments, this);
+    }
   }
 
   /**
