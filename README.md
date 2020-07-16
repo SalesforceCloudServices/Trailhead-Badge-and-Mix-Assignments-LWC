@@ -4,9 +4,9 @@ This repository provides a number of Trail Tracker customizations examples to sh
 If you want to install this repository as a package in an org use one of the following URLs: 
 
 Sandbox (Recommended):
-https://test.salesforce.com/packaging/installPackage.apexp?p0=04t2E000003kUGL <br>
+https://test.salesforce.com/packaging/installPackage.apexp?p0=04t2E000003Mub3 <br>
 Developer Edition or Production:
-https://login.salesforce.com/packaging/installPackage.apexp?p0=04t2E000003kUGL
+ https://login.salesforce.com/packaging/installPackage.apexp?p0=04t2E000003Mub3
 
 As a prerequisite be sure to have installed the latest version of the [Trail Tracker app](https://appexchange.salesforce.com/appxListingDetail?listingId=a0N3A00000EFpAtUAL) first. 
 
